@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight, Github, Linkedin, Zap, Brain, Rocket } from 'lucide-react';
+import { ArrowRight, Github, Linkedin, Code2, Zap, Brain, Rocket } from 'lucide-react';
 import { FloatingChip, Tooltip } from '../Common/UI';
 
 export const HeroSection: React.FC = () => {
@@ -58,6 +58,9 @@ export const HeroSection: React.FC = () => {
               </Tooltip>
               <Tooltip text="LinkedIn Node">
                 <a href="https://www.linkedin.com/in/sabir-ali-700854219/" className="text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 transition-colors" target='_blank'><Linkedin size={24} /></a>
+              </Tooltip>
+              <Tooltip text="Read my DEV.to articles">
+                <a href="https://dev.to/sabirsheikh" className="text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 transition-colors" target="_blank" rel="noopener noreferrer" aria-label="DEV.to profile"><Code2 size={24} /></a>
               </Tooltip>
             </div>
           </motion.div>

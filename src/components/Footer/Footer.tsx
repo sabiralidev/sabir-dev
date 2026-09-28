@@ -1,5 +1,5 @@
 import React from "react";
-import { Github, Linkedin, Mail, ChevronUp } from "lucide-react";
+import { Github, Linkedin, Mail, ChevronUp, Code2 } from "lucide-react";
 import { Tooltip } from "../Common/UI";
 
 export const Footer: React.FC = () => {
@@ -35,6 +35,17 @@ export const Footer: React.FC = () => {
                   target="_blank"
                 >
                   <Linkedin size={20} />
+                </a>
+              </Tooltip>
+              <Tooltip text="Read my DEV.to articles">
+                <a
+                  href="https://dev.to/sabirsheikh"
+                  aria-label="DEV.to profile"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center hover:bg-zinc-950 dark:hover:bg-white hover:text-white dark:hover:text-zinc-950 transition-all duration-500"
+                  target="_blank"
+                >
+                  <Code2 size={20} />
                 </a>
               </Tooltip>
               <Tooltip text="Email Protocol">
