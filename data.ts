@@ -88,7 +88,7 @@ export const PROJECTS: Project[] = [
       "Implementing accurate ROI calculations, secure wallet transactions, MLM referral logic, and maintaining data consistency while preventing duplicate payouts and unauthorized actions.",
     links: {
       github: "https://github.com/sabirsheik/Crypto-Ai-Roi",
-      live: "https://client-sigma-gold.vercel.app",
+      live: "https://crypto-roi-client.vercel.app/",
     },
   },
 ];
