@@ -71,7 +71,7 @@ export const PROJECTS: Project[] = [
       "Solving race conditions in stock updates and implementing secure, resilient checkout pipelines.",
     links: {
       github: "https://github.com/sabirsheik/E---Commerce",
-      live: "https://e-commerce-ten-mu-61.vercel.app",
+      live: "https://e-com-sabir-dev.vercel.app",
     },
   },
   {
@@ -88,7 +88,7 @@ export const PROJECTS: Project[] = [
       "Implementing accurate ROI calculations, secure wallet transactions, MLM referral logic, and maintaining data consistency while preventing duplicate payouts and unauthorized actions.",
     links: {
       github: "https://github.com/sabirsheik/Crypto-Ai-Roi",
-      live: "https://crypto-roi-client.vercel.app/",
+      live: "https://crypto-roi-client.vercel.app",
     },
   },
 ];
