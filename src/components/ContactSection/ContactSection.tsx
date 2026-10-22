@@ -149,9 +149,9 @@ export const ContactSection: React.FC = () => {
                 </a>
               </Tooltip>
               <Tooltip text="View GitHub Repos">
-                <a href="https://github.com/sabirsheik" className="group flex flex-col space-y-4" target='_blank'>
+                <a href="https://github.com/sabiralidev" className="group flex flex-col space-y-4" target='_blank'>
                   <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-800">GitHub_Protocol</span>
-                  <span className="text-xl lg:text-2xl font-medium group-hover:text-zinc-500 transition-colors flex items-center gap-2">/dev-sabir <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" /></span>
+                  <span className="text-xl lg:text-2xl font-medium group-hover:text-zinc-500 transition-colors flex items-center gap-2">/sabiralidev <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" /></span>
                 </a>
               </Tooltip>
               <Tooltip text="Read my DEV.to articles">
