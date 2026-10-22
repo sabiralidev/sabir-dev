@@ -70,7 +70,7 @@ export const PROJECTS: Project[] = [
     challenges:
       "Solving race conditions in stock updates and implementing secure, resilient checkout pipelines.",
     links: {
-      github: "https://github.com/sabirsheik/E---Commerce",
+      github: "https://github.com/sabiralidev/ECom",
       live: "https://e-com-sabir-dev.vercel.app",
     },
   },
@@ -87,7 +87,7 @@ export const PROJECTS: Project[] = [
     challenges:
       "Implementing accurate ROI calculations, secure wallet transactions, MLM referral logic, and maintaining data consistency while preventing duplicate payouts and unauthorized actions.",
     links: {
-      github: "https://github.com/sabirsheik/Crypto-Ai-Roi",
+      github: "https://github.com/sabiralidev/Crypto-Roi",
       live: "https://crypto-roi-client.vercel.app",
     },
   },
