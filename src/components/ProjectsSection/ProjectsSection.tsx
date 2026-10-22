@@ -103,7 +103,7 @@ export const ProjectsSection: React.FC = () => {
         {/* More Projects Button */}
         <div className="mt-20 flex justify-end">
           <a
-            href="https://github.com/sabirsheik" // replace with your GitHub link
+            href="https://github.com/sabiralidev"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center px-8 py-4 bg-black text-white font-bold uppercase tracking-wider rounded-3xl shadow-lg hover:bg-zinc-900 hover:scale-105 transition-transform duration-300"
