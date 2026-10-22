@@ -54,7 +54,7 @@ export const HeroSection: React.FC = () => {
             </a>
             <div className="flex gap-8">
               <Tooltip text="GitHub Protocol">
-                <a href="https://github.com/sabirsheik" className="text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 transition-colors" target='_blank'><Github size={24} /></a>
+                <a href="https://github.com/sabiralidev" className="text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 transition-colors" target='_blank'><Github size={24} /></a>
               </Tooltip>
               <Tooltip text="LinkedIn Node">
                 <a href="https://www.linkedin.com/in/sabir-ali-700854219/" className="text-zinc-400 hover:text-zinc-950 dark:hover:text-zinc-100 transition-colors" target='_blank'><Linkedin size={24} /></a>
