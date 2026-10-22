@@ -30,7 +30,7 @@ export const Footer: React.FC = () => {
               </Tooltip>
               <Tooltip text="LinkedIn Node">
                 <a
-                  href="https://www.linkedin.com/in/sabir-ali-837501340/"
+                  href="https://www.linkedin.com/in/sabiralidev/"
                   className="w-12 h-12 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 flex items-center justify-center hover:bg-zinc-950 dark:hover:bg-white hover:text-white dark:hover:text-zinc-950 transition-all duration-500"
                   target="_blank"
                 >

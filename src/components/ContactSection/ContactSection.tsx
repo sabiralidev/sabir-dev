@@ -143,9 +143,9 @@ export const ContactSection: React.FC = () => {
             </div>
             <div className="flex flex-wrap gap-8 lg:gap-20 pt-16 border-t border-zinc-900 justify-center md:justify-start">
               <Tooltip text="Connect on LinkedIn">
-                <a href="https://www.linkedin.com/in/sabir-ali-837501340" className="group flex flex-col space-y-4" target='_blank'>
+                <a href="https://www.linkedin.com/in/sabiralidev/" className="group flex flex-col space-y-4" target='_blank'>
                   <span className="text-[10px] font-black uppercase tracking-[0.4em] text-zinc-800">LinkedIn_Node</span>
-                  <span className="text-xl lg:text-2xl font-medium group-hover:text-zinc-500 transition-colors flex items-center gap-2">/sabir-ali-mern <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" /></span>
+                  <span className="text-xl lg:text-2xl font-medium group-hover:text-zinc-500 transition-colors flex items-center gap-2">/sabiralidev <ArrowUpRight size={18} className="opacity-0 group-hover:opacity-100 transition-opacity" /></span>
                 </a>
               </Tooltip>
               <Tooltip text="View GitHub Repos">
