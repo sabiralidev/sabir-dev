@@ -56,6 +56,7 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
 
     // Main Architectural Structure Group
     const structureGroup = new THREE.Group();
+    structureGroup.scale.setScalar(1.25);
     scene.add(structureGroup);
 
     const disposables: { geometry?: THREE.BufferGeometry; material?: THREE.Material }[] = [];
@@ -129,9 +130,11 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
     const nodeGeo = new THREE.OctahedronGeometry(0.06, 0);
     disposables.push({ geometry: nodeGeo });
     const nodeMat = new THREE.MeshStandardMaterial({
-      color: 0xffffff,
-      metalness: 0.95,
-      roughness: 0.1,
+      color: 0xd71920,
+      emissive: 0x7a0008,
+      emissiveIntensity: 0.7,
+      metalness: 0.4,
+      roughness: 0.3,
     });
     disposables.push({ material: nodeMat });
 
