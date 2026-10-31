@@ -3,16 +3,61 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    color-scheme: dark;
+    --color-background: #050505;
+    --color-surface: #101010;
+    --color-silver: #c0c0c0;
+    --color-silver-light: #e5e5e5;
+    --color-accent: #d71920;
+    --color-muted: #929292;
+    --color-border: rgba(255, 255, 255, 0.1);
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
   html {
     scroll-behavior: auto;
-    background-color: #050505;
+    background-color: var(--color-background);
     color: #ffffff;
+    scroll-padding-top: 6rem;
   }
 
   body {
-    background-color: #050505;
+    min-width: 320px;
+    margin: 0;
+    overflow-x: hidden;
+    background-color: var(--color-background);
     color: #ffffff;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  button,
+  input,
+  textarea {
+    font: inherit;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+  }
+
+  img,
+  canvas,
+  svg {
+    max-width: 100%;
   }
 }
 
@@ -30,9 +75,8 @@
     backface-visibility: hidden;
   }
 
-  /* Monochrome gradient text */
   .text-silver-gradient {
-    background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
+    background: linear-gradient(180deg, #e5e5e5 0%, #929292 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -43,7 +87,6 @@
     -webkit-text-fill-color: transparent;
   }
 
-  /* Subtle border treatments */
   .border-white-8 {
     border-color: rgba(255, 255, 255, 0.08);
   }
@@ -54,13 +97,11 @@
     border-color: rgba(255, 255, 255, 0.20);
   }
 
-  /* Radial specular glow */
   .glow-radial {
     background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
   }
 }
 
-/* Light sweep animation on hover */
 .light-sweep-container {
   position: relative;
   overflow: hidden;
@@ -86,4 +127,19 @@
 
 .light-sweep-container:hover::after {
   left: 200%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .group:hover img {
+    transform: none !important;
+  }
 }
