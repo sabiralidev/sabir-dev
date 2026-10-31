@@ -1,8 +1,16 @@
-
 import React, { useState, useEffect } from 'react';
 
+const SECTIONS = [
+  { id: 'hero', label: 'Top' },
+  { id: 'about', label: 'About' },
+  { id: 'skills', label: 'Stack' },
+  { id: 'approach', label: 'Systems' },
+  { id: 'projects', label: 'Works' },
+  { id: 'experience', label: 'History' },
+  { id: 'contact', label: 'Connect' },
+];
+
 export const SectionNavigator: React.FC = () => {
-  const sections = ['hero', 'about', 'skills', 'experience', 'projects', 'contact'];
   const [active, setActive] = useState('hero');
 
   useEffect(() => {
@@ -15,7 +23,7 @@ export const SectionNavigator: React.FC = () => {
       { threshold: 0.3 }
     );
 
-    sections.forEach((id) => {
+    SECTIONS.forEach(({ id }) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
@@ -24,19 +32,35 @@ export const SectionNavigator: React.FC = () => {
   }, []);
 
   return (
-    <div className="fixed left-6 lg:left-10 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col gap-8">
-      {sections.map((s) => (
-        <a 
-          key={s} 
-          href={`#${s}`}
-          className="group relative flex items-center justify-center"
-        >
-          <div className={`w-1 h-1 rounded-full transition-all duration-500 ${active === s ? 'bg-zinc-950 dark:bg-white scale-[3]' : 'bg-zinc-300 dark:bg-zinc-800'}`} />
-          <span className="absolute left-8 opacity-0 group-hover:opacity-100 transition-all text-[8px] font-black tracking-widest uppercase text-zinc-400 pointer-events-none whitespace-nowrap">
-            {s}
-          </span>
-        </a>
-      ))}
+    <div className="fixed left-6 lg:left-10 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-6 select-none">
+      {SECTIONS.map(({ id, label }) => {
+        const isActive = active === id;
+        return (
+          <a
+            key={id}
+            href={`#${id}`}
+            aria-label={`Jump to ${label}`}
+            className="group relative flex items-center"
+          >
+            <div
+              className={`transition-all duration-300 ${
+                isActive
+                  ? 'w-6 h-[2px] bg-white'
+                  : 'w-2 h-[1px] bg-zinc-700 group-hover:w-4 group-hover:bg-zinc-400'
+              }`}
+            />
+            <span
+              className={`absolute left-9 mono text-[9px] uppercase tracking-widest transition-all duration-200 pointer-events-none whitespace-nowrap ${
+                isActive
+                  ? 'opacity-100 text-white font-bold translate-x-0'
+                  : 'opacity-0 text-zinc-500 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0'
+              }`}
+            >
+              {label}
+            </span>
+          </a>
+        );
+      })}
     </div>
   );
 };
