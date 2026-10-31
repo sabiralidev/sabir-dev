@@ -22,22 +22,26 @@ export const AboutSection: React.FC = () => {
         gsap.fromTo(
           headingRef.current,
           {
-            y: 54,
-            autoAlpha: 0,
-            rotateX: 6,
-            transformPerspective: 1000,
-            transformOrigin: 'left bottom',
+            z: -140,
+            rotateX: 12,
+            rotateY: -5,
+            scale: 0.96,
+            autoAlpha: 0.35,
+            transformPerspective: 1200,
+            transformOrigin: 'left center',
           },
           {
-            y: 0,
+            z: 0,
             autoAlpha: 1,
             rotateX: 0,
-            duration: 1.1,
-            ease: 'power3.out',
+            rotateY: 0,
+            scale: 1,
+            ease: 'none',
             scrollTrigger: {
               trigger: headingRef.current,
               start: 'top 88%',
-              toggleActions: 'play none none none',
+              end: 'top 38%',
+              scrub: 0.7,
             },
           }
         );
@@ -49,32 +53,42 @@ export const AboutSection: React.FC = () => {
         const contentTimeline = gsap.timeline({
           scrollTrigger: {
             trigger: content,
-            start: 'top 82%',
-            toggleActions: 'play none none none',
+            start: 'top 88%',
+            end: 'top 30%',
+            scrub: 0.7,
           },
         });
 
         contentTimeline.fromTo(
           copy,
-          { y: 34, autoAlpha: 0, rotateX: 3, transformPerspective: 900 },
           {
+            z: -150,
+            y: 24,
+            autoAlpha: 0.25,
+            rotateX: 10,
+            rotateY: -4,
+            transformPerspective: 1100,
+          },
+          {
+            z: 0,
             y: 0,
             autoAlpha: 1,
             rotateX: 0,
-            duration: 0.8,
+            rotateY: 0,
             stagger: 0.13,
-            ease: 'power3.out',
+            ease: 'none',
           }
         );
         contentTimeline.fromTo(
           content.querySelectorAll('.about-stat'),
-          { y: 18, autoAlpha: 0 },
+          { z: -100, y: 16, autoAlpha: 0.3, rotateX: 8 },
           {
+            z: 0,
             y: 0,
             autoAlpha: 1,
-            duration: 0.6,
+            rotateX: 0,
             stagger: 0.08,
-            ease: 'power2.out',
+            ease: 'none',
           },
           '-=0.25'
         );
@@ -84,24 +98,26 @@ export const AboutSection: React.FC = () => {
         gsap.fromTo(
           cardRef.current,
           {
-            rotateY: 10,
-            rotateX: 5,
-            y: 30,
-            autoAlpha: 0,
-            transformPerspective: 1200,
+            z: -220,
+            rotateY: -18,
+            rotateX: 9,
+            scale: 0.88,
+            autoAlpha: 0.25,
+            transformPerspective: 1400,
             transformOrigin: 'center center',
           },
           {
+            z: 0,
             rotateY: 0,
             rotateX: 0,
-            y: 0,
+            scale: 1,
             autoAlpha: 1,
-            duration: 1.1,
-            ease: 'power3.out',
+            ease: 'none',
             scrollTrigger: {
               trigger: cardRef.current,
-              start: 'top 85%',
-              toggleActions: 'play none none none',
+              start: 'top 88%',
+              end: 'top 34%',
+              scrub: 0.75,
             },
           }
         );
