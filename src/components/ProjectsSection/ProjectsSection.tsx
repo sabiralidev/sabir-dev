@@ -15,8 +15,8 @@ export const ProjectsSection: React.FC = () => {
   const projectListRef = useRef<HTMLDivElement>(null);
 
   const projectImages = [
-    '/Ecommerce.png',
-    '/AIworldTech.png',
+    '/Ecommerce.webp',
+    '/AIworldTech.webp',
   ];
 
   useEffect(() => {
@@ -136,6 +136,9 @@ export const ProjectsSection: React.FC = () => {
                         alt={project.title}
                         className="h-full w-full object-cover grayscale contrast-105 brightness-90 transition-[filter,transform] duration-700 group-hover:scale-[1.025] group-hover:grayscale-0 group-hover:brightness-100"
                         loading="lazy"
+                        decoding="async"
+                        width={idx === 0 ? 1898 : 1892}
+                        height={idx === 0 ? 871 : 867}
                       />
                     </div>
 
