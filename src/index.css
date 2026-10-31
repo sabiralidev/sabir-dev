@@ -1,3 +1,89 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: auto;
+    background-color: #050505;
+    color: #ffffff;
+  }
+
+  body {
+    background-color: #050505;
+    color: #ffffff;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+}
+
+@layer utilities {
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .perspective-1500 {
+    perspective: 1500px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  /* Monochrome gradient text */
+  .text-silver-gradient {
+    background: linear-gradient(180deg, #ffffff 0%, #a0a0a0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .text-metallic {
+    background: linear-gradient(135deg, #ffffff 0%, #b0b0b0 45%, #ffffff 55%, #707070 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Subtle border treatments */
+  .border-white-8 {
+    border-color: rgba(255, 255, 255, 0.08);
+  }
+  .border-white-12 {
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+  .border-white-20 {
+    border-color: rgba(255, 255, 255, 0.20);
+  }
+
+  /* Radial specular glow */
+  .glow-radial {
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+  }
+}
+
+/* Light sweep animation on hover */
+.light-sweep-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.light-sweep-container::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 100%;
+  height: 200%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  pointer-events: none;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), left 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.light-sweep-container:hover::after {
+  left: 200%;
+}
