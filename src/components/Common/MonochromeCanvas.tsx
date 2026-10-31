@@ -1,9 +1,13 @@
 import React, { useEffect, useRef } from 'react';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 export const MonochromeCanvas: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -29,7 +33,7 @@ export const MonochromeCanvas: React.FC = () => {
       phase: number;
     }
 
-    const particleCount = 75;
+    const particleCount = window.innerWidth < 768 ? 18 : 32;
     const particles: Particle[] = [];
 
     for (let i = 0; i < particleCount; i++) {
@@ -116,13 +120,13 @@ export const MonochromeCanvas: React.FC = () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <canvas
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none -z-10 w-full h-full"
-      style={{ opacity: 0.7 }}
+      style={{ opacity: 0.35 }}
       aria-hidden="true"
     />
   );
