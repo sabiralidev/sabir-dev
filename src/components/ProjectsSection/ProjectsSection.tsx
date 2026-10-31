@@ -173,11 +173,10 @@ export const ProjectsSection: React.FC = () => {
                 </div>
 
                 <div className={`space-y-6 lg:col-span-6 lg:space-y-7 ${idx % 2 === 1 ? 'lg:order-1' : ''}`}>
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     <span className="mono text-[10px] font-medium text-[#d71920]">
                       CASE_0{idx + 1}
                     </span>
-                    <span className="h-px w-6 bg-white/20" />
                     <span className="mono text-[9px] uppercase tracking-[0.16em] text-zinc-400">
                       Full-Stack Architecture
                     </span>
@@ -212,7 +211,7 @@ export const ProjectsSection: React.FC = () => {
                       Architecture & challenges
                     </span>
                     <p className="text-xs font-light leading-relaxed text-zinc-300 sm:text-sm">
-                      {project.architecture} — {project.challenges}
+                      Architecture: {project.architecture} Challenges: {project.challenges}
                     </p>
                   </div>
 
