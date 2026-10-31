@@ -22,64 +22,108 @@ export const SkillsSection: React.FC = () => {
       if (headingRef.current) {
         gsap.fromTo(
           headingRef.current,
-          { y: 50, opacity: 0 },
+          { z: -130, rotateX: 10, rotateY: -4, scale: 0.96, opacity: 0.35, transformPerspective: 1100 },
           {
-            y: 0,
+            z: 0,
             opacity: 1,
-            duration: 1.0,
-            ease: 'power3.out',
+            rotateX: 0,
+            rotateY: 0,
+            scale: 1,
+            ease: 'none',
             scrollTrigger: {
               trigger: headingRef.current,
               start: 'top 88%',
-              toggleActions: 'play none none none',
+              end: 'top 38%',
+              scrub: 0.7,
             },
           }
         );
       }
 
-      const cards = cardsRef.current?.children;
+      const cards = cardsRef.current?.querySelectorAll('.skills-card-depth');
       if (cards) {
         gsap.fromTo(
           cards,
           {
-            y: 44,
-            autoAlpha: 0,
+            z: -190,
+            autoAlpha: 0.25,
             rotateX: window.matchMedia('(hover: hover) and (pointer: fine)').matches
-              ? 8
+              ? 14
+              : 7,
+            rotateY: window.matchMedia('(hover: hover) and (pointer: fine)').matches
+              ? -7
               : 0,
-            transformPerspective: 1000,
-            transformOrigin: 'center bottom',
+            scale: 0.88,
+            transformPerspective: 1200,
+            transformOrigin: 'center center',
           },
           {
-            y: 0,
+            z: 0,
             autoAlpha: 1,
             rotateX: 0,
-            duration: 0.9,
-            stagger: 0.12,
-            ease: 'power3.out',
+            rotateY: 0,
+            scale: 1,
+            stagger: 0.14,
+            ease: 'none',
             scrollTrigger: {
               trigger: cardsRef.current,
-              start: 'top 82%',
-              toggleActions: 'play none none none',
+              start: 'top 88%',
+              end: 'bottom 52%',
+              scrub: 0.7,
             },
           }
         );
       }
 
+      const skillIcons = cardsRef.current?.querySelectorAll('.skills-card-depth svg');
+      skillIcons?.forEach((icon, index) => {
+        const card = icon.closest('.skills-card-depth');
+        if (!card) return;
+
+        gsap.fromTo(
+          icon,
+          {
+            z: -80,
+            rotateX: index % 2 === 0 ? 42 : -42,
+            rotateY: index % 2 === 0 ? -48 : 48,
+            rotateZ: index % 2 === 0 ? -12 : 12,
+            scale: 0.72,
+            transformPerspective: 700,
+          },
+          {
+            z: 18,
+            rotateX: 0,
+            rotateY: 0,
+            rotateZ: 0,
+            scale: 1,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: card,
+              start: 'top 88%',
+              end: 'top 42%',
+              scrub: 0.6,
+            },
+          }
+        );
+      });
+
       if (certsRef.current) {
         gsap.fromTo(
           certsRef.current.children,
-          { y: 28, autoAlpha: 0 },
+          { z: -140, rotateY: 8, rotateX: 5, scale: 0.94, autoAlpha: 0.25, transformPerspective: 1100 },
           {
-            y: 0,
+            z: 0,
+            rotateY: 0,
+            rotateX: 0,
+            scale: 1,
             autoAlpha: 1,
-            duration: 0.75,
             stagger: 0.12,
-            ease: 'power3.out',
+            ease: 'none',
             scrollTrigger: {
               trigger: certsRef.current,
               start: 'top 88%',
-              toggleActions: 'play none none none',
+              end: 'bottom 55%',
+              scrub: 0.7,
             },
           }
         );
@@ -125,6 +169,7 @@ export const SkillsSection: React.FC = () => {
               key={cat.title}
               className="group flex flex-col justify-between p-6 sm:p-7"
             >
+              <div className="skills-card-depth relative z-10 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between border-b border-white/[0.08] pb-5">
                   <div className="flex items-center gap-3">
@@ -156,6 +201,7 @@ export const SkillsSection: React.FC = () => {
               <div className="mono mt-7 flex items-center justify-between border-t border-white/[0.05] pt-5 text-[9px] text-zinc-600">
                 <span>SKILLS / 0{idx + 1}</span>
                 <span>{cat.skills.length} TECHNOLOGIES</span>
+              </div>
               </div>
             </TiltCard>
           ))}
