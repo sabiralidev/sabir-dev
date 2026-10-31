@@ -156,6 +156,18 @@
   left: 200%;
 }
 
+.text-zinc-400,
+.text-zinc-500,
+.text-zinc-600,
+.text-zinc-700 {
+  color: #cbd5e1;
+}
+
+::placeholder {
+  color: #cbd5e1;
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
