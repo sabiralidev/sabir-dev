@@ -10,11 +10,10 @@ export const SectionHeading: React.FC<{
   className?: string;
 }> = ({ number, category, title, subtitle, className = '' }) => (
   <div className={`mb-12 sm:mb-16 lg:mb-20 ${className}`}>
-    <div className="mb-5 flex items-center gap-3">
+    <div className="mb-5 flex items-center gap-2">
       <span className="mono text-[10px] font-semibold tracking-[0.18em] text-[#d71920]">
         {number}
       </span>
-      <span className="h-px w-8 bg-white/20" />
       <span className="mono text-[10px] uppercase tracking-[0.24em] text-zinc-400">
         {category}
       </span>
