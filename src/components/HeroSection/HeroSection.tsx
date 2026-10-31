@@ -173,6 +173,27 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       className="relative flex min-h-[min(100svh,950px)] flex-col justify-between overflow-hidden bg-[#050505] px-5 pb-10 pt-28 sm:px-8 sm:pb-12 sm:pt-32 lg:px-16 xl:px-20"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-45">
+        {shouldLoadScene ? (
+          <Suspense
+            fallback={
+              <div className="flex h-full items-center justify-center" aria-hidden="true">
+                <div className="h-48 w-48 rounded-full border border-white/10" />
+              </div>
+            }
+          >
+            <Hero3DScene />
+          </Suspense>
+        ) : (
+          <div className="flex h-full items-center justify-center" aria-hidden="true">
+            <div className="flex h-72 w-72 items-center justify-center rounded-full border border-white/10">
+              <div className="flex h-48 w-48 items-center justify-center rounded-full border border-white/20">
+                <div className="h-24 w-24 rounded-full border border-white/10 bg-white/[0.03]" />
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
       <div className="mx-auto my-auto grid w-full max-w-screen-xl flex-1 grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="z-10 flex flex-col justify-center lg:col-span-7">
           <div ref={badgeRef} className="mb-6 flex items-center gap-3">
@@ -269,28 +290,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </div>
 
         <div ref={visualRef} className="relative flex w-full items-center justify-center lg:col-span-5">
-          <div className="pointer-events-none absolute -inset-6 z-0 opacity-55 sm:-inset-10">
-            {shouldLoadScene ? (
-              <Suspense
-                fallback={
-                  <div className="flex min-h-[420px] items-center justify-center" aria-hidden="true">
-                    <div className="h-48 w-48 rounded-full border border-white/10" />
-                  </div>
-                }
-              >
-                <Hero3DScene />
-              </Suspense>
-            ) : (
-              <div className="flex min-h-[420px] items-center justify-center" aria-hidden="true">
-                <div className="flex h-72 w-72 items-center justify-center rounded-full border border-white/10">
-                  <div className="flex h-48 w-48 items-center justify-center rounded-full border border-white/20">
-                    <div className="h-24 w-24 rounded-full border border-white/10 bg-white/[0.03]" />
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
           <div className="group relative z-10 aspect-[4/5] w-full max-w-[340px] border border-white/15 bg-[#101010] p-2.5 sm:max-w-[390px] lg:max-w-[420px]">
             <div className="relative h-full w-full overflow-hidden bg-zinc-950">
               <img
