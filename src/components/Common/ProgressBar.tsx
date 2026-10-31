@@ -1,20 +1,27 @@
-import React from 'react';
-import { motion, useScroll, useSpring } from 'framer-motion';
-import { useReducedMotion } from '../../hooks/useReducedMotion';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export const ProgressBar: React.FC = () => {
-  const prefersReducedMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 120,
-    damping: 35,
-    restDelta: 0.001,
-  });
+  const progressRef = useRef<HTMLDivElement>(null);
 
-  return (
-    <motion.div
-      className="fixed left-0 right-0 top-0 z-[100] h-[2px] origin-left bg-[#d71920]"
-      style={{ scaleX: prefersReducedMotion ? scrollYProgress : scaleX }}
-    />
-  );
+  useEffect(() => {
+    const progress = progressRef.current;
+    if (!progress) return;
+
+    const trigger = ScrollTrigger.create({
+      trigger: document.documentElement,
+      start: 'top top',
+      end: 'bottom bottom',
+      onUpdate: (self) => {
+        progress.style.transform = `scaleX(${self.progress})`;
+      },
+    });
+
+    return () => trigger.kill();
+  }, []);
+
+  return <div ref={progressRef} aria-hidden="true" className="fixed left-0 right-0 top-0 z-[100] h-[2px] origin-left scale-x-0 bg-[#d71920]" />;
 };
