@@ -11,7 +11,7 @@ export const EXPERIENCES: Experience[] = [
     id: "exp1",
     role: "Full Stack Engineer",
     company: "NACTA/NIFTAC | Full-Time / Intern | On-Site",
-    period: "Jan 2026 — Present",
+    period: "Jan 2026 to Present",
     description: [
       "Contributing to secure and scalable digital systems for mission-critical operations in a federal government organization.",
       "Responsible for end-to-end web application development, backend services, and frontend interface implementation.",
@@ -26,7 +26,7 @@ export const EXPERIENCES: Experience[] = [
     id: "exp2",
     role: "Full-Stack Web Developer",
     company: "Project Starlit M3 | Full-Time | Remote",
-    period: "Oct 2025 — Dec 2025",
+    period: "Oct 2025 to Dec 2025",
     description: [
       "Worked on a startup-grade AI-powered platform, building scalable systems and intelligent workflows.",
       "Developed modern web applications integrated with AI tools using Google Gemini and other AI services.",
@@ -42,7 +42,7 @@ export const EXPERIENCES: Experience[] = [
     id: "exp3",
     role: "Full-Stack Web Developer",
     company: "Evoxty Marketing Agency, Chakwal | Full-Time | On-Site",
-    period: "July 2024 — Sept 2025",
+    period: "July 2024 to Sept 2025",
     description: [
       "Developed and maintained scalable MERN stack applications, delivering secure and high-performance web solutions.",
       "Built advanced platforms including MLM investment systems, affiliate programs, and P2P transaction modules.",
@@ -151,12 +151,12 @@ export const EDUCATION: Education[] = [
   {
     institution: "The Superior College",
     degree: "Intermediate/ Computer Science",
-    period: "2021 — Dropout",
+    period: "2021 - Dropout",
   },
   {
     institution: "Jinnah Public High School",
     degree: "Matriculation/ Computer Science",
-    period: "2019 — 2021",
+    period: "2019 to 2021",
   },
 ];
 
