@@ -11,10 +11,9 @@ export default defineConfig({
         manualChunks: {
           three: ['three'],
           gsap: ['gsap'],
-          motion: ['framer-motion', 'lenis'],
+          lenis: ['lenis'],
         },
       },
     },
   },
 });
-
