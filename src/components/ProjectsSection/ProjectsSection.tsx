@@ -26,16 +26,26 @@ export const ProjectsSection: React.FC = () => {
       if (headingRef.current) {
         gsap.fromTo(
           headingRef.current,
-          { y: 50, opacity: 0 },
           {
-            y: 0,
-            opacity: 1,
-            duration: 1.0,
-            ease: 'power3.out',
+            z: -160,
+            rotateX: 12,
+            rotateY: -5,
+            scale: 0.96,
+            autoAlpha: 0.3,
+            transformPerspective: 1300,
+          },
+          {
+            z: 0,
+            rotateX: 0,
+            rotateY: 0,
+            scale: 1,
+            autoAlpha: 1,
+            ease: 'none',
             scrollTrigger: {
               trigger: headingRef.current,
               start: 'top 88%',
-              toggleActions: 'play none none none',
+              end: 'top 38%',
+              scrub: 0.7,
             },
           }
         );
@@ -43,26 +53,35 @@ export const ProjectsSection: React.FC = () => {
 
       const items = projectListRef.current?.children;
       if (items) {
-        Array.from(items).forEach((item) => {
+        Array.from(items).forEach((item, index) => {
+          const projectDepth = item.querySelector('.project-depth');
+          if (!projectDepth) return;
+          const rotation = window.matchMedia('(min-width: 1024px)').matches ? 18 : 8;
           gsap.fromTo(
-            item,
+            projectDepth,
             {
-              y: 52,
-              autoAlpha: 0,
-              rotateX: 4,
-              transformPerspective: 1100,
-              transformOrigin: 'center bottom',
+              xPercent: index % 2 === 0 ? -6 : 6,
+              z: -320,
+              autoAlpha: 0.2,
+              rotateX: 9,
+              rotateY: index % 2 === 0 ? rotation : -rotation,
+              scale: 0.82,
+              transformPerspective: 1400,
+              transformOrigin: 'center center',
             },
             {
-              y: 0,
+              xPercent: 0,
+              z: 0,
               autoAlpha: 1,
               rotateX: 0,
-              duration: 0.95,
-              ease: 'power3.out',
+              rotateY: 0,
+              scale: 1,
+              ease: 'none',
               scrollTrigger: {
                 trigger: item,
-                start: 'top 85%',
-                toggleActions: 'play none none none',
+                start: 'top 88%',
+                end: 'top 38%',
+                scrub: 0.65,
               },
             }
           );
@@ -127,7 +146,7 @@ export const ProjectsSection: React.FC = () => {
               className="group !overflow-visible !rounded-none !border-x-0 !border-y-white/[0.1] !bg-transparent !py-6 !shadow-none sm:!py-8"
               glow={false}
             >
-              <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
+              <div className="project-depth grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
                 <div className={`lg:col-span-6 ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
                   <div className="project-preview relative aspect-[16/10] overflow-hidden border border-white/10 bg-[#101010] transition-colors duration-500 group-hover:border-white/25">
                     <div className="project-image-depth absolute inset-0">
