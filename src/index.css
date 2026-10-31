@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+::selection {
+  color: #ffffff;
+  background-color: #d71920;
+  -webkit-text-fill-color: #ffffff;
+}
+
+::-moz-selection {
+  color: #ffffff;
+  background-color: #d71920;
+}
+
 @layer base {
   :root {
     color-scheme: dark;
