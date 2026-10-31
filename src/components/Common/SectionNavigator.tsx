@@ -20,7 +20,7 @@ export const SectionNavigator: React.FC = () => {
           if (entry.isIntersecting) setActive(entry.target.id);
         });
       },
-      { threshold: 0.3 }
+      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
     );
 
     SECTIONS.forEach(({ id }) => {
