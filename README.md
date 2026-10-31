@@ -7,7 +7,9 @@ Personal portfolio for Sabir Ali, a full-stack developer. The site presents expe
 - React 19 and TypeScript
 - Vite
 - Tailwind CSS
-- Framer Motion for animations
+- GSAP and ScrollTrigger for section animations
+- Three.js for the hero and signature visuals
+- Framer Motion for scroll progress
 - Lenis for smooth scrolling
 - Lucide React for icons
 - EmailJS for contact form delivery
@@ -43,20 +45,26 @@ Vite will print the local development URL in the terminal, usually `http://local
 src/
 ├── components/
 │   ├── AboutSection/
-│   ├── Common/
+│   ├── ApproachSection/
+│   ├── Common/             # Shared navigation, UI, and ambient visuals
 │   ├── ContactSection/
 │   ├── ExperienceSection/
 │   ├── Footer/
 │   ├── HeroSection/
+│   ├── LogoReveal/
 │   ├── ProjectsSection/
 │   └── SkillsSection/
+├── hooks/
+│   └── useReducedMotion.ts
 ├── App.tsx
 ├── App.css
 ├── index.css
 └── main.tsx
 ```
 
-Content for experience, projects, and skills is maintained in [`data.ts`](data.ts). Shared TypeScript models are defined in [`types.ts`](types.ts).
+Portfolio content for experience, projects, skills, certifications, and education is maintained in [`data.ts`](data.ts). Shared TypeScript models are defined in [`types.ts`](types.ts). The page is composed from independent section components; reusable headings, tilt cards, and tooltips live in `src/components/Common/UI.tsx`.
+
+The interface uses a black-and-silver design system with restrained red accents. GSAP/ScrollTrigger choreograph section reveals, the experience timeline, and the hero's scroll-driven camera; Lenis is synchronized through the GSAP ticker. The hero 3D scene is lazy-loaded, lowers its render cost on mobile, and stops rendering outside the viewport or while the tab is hidden. Decorative motion and pointer interactions defer to reduced-motion and fine-pointer preferences; the 3D scene falls back to a static mark when motion is reduced or WebGL is unavailable.
 
 ## Contact Form
 
