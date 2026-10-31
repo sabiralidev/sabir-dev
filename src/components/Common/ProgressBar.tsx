@@ -1,7 +1,9 @@
 import React from 'react';
 import { motion, useScroll, useSpring } from 'framer-motion';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 export const ProgressBar: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 120,
@@ -11,8 +13,8 @@ export const ProgressBar: React.FC = () => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-[2px] bg-white z-[100] origin-left shadow-[0_0_10px_rgba(255,255,255,0.8)]"
-      style={{ scaleX }}
+      className="fixed left-0 right-0 top-0 z-[100] h-[2px] origin-left bg-[#d71920]"
+      style={{ scaleX: prefersReducedMotion ? scrollYProgress : scaleX }}
     />
   );
 };
