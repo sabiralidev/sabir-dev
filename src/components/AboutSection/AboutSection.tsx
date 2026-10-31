@@ -1,67 +1,204 @@
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ShieldCheck, Server, Database, Cpu } from 'lucide-react';
+import { SectionHeading, TiltCard } from '../Common/UI';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ShieldCheck } from 'lucide-react';
-import { SectionHeading } from '../Common/UI';
+gsap.registerPlugin(ScrollTrigger);
 
 export const AboutSection: React.FC = () => {
-  return (
-    <section id="about" className="py-24 lg:py-64 px-6 md:px-12 lg:px-24 bg-zinc-50/50 dark:bg-zinc-900/10">
-      <div className="max-w-screen-2xl mx-auto">
-        <SectionHeading label="01. About" subtitle="Focusing on sub-millisecond efficiency and structural integrity for full-stack web applications.">
-          Systems-First <br /> Engineering.
-        </SectionHeading>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 lg:gap-32 mt-20 lg:mt-32">
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="space-y-12 text-2xl md:text-3xl lg:text-4xl text-zinc-500 font-light leading-snug"
-          >
-            <p>
-               I design systems with a focus on <span className="text-zinc-950 dark:text-zinc-100 font-bold underline decoration-zinc-300 underline-offset-4">data integrity</span>, long-term stability, and scalable architecture, ensuring applications stay reliable as they grow.
-            </p>
-            <p>
-              As a developer, I have standardized zero-trust security and high-uptime architectures across 20+ projects.
-            </p>
-            <div className="grid grid-cols-3 gap-8 pt-16 border-t border-zinc-200 dark:border-zinc-800">
-              <div className="space-y-2">
-                <p className="text-5xl md:text-7xl font-black tracking-tighter">02+</p>
-                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-400">Total_Years</p>
-              </div>
-              <div className="space-y-2">
-                <p className="text-5xl md:text-7xl font-black tracking-tighter">20+</p>
-                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-400">Deployments</p>
-              </div>
-              <div className="space-y-2">
-                <p className="text-5xl md:text-7xl font-black tracking-tighter">90+</p>
-                <p className="text-[9px] font-black uppercase tracking-[0.4em] text-zinc-400">Stability%</p>
-              </div>
-            </div>
-          </motion.div>
+  const sectionRef = useRef<HTMLElement>(null);
+  const headingRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
 
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="relative aspect-square rounded-[4rem] lg:rounded-[6rem] overflow-hidden bg-zinc-200 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 group"
-          >
-            <div className="absolute inset-0 p-3">
-              <img 
-                src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=85&w=1400" 
-                alt="Infrastructure" 
-                className="w-full h-full object-cover rounded-[3.5rem] lg:rounded-[5.5rem] group-hover:grayscale-0 transition-all duration-1000 group-hover:opacity-100"
-              />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-tr from-zinc-950 via-transparent to-transparent opacity-70" />
-            <div className="absolute bottom-12 left-12 flex items-center gap-6">
-              <div className="p-4 bg-white text-black rounded-2xl shadow-xl">
-                 <ShieldCheck size={32} />
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      if (headingRef.current) {
+        gsap.fromTo(
+          headingRef.current,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.0,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: headingRef.current,
+              start: 'top 88%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      if (contentRef.current) {
+        gsap.fromTo(
+          contentRef.current,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1.1,
+            ease: 'power3.out',
+            scrollTrigger: {
+              trigger: contentRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+
+      if (cardRef.current) {
+        gsap.fromTo(
+          cardRef.current,
+          { scale: 0.92, y: 40, opacity: 0 },
+          {
+            scale: 1,
+            y: 0,
+            opacity: 1,
+            duration: 1.2,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: cardRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+            },
+          }
+        );
+      }
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
+  return (
+    <section
+      id="about"
+      ref={sectionRef}
+      className="py-28 lg:py-48 px-6 md:px-12 lg:px-24 bg-[#080808] border-t border-b border-white/[0.06] relative overflow-hidden"
+    >
+      {/* Background Architectural Grid Accent */}
+      <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] [background-size:40px_40px] pointer-events-none" />
+
+      <div className="max-w-screen-2xl mx-auto relative z-10">
+        <div ref={headingRef}>
+          <SectionHeading
+            number="01"
+            category="Philosophy & Systems"
+            title={<>Systems-First <br className="hidden sm:inline" /><span className="text-zinc-500 font-light">Engineering.</span></>}
+            subtitle="Architecting resilient software systems with sub-millisecond efficiency and structural integrity for full-stack web applications."
+          />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center mt-16">
+          {/* Left Text & Metrics Column (7 cols) */}
+          <div ref={contentRef} className="lg:col-span-7 space-y-10">
+            <p className="text-2xl sm:text-3xl lg:text-4xl text-zinc-300 font-light leading-snug">
+              I design systems with a rigorous focus on <span className="text-white font-semibold underline decoration-white/30 underline-offset-8">data integrity</span>, long-term stability, and scalable architecture — ensuring applications stay reliable under high concurrency.
+            </p>
+
+            <p className="text-base sm:text-lg text-zinc-400 font-light leading-relaxed">
+              As a dedicated Full-Stack Engineer, I have standardized zero-trust security and high-uptime architectures across mission-critical systems. My work spans decoupled MERN stack platforms, intelligent AI workflows, and high-throughput transaction pipelines that balance velocity with architectural rigor.
+            </p>
+
+            {/* Architectural Highlights Pill Row */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4">
+              <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center gap-4">
+                <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-white shrink-0">
+                  <Server size={18} />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-white">Full-Stack MERN</h4>
+                  <p className="text-[11px] text-zinc-500 mono mt-0.5">End-to-End Delivery</p>
+                </div>
               </div>
-              <h4 className="text-3xl font-black text-white tracking-tight uppercase">Enterprise <br /> Security</h4>
+
+              <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center gap-4">
+                <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-white shrink-0">
+                  <Database size={18} />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-white">Data Consistency</h4>
+                  <p className="text-[11px] text-zinc-500 mono mt-0.5">MongoDB & Postgres</p>
+                </div>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-white/[0.03] border border-white/[0.08] flex items-center gap-4">
+                <div className="p-2.5 rounded-xl bg-white/5 border border-white/10 text-white shrink-0">
+                  <Cpu size={18} />
+                </div>
+                <div>
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-white">AI Workflows</h4>
+                  <p className="text-[11px] text-zinc-500 mono mt-0.5">Google Gemini Studio</p>
+                </div>
+              </div>
             </div>
-          </motion.div>
+
+            {/* Real Metrics Counter Row */}
+            <div className="grid grid-cols-3 gap-6 pt-10 border-t border-white/[0.08]">
+              <div className="space-y-1">
+                <span className="mono text-4xl sm:text-6xl font-black tracking-tighter text-white">
+                  02<span className="text-zinc-600">+</span>
+                </span>
+                <p className="mono text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">
+                  Years_Active
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                <span className="mono text-4xl sm:text-6xl font-black tracking-tighter text-white">
+                  20<span className="text-zinc-600">+</span>
+                </span>
+                <p className="mono text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">
+                  Deployments
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                <span className="mono text-4xl sm:text-6xl font-black tracking-tighter text-white">
+                  99<span className="text-zinc-600">%</span>
+                </span>
+                <p className="mono text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500">
+                  Stability%
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Visual Monolith Card (5 cols) */}
+          <div ref={cardRef} className="lg:col-span-5">
+            <TiltCard className="p-4 bg-gradient-to-b from-[#111111] to-[#0a0a0a] group">
+              <div className="relative aspect-[4/5] rounded-[1.75rem] overflow-hidden bg-black border border-white/10">
+                <img
+                  src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=85&w=1200"
+                  alt="Infrastructure & Security"
+                  className="w-full h-full object-cover filter grayscale contrast-125 brightness-75 transition-all duration-700 group-hover:scale-105 group-hover:brightness-90"
+                  loading="lazy"
+                />
+
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none" />
+
+                {/* Overlaid Security Seal */}
+                <div className="absolute bottom-8 left-8 right-8 p-6 rounded-2xl bg-black/80 backdrop-blur-xl border border-white/15">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-xl bg-white text-black flex items-center justify-center shrink-0 shadow-xl">
+                      <ShieldCheck size={24} />
+                    </div>
+                    <div>
+                      <span className="mono text-[9px] uppercase tracking-widest text-zinc-400 block">
+                        ARCHITECTURE PROTOCOL
+                      </span>
+                      <h4 className="text-lg font-black uppercase tracking-tight text-white">
+                        Zero-Trust & High-Uptime
+                      </h4>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </TiltCard>
+          </div>
         </div>
       </div>
     </section>
