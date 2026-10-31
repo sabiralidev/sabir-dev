@@ -157,7 +157,7 @@ export const Navbar: React.FC = () => {
           </nav>
           <div className="flex gap-3 pt-5">
             <a
-              href="/Sabir CV.pdf"
+              href="/Sabir%20Resume.pdf"
               download
               className="flex min-h-11 flex-1 items-center justify-center border border-white/15 text-[9px] font-semibold uppercase tracking-[0.12em] text-zinc-300"
             >
