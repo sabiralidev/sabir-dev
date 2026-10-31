@@ -102,6 +102,22 @@
   }
 }
 
+.intro-logo-sheen {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 30%,
+    rgba(255, 255, 255, 0.72) 50%,
+    rgba(255, 255, 255, 0.08) 70%,
+    transparent 100%
+  );
+  filter: blur(2px);
+}
+
+.intro-logo-reveal {
+  will-change: clip-path;
+}
+
 .light-sweep-container {
   position: relative;
   overflow: hidden;
