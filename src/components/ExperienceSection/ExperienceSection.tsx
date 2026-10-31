@@ -22,16 +22,26 @@ export const ExperienceSection: React.FC = () => {
       if (headingRef.current) {
         gsap.fromTo(
           headingRef.current,
-          { y: 50, opacity: 0 },
           {
-            y: 0,
-            opacity: 1,
-            duration: 1.0,
-            ease: 'power3.out',
+            z: -140,
+            rotateX: 12,
+            rotateY: -5,
+            scale: 0.96,
+            autoAlpha: 0.35,
+            transformPerspective: 1200,
+          },
+          {
+            z: 0,
+            rotateX: 0,
+            rotateY: 0,
+            scale: 1,
+            autoAlpha: 1,
+            ease: 'none',
             scrollTrigger: {
               trigger: headingRef.current,
               start: 'top 88%',
-              toggleActions: 'play none none none',
+              end: 'top 38%',
+              scrub: 0.7,
             },
           }
         );
@@ -39,20 +49,30 @@ export const ExperienceSection: React.FC = () => {
 
       const entries = timelineRef.current?.querySelectorAll('.timeline-entry');
       if (entries) {
-        entries.forEach((entry) => {
+        entries.forEach((entry, index) => {
           gsap.fromTo(
             entry,
-            { y: 36, autoAlpha: 0, rotateX: 4, transformPerspective: 900 },
             {
-              y: 0,
+              z: -220,
+              autoAlpha: 0.25,
+              rotateX: 10,
+              rotateY: index % 2 === 0 ? 14 : -14,
+              scale: 0.9,
+              transformPerspective: 1300,
+              transformOrigin: 'center center',
+            },
+            {
+              z: 0,
               autoAlpha: 1,
               rotateX: 0,
-              duration: 0.85,
-              ease: 'power3.out',
+              rotateY: 0,
+              scale: 1,
+              ease: 'none',
               scrollTrigger: {
                 trigger: entry,
-                start: 'top 85%',
-                toggleActions: 'play none none none',
+                start: 'top 90%',
+                end: 'top 48%',
+                scrub: 0.65,
               },
             }
           );
