@@ -53,11 +53,11 @@ export const Navbar: React.FC = () => {
   }, [isOpen]);
 
   const navLinks = [
-    { name: 'About', href: '#about', id: '01' },
-    { name: 'Skills', href: '#skills', id: '02' },
-    { name: 'Approach', href: '#approach', id: '03' },
-    { name: 'Projects', href: '#projects', id: '04' },
-    { name: 'Experience', href: '#experience', id: '05' },
+    { name: 'About', href: '#about' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Approach', href: '#approach' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'Experience', href: '#experience' },
   ];
 
   return (
@@ -87,13 +87,10 @@ export const Navbar: React.FC = () => {
               key={link.name}
               href={link.href}
               aria-current={activeSection === link.href.slice(1) ? 'location' : undefined}
-              className={`group relative flex items-center gap-1.5 py-2 text-[9px] font-medium uppercase tracking-[0.16em] transition-colors duration-200 hover:text-white ${
+              className={`group relative flex items-center py-2 text-[9px] font-medium uppercase tracking-[0.16em] transition-colors duration-200 hover:text-white ${
                 activeSection === link.href.slice(1) ? 'text-white' : 'text-zinc-400'
               }`}
             >
-              <span className="mono text-[8px] text-zinc-400 transition-colors group-hover:text-[#d71920]">
-                {link.id}
-              </span>
               <span>{link.name}</span>
               <span
                 className={`absolute inset-x-0 -bottom-1 h-px origin-left bg-[#d71920] transition-transform duration-300 ${
@@ -148,10 +145,9 @@ export const Navbar: React.FC = () => {
                 className={`flex items-center justify-between border-b border-white/[0.08] py-4 text-base font-medium transition-colors hover:text-white ${
                   activeSection === link.href.slice(1) ? 'text-white' : 'text-zinc-400'
                 }`}
-              >
-                <span>{link.name}</span>
-                <span className="mono text-[9px] text-zinc-400">{link.id}</span>
-              </a>
+                >
+                  <span>{link.name}</span>
+                </a>
             ))}
           </nav>
           <div className="flex gap-3 pt-5">
