@@ -1,31 +1,30 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { supportsWebGL } from '../Common/webgl';
 
-function checkWebGLSupport(): boolean {
-  if (typeof window === 'undefined') return false;
-  try {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-    if (!gl) return false;
-    const loseContext = gl.getExtension('WEBGL_lose_context');
-    if (loseContext) loseContext.loseContext();
-    return true;
-  } catch {
-    return false;
-  }
-}
+gsap.registerPlugin(ScrollTrigger);
 
 export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [hasError, setHasError] = useState(() => !checkWebGLSupport());
+  const [hasError, setHasError] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (hasError) return;
+    if (prefersReducedMotion || hasError) return;
+    if (!supportsWebGL()) {
+      const fallbackFrame = requestAnimationFrame(() => setHasError(true));
+      return () => cancelAnimationFrame(fallbackFrame);
+    }
+
     const container = containerRef.current;
     if (!container) return;
 
-    let isVisible = true;
-    let animationFrameId: number;
+    let isVisible = false;
+    let isDocumentVisible = document.visibilityState === 'visible';
+    let animationFrameId: number | null = null;
     let renderer: THREE.WebGLRenderer | null = null;
 
     const width = container.clientWidth || 600;
@@ -40,17 +39,19 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
     try {
       renderer = new THREE.WebGLRenderer({
         alpha: true,
-        antialias: true,
+        antialias: window.innerWidth >= 768,
         powerPreference: 'high-performance',
       });
       renderer.setSize(width, height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.75));
+      renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio, window.innerWidth < 768 ? 1 : 1.5)
+      );
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1.15;
       container.appendChild(renderer.domElement);
     } catch {
-      requestAnimationFrame(() => setHasError(true));
-      return;
+      const fallbackFrame = requestAnimationFrame(() => setHasError(true));
+      return () => cancelAnimationFrame(fallbackFrame);
     }
 
     // Main Architectural Structure Group
@@ -89,7 +90,8 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
     structureGroup.add(wireMesh);
 
     // 3. Orbital architectural rings
-    const ringGeo1 = new THREE.TorusGeometry(2.3, 0.035, 16, 100);
+    const ringSegments = window.innerWidth < 768 ? 48 : 72;
+    const ringGeo1 = new THREE.TorusGeometry(2.3, 0.035, 10, ringSegments);
     disposables.push({ geometry: ringGeo1 });
     const ringMat1 = new THREE.MeshStandardMaterial({
       color: 0x888888,
@@ -103,7 +105,7 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
     ringMesh1.rotation.y = Math.PI / 6;
     structureGroup.add(ringMesh1);
 
-    const ringGeo2 = new THREE.TorusGeometry(2.7, 0.02, 16, 100);
+    const ringGeo2 = new THREE.TorusGeometry(2.7, 0.02, 10, ringSegments);
     disposables.push({ geometry: ringGeo2 });
     const ringMat2 = new THREE.MeshStandardMaterial({
       color: 0x444444,
@@ -120,7 +122,7 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
     structureGroup.add(ringMesh2);
 
     // 4. Ambient architectural floating nodes
-    const particleCount = 28;
+    const particleCount = window.innerWidth < 768 ? 12 : 22;
     const particleGroup = new THREE.Group();
     structureGroup.add(particleGroup);
 
@@ -165,23 +167,29 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
     let currentX = 0;
     let currentY = 0;
 
-    const handleMouseMove = (e: MouseEvent) => {
+    const handleMouseMove = (e: PointerEvent) => {
       const { innerWidth, innerHeight } = window;
       targetX = (e.clientX / innerWidth - 0.5) * 0.8;
       targetY = (e.clientY / innerHeight - 0.5) * 0.8;
     };
 
-    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    const hasFinePointer = window.matchMedia(
+      '(hover: hover) and (pointer: fine)'
+    ).matches;
+    if (hasFinePointer) {
+      window.addEventListener('pointermove', handleMouseMove, { passive: true });
+    }
 
-    // Scroll parallax tracking
     let scrollProgress = 0;
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const maxScroll = Math.max(1, window.innerHeight * 1.5);
-      scrollProgress = Math.min(1, Math.max(0, scrollY / maxScroll));
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    const heroSection = container.closest<HTMLElement>('#hero') ?? container;
+    const cameraScroll = ScrollTrigger.create({
+      trigger: heroSection,
+      start: 'top top',
+      end: 'bottom top',
+      onUpdate: (self) => {
+        scrollProgress = self.progress;
+      },
+    });
 
     // Resize handler
     const handleResize = () => {
@@ -191,39 +199,33 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
       if (newW === 0 || newH === 0) return;
       camera.aspect = newW / newH;
       camera.updateProjectionMatrix();
+      renderer.setPixelRatio(
+        Math.min(window.devicePixelRatio, newW < 768 ? 1 : 1.5)
+      );
       renderer.setSize(newW, newH);
     };
 
     window.addEventListener('resize', handleResize);
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          isVisible = entry.isIntersecting;
-        });
-      },
-      { threshold: 0.05 }
-    );
-    observer.observe(container);
-
     let lastTime = performance.now();
     const startTime = performance.now();
 
     const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
+      if (!isVisible || !isDocumentVisible || !renderer) {
+        animationFrameId = null;
+        return;
+      }
 
-      if (!isVisible || !renderer) return;
+      animationFrameId = requestAnimationFrame(animate);
 
       const now = performance.now();
       const delta = Math.min((now - lastTime) * 0.001, 0.1);
       lastTime = now;
       const elapsed = (now - startTime) * 0.001;
 
-      // Mouse lerp
       currentX += (targetX - currentX) * 0.04;
       currentY += (targetY - currentY) * 0.04;
 
-      // Sculptural rotation
       centralMesh.rotation.y += delta * 0.25;
       centralMesh.rotation.x += delta * 0.15;
       wireMesh.rotation.y -= delta * 0.18;
@@ -231,19 +233,15 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
 
       ringMesh1.rotation.z += delta * 0.3;
       ringMesh1.rotation.y += delta * 0.15;
-
       ringMesh2.rotation.z -= delta * 0.22;
       ringMesh2.rotation.x -= delta * 0.18;
 
-      // Structure tilt
       structureGroup.rotation.y = currentX + elapsed * 0.08;
       structureGroup.rotation.x = -currentY + Math.sin(elapsed * 0.4) * 0.05;
 
-      // Camera responds to scroll
-      camera.position.z = 8.5 + scrollProgress * 3.5;
-      camera.position.y = -scrollProgress * 2.0;
+      camera.position.z = 8.5 + scrollProgress * 2.5;
+      camera.position.y = -scrollProgress * 1.2;
 
-      // Orbiting particles
       for (let i = 0; i < nodePositions.length; i++) {
         const item = nodePositions[i];
         const theta = elapsed * item.speed + item.phase;
@@ -257,14 +255,49 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
       renderer.render(scene, camera);
     };
 
-    animate();
+    const startAnimation = () => {
+      if (
+        isVisible &&
+        isDocumentVisible &&
+        renderer &&
+        animationFrameId === null
+      ) {
+        lastTime = performance.now();
+        animationFrameId = requestAnimationFrame(animate);
+      }
+    };
+
+    const stopAnimation = () => {
+      if (animationFrameId !== null) {
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = null;
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        isVisible = entries.some((entry) => entry.isIntersecting);
+        if (isVisible) startAnimation();
+        else stopAnimation();
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(container);
+
+    const handleVisibilityChange = () => {
+      isDocumentVisible = document.visibilityState === 'visible';
+      if (isDocumentVisible) startAnimation();
+      else stopAnimation();
+    };
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('pointermove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      cameraScroll.kill();
       observer.disconnect();
-      cancelAnimationFrame(animationFrameId);
+      stopAnimation();
 
       disposables.forEach((item) => {
         if (item.geometry) item.geometry.dispose();
@@ -279,14 +312,14 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
         }
       }
     };
-  }, [hasError]);
+  }, [hasError, prefersReducedMotion]);
 
-  if (hasError) {
+  if (hasError || prefersReducedMotion) {
     return (
-      <div className={`relative flex items-center justify-center select-none ${className}`}>
-        <div className="w-72 h-72 rounded-full border border-white/10 flex items-center justify-center animate-pulse">
-          <div className="w-48 h-48 rounded-full border border-white/20 flex items-center justify-center">
-            <div className="w-24 h-24 rounded-full bg-white/5" />
+      <div className={`relative flex items-center justify-center select-none ${className}`} aria-hidden="true">
+        <div className="flex h-72 w-72 items-center justify-center rounded-full border border-white/10">
+          <div className="flex h-48 w-48 items-center justify-center rounded-full border border-white/20">
+            <div className="h-24 w-24 rounded-full border border-white/10 bg-white/[0.03]" />
           </div>
         </div>
       </div>
@@ -297,6 +330,7 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
     <div
       ref={containerRef}
       className={`relative w-full h-full min-h-[420px] pointer-events-none select-none ${className}`}
+      aria-hidden="true"
     />
   );
 };
