@@ -57,7 +57,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
       image.onload = settle;
       image.onerror = settle;
       imageTimeout = window.setTimeout(settle, 2800);
-      image.src = '/Sabir.webp';
+      image.src = '/Sabir.png';
       if (image.complete) settle();
     });
 
