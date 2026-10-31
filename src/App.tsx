@@ -166,7 +166,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="relative min-h-screen overflow-clip bg-[#050505] text-white selection:bg-[#d71920] selection:text-white">
+    <div className="relative min-h-screen overflow-clip bg-[#050505] text-white">
       <div
         aria-hidden={showIntro || undefined}
         inert={showIntro}
