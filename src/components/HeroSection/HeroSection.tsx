@@ -2,7 +2,6 @@ import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ArrowDown, Github, Linkedin, Code2, Download } from 'lucide-react';
-import { SignatureReveal } from '../LogoReveal/SignatureReveal';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { MagneticLink } from '../Common/UI';
 
@@ -174,10 +173,6 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       className="relative flex min-h-[min(100svh,950px)] flex-col justify-between overflow-hidden bg-[#050505] px-5 pb-10 pt-28 sm:px-8 sm:pb-12 sm:pt-32 lg:px-16 xl:px-20"
     >
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
-      <div className="mx-auto mb-10 w-full max-w-screen-xl sm:mb-12">
-        <SignatureReveal />
-      </div>
-
       <div className="mx-auto my-auto grid w-full max-w-screen-xl flex-1 grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="z-10 flex flex-col justify-center lg:col-span-7">
           <div ref={badgeRef} className="mb-6 flex items-center gap-3">
