@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useId } from 'react';
 
 interface MonogramLogoProps {
   className?: string;
@@ -6,6 +6,8 @@ interface MonogramLogoProps {
 }
 
 export const MonogramLogo: React.FC<MonogramLogoProps> = ({ className = '', size = 36 }) => {
+  const gradientId = useId().replace(/:/g, '');
+
   return (
     <div
       className={`relative flex items-center justify-center select-none group/logo ${className}`}
@@ -18,28 +20,23 @@ export const MonogramLogo: React.FC<MonogramLogoProps> = ({ className = '', size
         className="w-full h-full drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)]"
       >
         <defs>
-          <linearGradient id="silverBevel" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id={`silverBevel-${gradientId}`} x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#ffffff" />
             <stop offset="40%" stopColor="#d0d0d0" />
             <stop offset="70%" stopColor="#8a8a8a" />
             <stop offset="100%" stopColor="#ffffff" />
           </linearGradient>
-          <linearGradient id="metalFrame" x1="0%" y1="0%" x2="100%" y2="100%">
+          <linearGradient id={`metalFrame-${gradientId}`} x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#333333" />
             <stop offset="50%" stopColor="#1a1a1a" />
             <stop offset="100%" stopColor="#444444" />
-          </linearGradient>
-          <linearGradient id="lightSheen" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="transparent" />
-            <stop offset="50%" stopColor="rgba(255, 255, 255, 0.4)" />
-            <stop offset="100%" stopColor="transparent" />
           </linearGradient>
         </defs>
 
         {/* Diamond Outer Frame */}
         <polygon
           points="50,6 94,50 50,94 6,50"
-          fill="url(#metalFrame)"
+          fill={`url(#metalFrame-${gradientId})`}
           stroke="rgba(255, 255, 255, 0.25)"
           strokeWidth="3"
         />
@@ -55,7 +52,7 @@ export const MonogramLogo: React.FC<MonogramLogoProps> = ({ className = '', size
         {/* Signature Architectural S Monogram */}
         <path
           d="M 32,32 L 68,32 L 68,44 L 56,44 L 56,40 L 44,40 L 44,48 L 68,48 L 68,68 L 32,68 L 32,56 L 44,56 L 44,60 L 56,60 L 56,52 L 32,52 Z"
-          fill="url(#silverBevel)"
+          fill={`url(#silverBevel-${gradientId})`}
           stroke="rgba(0, 0, 0, 0.5)"
           strokeWidth="1"
         />

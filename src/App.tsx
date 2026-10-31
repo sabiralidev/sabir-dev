@@ -15,20 +15,25 @@ import { ProjectsSection } from './components/ProjectsSection/ProjectsSection';
 import { ExperienceSection } from './components/ExperienceSection/ExperienceSection';
 import { ContactSection } from './components/ContactSection/ContactSection';
 import { Footer } from './components/Footer/Footer';
+import { useReducedMotion } from './hooks/useReducedMotion';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const App: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
+
   useEffect(() => {
-    // Initialize Lenis smooth scroll
+    if (prefersReducedMotion) return;
+
+    let isActive = true;
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
     });
 
-    // Synchronize Lenis with GSAP ScrollTrigger
-    lenis.on('scroll', ScrollTrigger.update);
+    const handleLenisScroll = () => ScrollTrigger.update();
+    lenis.on('scroll', handleLenisScroll);
 
     const updateLenis = (time: number) => {
       lenis.raf(time * 1000);
@@ -37,35 +42,37 @@ const App: React.FC = () => {
     gsap.ticker.add(updateLenis);
     gsap.ticker.lagSmoothing(0);
 
-    // Refresh ScrollTrigger after DOM settling & image loads
-    const timer1 = setTimeout(() => ScrollTrigger.refresh(), 150);
-    const timer2 = setTimeout(() => ScrollTrigger.refresh(), 800);
+    const timer1 = window.setTimeout(() => ScrollTrigger.refresh(), 150);
+    const timer2 = window.setTimeout(() => ScrollTrigger.refresh(), 800);
 
     const handleWindowLoad = () => {
       ScrollTrigger.refresh();
     };
+    const handleFontsLoaded = () => {
+      if (isActive) ScrollTrigger.refresh();
+    };
     window.addEventListener('load', handleWindowLoad);
+    document.fonts?.ready.then(handleFontsLoaded);
 
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
+      isActive = false;
+      window.clearTimeout(timer1);
+      window.clearTimeout(timer2);
       window.removeEventListener('load', handleWindowLoad);
+      lenis.off('scroll', handleLenisScroll);
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white selection:bg-white selection:text-black relative">
-      {/* Ambient Monochrome Canvas */}
+    <div className="relative min-h-screen overflow-clip bg-[#050505] text-white selection:bg-[#d71920] selection:text-white">
       <MonochromeCanvas />
 
-      {/* Persistent Global Nav & Rails */}
       <ProgressBar />
       <SectionNavigator />
       <Navbar />
 
-      {/* Main Structural Storytelling Sections */}
       <main>
         <HeroSection />
         <AboutSection />
@@ -76,7 +83,6 @@ const App: React.FC = () => {
         <ContactSection />
       </main>
 
-      {/* Cinematic Footer */}
       <Footer />
     </div>
   );

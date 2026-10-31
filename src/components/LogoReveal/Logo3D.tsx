@@ -1,20 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { MonogramLogo } from '../Common/MonogramLogo';
-
-function checkWebGLSupport(): boolean {
-  if (typeof window === 'undefined') return false;
-  try {
-    const canvas = document.createElement('canvas');
-    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
-    if (!gl) return false;
-    const loseContext = gl.getExtension('WEBGL_lose_context');
-    if (loseContext) loseContext.loseContext();
-    return true;
-  } catch {
-    return false;
-  }
-}
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { supportsWebGL } from '../Common/webgl';
 
 interface Logo3DProps {
   className?: string;
@@ -23,10 +11,16 @@ interface Logo3DProps {
 
 export const Logo3D: React.FC<Logo3DProps> = ({ className = '', size = 180 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [hasError, setHasError] = useState(() => !checkWebGLSupport());
+  const [hasError, setHasError] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
-    if (hasError) return;
+    if (prefersReducedMotion || hasError) return;
+    if (!supportsWebGL()) {
+      const fallbackFrame = requestAnimationFrame(() => setHasError(true));
+      return () => cancelAnimationFrame(fallbackFrame);
+    }
+
     const container = containerRef.current;
     if (!container) return;
 
@@ -53,8 +47,8 @@ export const Logo3D: React.FC<Logo3DProps> = ({ className = '', size = 180 }) =>
       renderer.toneMappingExposure = 1.2;
       container.appendChild(renderer.domElement);
     } catch {
-      requestAnimationFrame(() => setHasError(true));
-      return;
+      const fallbackFrame = requestAnimationFrame(() => setHasError(true));
+      return () => cancelAnimationFrame(fallbackFrame);
     }
 
     // Group for the 3D logo
@@ -252,9 +246,9 @@ export const Logo3D: React.FC<Logo3DProps> = ({ className = '', size = 180 }) =>
         }
       }
     };
-  }, [size, hasError]);
+  }, [size, hasError, prefersReducedMotion]);
 
-  if (hasError) {
+  if (hasError || prefersReducedMotion) {
     return (
       <div
         className={`flex items-center justify-center select-none ${className}`}

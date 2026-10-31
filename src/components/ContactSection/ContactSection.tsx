@@ -4,14 +4,18 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Check, Copy, AlertCircle, CheckCircle2, ArrowRight, ArrowUpRight, Github, Linkedin, Code2 } from 'lucide-react';
 import { SectionHeading } from '../Common/UI';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const ContactSection: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const leftColRef = useRef<HTMLDivElement>(null);
   const formColRef = useRef<HTMLDivElement>(null);
+  const copyTimeoutRef = useRef<number | null>(null);
+  const successTimeoutRef = useRef<number | null>(null);
 
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({ name: '', email: '', message: '' });
@@ -19,17 +23,27 @@ export const ContactSection: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
+  const [copyError, setCopyError] = useState('');
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const ctx = gsap.context(() => {
       if (headingRef.current) {
         gsap.fromTo(
           headingRef.current,
-          { y: 50, opacity: 0 },
+          {
+            y: 48,
+            autoAlpha: 0,
+            rotateX: 7,
+            transformPerspective: 1100,
+            transformOrigin: 'left bottom',
+          },
           {
             y: 0,
-            opacity: 1,
-            duration: 1.0,
+            autoAlpha: 1,
+            rotateX: 0,
+            duration: 1.05,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: headingRef.current,
@@ -43,11 +57,11 @@ export const ContactSection: React.FC = () => {
       if (leftColRef.current) {
         gsap.fromTo(
           leftColRef.current,
-          { y: 40, opacity: 0 },
+          { y: 32, autoAlpha: 0 },
           {
             y: 0,
-            opacity: 1,
-            duration: 1.0,
+            autoAlpha: 1,
+            duration: 0.85,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: leftColRef.current,
@@ -61,11 +75,20 @@ export const ContactSection: React.FC = () => {
       if (formColRef.current) {
         gsap.fromTo(
           formColRef.current,
-          { y: 50, opacity: 0 },
+          {
+            y: 42,
+            autoAlpha: 0,
+            rotateY: window.matchMedia('(hover: hover) and (pointer: fine)').matches
+              ? 4
+              : 0,
+            transformPerspective: 1200,
+            transformOrigin: 'left center',
+          },
           {
             y: 0,
-            opacity: 1,
-            duration: 1.1,
+            autoAlpha: 1,
+            rotateY: 0,
+            duration: 1,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: formColRef.current,
@@ -78,7 +101,19 @@ export const ContactSection: React.FC = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [prefersReducedMotion]);
+
+  useEffect(
+    () => () => {
+      if (copyTimeoutRef.current !== null) {
+        window.clearTimeout(copyTimeoutRef.current);
+      }
+      if (successTimeoutRef.current !== null) {
+        window.clearTimeout(successTimeoutRef.current);
+      }
+    },
+    []
+  );
 
   const validateField = (name: string, value: string) => {
     let error = '';
@@ -113,10 +148,22 @@ export const ContactSection: React.FC = () => {
     }));
   };
 
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText('sabirsheik12787@gmail.com');
-    setIsCopied(true);
-    setTimeout(() => setIsCopied(false), 2200);
+  const copyToClipboard = async () => {
+    setCopyError('');
+    try {
+      await navigator.clipboard.writeText('sabirsheik12787@gmail.com');
+      setIsCopied(true);
+      if (copyTimeoutRef.current !== null) {
+        window.clearTimeout(copyTimeoutRef.current);
+      }
+      copyTimeoutRef.current = window.setTimeout(() => {
+        setIsCopied(false);
+        copyTimeoutRef.current = null;
+      }, 2200);
+    } catch (error) {
+      console.error('Unable to copy the contact email:', error);
+      setCopyError('Copy was unavailable. Please select the email address instead.');
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -153,7 +200,10 @@ export const ContactSection: React.FC = () => {
           setIsSuccess(true);
           setFormData({ name: '', email: '', message: '' });
           setTouched({ name: false, email: false, message: false });
-          setTimeout(() => setIsSuccess(false), 6000);
+          successTimeoutRef.current = window.setTimeout(() => {
+            setIsSuccess(false);
+            successTimeoutRef.current = null;
+          }, 6000);
         })
         .catch((err) => {
           const logMsg =
@@ -169,53 +219,46 @@ export const ContactSection: React.FC = () => {
     <section
       id="contact"
       ref={sectionRef}
-      className="py-28 lg:py-48 px-6 md:px-12 lg:px-24 bg-[#050505] text-white relative overflow-hidden"
+      className="relative overflow-hidden bg-[#050505] px-5 py-24 text-white sm:px-8 sm:py-28 lg:px-16 lg:py-36 xl:px-20"
     >
-      {/* Background Typographic Watermark - Monochromatic */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[20vw] font-black text-white/[0.015] tracking-tighter pointer-events-none select-none italic -z-0">
-        DISPATCH
-      </div>
-
-      <div className="max-w-screen-2xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-screen-xl">
         <div ref={headingRef}>
           <SectionHeading
             number="06"
-            category="Direct Transmission"
-            title={<>Let's <br className="hidden sm:inline" /><span className="text-zinc-500 font-light">Build.</span></>}
+            category="Contact"
+            title={<>Let’s <span className="font-light text-zinc-500">build.</span></>}
             subtitle="Accepting inquiries for full-stack engineering roles, technical architecture consulting, and high-impact digital experiences."
           />
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-start mt-16">
-          {/* Left Column: Direct Inquiries & Protocols (5 cols) */}
-          <div ref={leftColRef} className="lg:col-span-5 space-y-12">
+        <div className="mt-12 grid grid-cols-1 items-start gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-16">
+          <div ref={leftColRef} className="space-y-9 lg:col-span-5">
             <div>
-              <span className="mono text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500 block mb-4">
+              <span className="mono mb-4 block text-[9px] font-medium uppercase tracking-[0.18em] text-zinc-500">
                 COMMUNICATION CHANNEL
               </span>
-              <p className="text-xl sm:text-2xl text-zinc-300 font-light leading-relaxed">
+              <p className="text-lg font-light leading-relaxed text-zinc-300 sm:text-xl">
                 Looking to build robust software systems, scale existing infrastructure, or collaborate on innovative projects? Send a dispatch.
               </p>
             </div>
 
-            {/* Direct Email Card */}
-            <div className="p-6 sm:p-8 rounded-[2rem] bg-[#0c0c0c] border border-white/[0.08] space-y-4">
+            <div className="space-y-4 border-y border-white/[0.1] py-5">
               <div className="flex items-center justify-between">
-                <span className="mono text-[10px] font-bold uppercase tracking-widest text-zinc-500">
+                <span className="mono text-[9px] font-medium uppercase tracking-[0.16em] text-zinc-500">
                   DIRECT EMAIL
                 </span>
-                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                <span className="h-1.5 w-1.5 bg-[#d71920]" />
               </div>
 
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-2">
-                <span className="text-lg sm:text-xl font-bold tracking-tight text-white break-all">
+              <div className="flex flex-col justify-between gap-4 pt-1 sm:flex-row sm:items-center">
+                <span className="break-all text-base font-medium tracking-tight text-white sm:text-lg">
                   sabirsheik12787@gmail.com
                 </span>
 
                 <button
                   onClick={copyToClipboard}
                   type="button"
-                  className="px-4 py-2.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 text-xs font-bold uppercase tracking-wider text-white flex items-center gap-2 self-start sm:self-center transition-colors"
+                  className="flex items-center gap-2 self-start border border-white/15 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.14em] text-zinc-300 transition-colors hover:border-white/35 hover:text-white sm:self-center"
                 >
                   {isCopied ? (
                     <>
@@ -230,20 +273,20 @@ export const ContactSection: React.FC = () => {
                   )}
                 </button>
               </div>
+              {copyError && <p role="status" className="text-xs text-zinc-400">{copyError}</p>}
             </div>
 
-            {/* Verified Social Protocols */}
-            <div className="space-y-4 pt-4 border-t border-white/[0.08]">
-              <span className="mono text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-500 block">
+            <div className="space-y-4">
+              <span className="mono block text-[9px] font-medium uppercase tracking-[0.18em] text-zinc-500">
                 VERIFIED NODES
               </span>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                 <a
                   href="https://www.linkedin.com/in/sabiralidev/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-white/30 flex items-center justify-between text-zinc-300 hover:text-white transition-all group"
+                  className="flex items-center justify-between border border-white/[0.08] px-3 py-3 text-zinc-300 transition-colors hover:border-white/25 hover:text-white group"
                 >
                   <div className="flex items-center gap-2.5">
                     <Linkedin size={16} />
@@ -256,7 +299,7 @@ export const ContactSection: React.FC = () => {
                   href="https://github.com/sabiralidev"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-white/30 flex items-center justify-between text-zinc-300 hover:text-white transition-all group"
+                  className="flex items-center justify-between border border-white/[0.08] px-3 py-3 text-zinc-300 transition-colors hover:border-white/25 hover:text-white group"
                 >
                   <div className="flex items-center gap-2.5">
                     <Github size={16} />
@@ -269,7 +312,7 @@ export const ContactSection: React.FC = () => {
                   href="https://dev.to/sabirsheikh"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.08] hover:border-white/30 flex items-center justify-between text-zinc-300 hover:text-white transition-all group"
+                  className="flex items-center justify-between border border-white/[0.08] px-3 py-3 text-zinc-300 transition-colors hover:border-white/25 hover:text-white group"
                 >
                   <div className="flex items-center gap-2.5">
                     <Code2 size={16} />
@@ -281,12 +324,11 @@ export const ContactSection: React.FC = () => {
             </div>
           </div>
 
-          {/* Right Column: Encrypted Form Interface (7 cols) */}
           <div ref={formColRef} className="lg:col-span-7">
-            <div className="p-8 sm:p-12 rounded-[2.5rem] bg-[#0c0c0c] border border-white/[0.08] shadow-[0_20px_60px_rgba(0,0,0,0.7)] relative">
+            <div className="relative border border-white/[0.1] bg-[#101010] p-5 sm:p-8 lg:p-10">
               {isSuccess ? (
-                <div className="py-20 flex flex-col items-center justify-center text-center space-y-6">
-                  <div className="w-16 h-16 rounded-2xl bg-white text-black flex items-center justify-center shadow-2xl">
+                <div className="flex flex-col items-center justify-center space-y-6 py-16 text-center">
+                <div className="flex h-14 w-14 items-center justify-center border border-white/20 text-[#e5e5e5]">
                     <CheckCircle2 size={32} />
                   </div>
                   <h3 className="text-3xl font-black tracking-tight text-white">
@@ -299,19 +341,17 @@ export const ContactSection: React.FC = () => {
               ) : (
                 <form onSubmit={handleSubmit} noValidate className="space-y-8">
                   <div className="flex items-center justify-between pb-6 border-b border-white/[0.08]">
-                    <span className="mono text-xs font-bold uppercase tracking-widest text-zinc-400">
-                      // SECURE DISPATCH PROTOCOL
+                    <span className="mono text-[9px] font-medium uppercase tracking-[0.15em] text-zinc-400">
+                        Contact form
                     </span>
-                    <span className="mono text-[10px] text-zinc-600">
-                      256-BIT ENCRYPTED
-                    </span>
+                    <span className="mono text-[9px] text-zinc-600">EMAILJS</span>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                     {/* Name Input */}
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <label className="mono text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                        <label htmlFor="contact-name" className="mono text-[9px] font-medium uppercase tracking-[0.14em] text-zinc-400">
                           Identity (Name)
                         </label>
                         {touched.name && !errors.name && formData.name && (
@@ -320,11 +360,15 @@ export const ContactSection: React.FC = () => {
                       </div>
                       <input
                         type="text"
+                        id="contact-name"
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
                         onBlur={() => handleBlur('name')}
                         placeholder="Your full name"
+                        autoComplete="name"
+                        aria-invalid={Boolean(touched.name && errors.name)}
+                        aria-describedby={touched.name && errors.name ? 'contact-name-error' : undefined}
                         className={`w-full bg-white/[0.02] border ${
                           touched.name && errors.name
                             ? 'border-white/40 bg-white/[0.04]'
@@ -334,7 +378,7 @@ export const ContactSection: React.FC = () => {
                       {touched.name && errors.name && (
                         <p className="flex items-center gap-1.5 mono text-[10px] text-zinc-300 mt-1">
                           <AlertCircle size={10} />
-                          <span>{errors.name}</span>
+                          <span id="contact-name-error">{errors.name}</span>
                         </p>
                       )}
                     </div>
@@ -342,7 +386,7 @@ export const ContactSection: React.FC = () => {
                     {/* Email Input */}
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <label className="mono text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                        <label htmlFor="contact-email" className="mono text-[9px] font-medium uppercase tracking-[0.14em] text-zinc-400">
                           Dispatch Protocol (Email)
                         </label>
                         {touched.email && !errors.email && formData.email && (
@@ -351,11 +395,15 @@ export const ContactSection: React.FC = () => {
                       </div>
                       <input
                         type="email"
+                        id="contact-email"
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
                         onBlur={() => handleBlur('email')}
                         placeholder="your@email.com"
+                        autoComplete="email"
+                        aria-invalid={Boolean(touched.email && errors.email)}
+                        aria-describedby={touched.email && errors.email ? 'contact-email-error' : undefined}
                         className={`w-full bg-white/[0.02] border ${
                           touched.email && errors.email
                             ? 'border-white/40 bg-white/[0.04]'
@@ -365,7 +413,7 @@ export const ContactSection: React.FC = () => {
                       {touched.email && errors.email && (
                         <p className="flex items-center gap-1.5 mono text-[10px] text-zinc-300 mt-1">
                           <AlertCircle size={10} />
-                          <span>{errors.email}</span>
+                          <span id="contact-email-error">{errors.email}</span>
                         </p>
                       )}
                     </div>
@@ -374,7 +422,7 @@ export const ContactSection: React.FC = () => {
                   {/* Message Input */}
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
-                      <label className="mono text-[10px] font-bold uppercase tracking-widest text-zinc-400">
+                      <label htmlFor="contact-message" className="mono text-[9px] font-medium uppercase tracking-[0.14em] text-zinc-400">
                         Payload (Requirements & Scope)
                       </label>
                       {touched.message && !errors.message && formData.message && (
@@ -383,11 +431,14 @@ export const ContactSection: React.FC = () => {
                     </div>
                     <textarea
                       rows={4}
+                      id="contact-message"
                       name="message"
                       value={formData.message}
                       onChange={handleInputChange}
                       onBlur={() => handleBlur('message')}
                       placeholder="Outline system requirements, architecture goals, or role parameters..."
+                      aria-invalid={Boolean(touched.message && errors.message)}
+                      aria-describedby={touched.message && errors.message ? 'contact-message-error' : undefined}
                       className={`w-full bg-white/[0.02] border ${
                         touched.message && errors.message
                           ? 'border-white/40 bg-white/[0.04]'
@@ -397,7 +448,7 @@ export const ContactSection: React.FC = () => {
                     {touched.message && errors.message && (
                       <p className="flex items-center gap-1.5 mono text-[10px] text-zinc-300 mt-1">
                         <AlertCircle size={10} />
-                        <span>{errors.message}</span>
+                        <span id="contact-message-error">{errors.message}</span>
                       </p>
                     )}
                   </div>
@@ -406,7 +457,7 @@ export const ContactSection: React.FC = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full py-4 rounded-xl bg-white text-black font-black text-xs uppercase tracking-widest2 flex items-center justify-center gap-3 hover:bg-zinc-200 active:scale-[0.99] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_30px_rgba(255,255,255,0.15)]"
+                    className="flex min-h-12 w-full items-center justify-center gap-3 bg-[#e5e5e5] px-5 py-4 text-[10px] font-bold uppercase tracking-[0.16em] text-black transition-colors duration-200 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     <span>{isSubmitting ? 'Transmitting...' : 'Initiate Transmission'}</span>
                     {!isSubmitting && <ArrowRight size={16} />}

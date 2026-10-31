@@ -1,10 +1,21 @@
-import React, { useEffect, useRef } from 'react';
+import React, { lazy, Suspense, useEffect, useRef } from 'react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ArrowDown, Github, Linkedin, Code2, Download } from 'lucide-react';
 import { SignatureReveal } from '../LogoReveal/SignatureReveal';
-import { Hero3DScene } from './Hero3DScene';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { MagneticLink } from '../Common/UI';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const Hero3DScene = lazy(() =>
+  import('./Hero3DScene').then(({ Hero3DScene: Scene }) => ({
+    default: Scene,
+  }))
+);
 
 export const HeroSection: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
   const heroRef = useRef<HTMLElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const titleLine1Ref = useRef<HTMLHeadingElement>(null);
@@ -15,6 +26,8 @@ export const HeroSection: React.FC = () => {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
@@ -59,96 +72,113 @@ export const HeroSection: React.FC = () => {
           { opacity: 1, y: 0, duration: 0.8 },
           '-=0.5'
         );
+
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: 'top top',
+            end: 'bottom top',
+            scrub: 0.8,
+          },
+        })
+        .to(
+          [badgeRef.current, titleLine1Ref.current, titleLine2Ref.current],
+          {
+            yPercent: -12,
+            rotateX: -5,
+            transformPerspective: 1100,
+            transformOrigin: 'center top',
+            ease: 'none',
+          },
+          0
+        )
+        .to(subtitleRef.current, { yPercent: -7, opacity: 0.45, ease: 'none' }, 0)
+        .to(visualRef.current, { yPercent: 9, rotateY: 4, scale: 0.96, ease: 'none' }, 0)
+        .to(scrollIndicatorRef.current, { opacity: 0, ease: 'none' }, 0);
     }, heroRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <section
       id="hero"
       ref={heroRef}
-      className="relative min-h-screen flex flex-col justify-between px-6 md:px-12 lg:px-24 pt-32 pb-16 overflow-hidden bg-[#050505]"
+      className="relative flex min-h-[min(100svh,950px)] flex-col justify-between overflow-hidden bg-[#050505] px-5 pb-10 pt-28 sm:px-8 sm:pb-12 sm:pt-32 lg:px-16 xl:px-20"
     >
-      {/* Background Subtle Radial Glow */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-white/[0.02] rounded-full blur-[140px] pointer-events-none" />
-
-      {/* Signature Reveal Bar */}
-      <div className="w-full max-w-screen-2xl mx-auto mb-12">
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
+      <div className="mx-auto mb-10 w-full max-w-screen-xl sm:mb-12">
         <SignatureReveal />
       </div>
 
-      {/* Main Hero Content */}
-      <div className="w-full max-w-screen-2xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center flex-1 my-auto">
-        {/* Left Column: Typography & CTAs (7 cols) */}
-        <div className="lg:col-span-7 flex flex-col justify-center z-10">
-          <div ref={badgeRef} className="flex items-center gap-3 mb-6">
-            <span className="h-px w-8 bg-zinc-600" />
-            <span className="mono text-[11px] font-bold uppercase tracking-[0.35em] text-zinc-400">
+      <div className="mx-auto my-auto grid w-full max-w-screen-xl flex-1 grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="z-10 flex flex-col justify-center lg:col-span-7">
+          <div ref={badgeRef} className="mb-6 flex items-center gap-3">
+            <span className="h-px w-8 bg-[#d71920]" />
+            <span className="mono text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-300 sm:text-xs">
               Full-Stack Engineer
             </span>
           </div>
 
           <h1
             ref={titleLine1Ref}
-            className="text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-black tracking-tighter leading-[0.88] text-white"
+            className="text-[clamp(3.6rem,10vw,8.5rem)] font-semibold leading-[0.84] tracking-[-0.075em] text-[#e5e5e5]"
           >
-            SABIR <span className="text-zinc-600 font-light italic">ALI</span>
+            SABIR <span className="font-light text-[#929292]">ALI</span>
           </h1>
 
           <div
             ref={titleLine2Ref}
-            className="mt-3 text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-zinc-400"
+            className="mt-5 max-w-2xl text-2xl font-medium leading-tight tracking-[-0.04em] text-zinc-300 sm:text-3xl lg:text-4xl"
           >
             Engineering scalable web architectures.
           </div>
 
           <p
             ref={subtitleRef}
-            className="mt-8 text-lg sm:text-xl md:text-2xl text-zinc-400 font-light leading-relaxed max-w-2xl"
+            className="mt-6 max-w-xl text-base font-light leading-relaxed text-zinc-400 sm:text-lg"
           >
             Building scalable web applications, sophisticated digital experiences, and reliable software systems with precision and performance.
           </p>
 
-          {/* Action CTAs */}
           <div
             ref={ctaGroupRef}
-            className="mt-12 flex flex-wrap items-center gap-5 pt-4"
+            className="mt-9 flex flex-wrap items-center gap-3 pt-2 sm:mt-10 sm:gap-4"
           >
-            <a
+            <MagneticLink
               href="#projects"
-              className="group px-8 py-4 bg-white text-black font-extrabold text-xs uppercase tracking-widest2 rounded-full flex items-center justify-center transition-all duration-300 hover:bg-zinc-200 hover:scale-[1.03] active:scale-95 shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+              className="group inline-flex min-h-12 items-center justify-center gap-3 bg-[#e5e5e5] px-6 py-3.5 text-[10px] font-bold uppercase tracking-[0.16em] text-black transition-colors hover:bg-white active:scale-[0.98] sm:px-7"
             >
               Explore My Work
               <ArrowRight
                 size={16}
-                className="ml-3 transition-transform duration-300 group-hover:translate-x-1"
+                className="transition-transform duration-300 group-hover:translate-x-1"
               />
-            </a>
+            </MagneticLink>
 
-            <a
+            <MagneticLink
               href="#contact"
-              className="px-8 py-4 bg-zinc-900 text-white font-extrabold text-xs uppercase tracking-widest2 rounded-full flex items-center justify-center border border-white/10 transition-all duration-300 hover:border-white/30 hover:bg-zinc-800 active:scale-95"
+              className="inline-flex min-h-12 items-center justify-center border border-white/15 px-6 py-3.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-200 transition-colors hover:border-white/35 hover:text-white sm:px-7"
             >
               Let's Connect
-            </a>
+            </MagneticLink>
 
-            <a
+            <MagneticLink
               href="/Sabir CV.pdf"
               download
-              className="px-6 py-4 text-zinc-400 hover:text-white font-semibold text-xs uppercase tracking-wider flex items-center transition-colors duration-200"
+              className="inline-flex min-h-12 items-center px-3 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-white"
             >
               <Download size={15} className="mr-2" />
               Resume
-            </a>
+            </MagneticLink>
 
-            {/* Social Protocols */}
-            <div className="flex items-center gap-3 pl-2 sm:pl-4 border-l border-white/10">
+            <div className="flex items-center gap-2 border-l border-white/10 pl-3 sm:pl-4">
               <a
                 href="https://github.com/sabiralidev"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/30 transition-all duration-300"
+                className="flex h-10 w-10 items-center justify-center border border-transparent text-zinc-400 transition-colors hover:border-white/15 hover:text-white"
                 aria-label="GitHub Profile"
               >
                 <Github size={17} />
@@ -157,7 +187,7 @@ export const HeroSection: React.FC = () => {
                 href="https://www.linkedin.com/in/sabiralidev/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/30 transition-all duration-300"
+                className="flex h-10 w-10 items-center justify-center border border-transparent text-zinc-400 transition-colors hover:border-white/15 hover:text-white"
                 aria-label="LinkedIn Profile"
               >
                 <Linkedin size={17} />
@@ -166,7 +196,7 @@ export const HeroSection: React.FC = () => {
                 href="https://dev.to/sabirsheikh"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 rounded-full bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white hover:border-white/30 transition-all duration-300"
+                className="flex h-10 w-10 items-center justify-center border border-transparent text-zinc-400 transition-colors hover:border-white/15 hover:text-white"
                 aria-label="DEV.to Articles"
               >
                 <Code2 size={17} />
@@ -175,62 +205,63 @@ export const HeroSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Right Column: 3D Architectural Scene & Editorial Photo Bezel (5 cols) */}
-        <div ref={visualRef} className="lg:col-span-5 relative w-full flex items-center justify-center">
-          {/* Three.js 3D Sculptural Scene in background of visual */}
-          <div className="absolute -inset-10 z-0 opacity-80 pointer-events-none">
-            <Hero3DScene />
+        <div ref={visualRef} className="relative flex w-full items-center justify-center lg:col-span-5">
+          <div className="pointer-events-none absolute -inset-6 z-0 opacity-55 sm:-inset-10">
+            <Suspense
+              fallback={
+                <div className="flex min-h-[420px] items-center justify-center" aria-hidden="true">
+                  <div className="h-48 w-48 rounded-full border border-white/10" />
+                </div>
+              }
+            >
+              <Hero3DScene />
+            </Suspense>
           </div>
 
-          {/* Editorial Portrait Presentation with High-End Monochrome Bezel */}
-          <div className="relative z-10 w-full max-w-[380px] lg:max-w-[420px] aspect-[4/5] rounded-[3rem] p-3 bg-gradient-to-b from-white/10 via-white/5 to-white/[0.02] border border-white/15 shadow-[0_20px_80px_rgba(0,0,0,0.9)] backdrop-blur-md group">
-            <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden bg-zinc-950 border border-white/10">
+          <div className="group relative z-10 aspect-[4/5] w-full max-w-[340px] border border-white/15 bg-[#101010] p-2.5 sm:max-w-[390px] lg:max-w-[420px]">
+            <div className="relative h-full w-full overflow-hidden bg-zinc-950">
               <img
                 src="/Sabir.jpg"
                 alt="Sabir Ali — Full-Stack Engineer"
-                className="w-full h-full object-cover filter grayscale contrast-110 brightness-95 transition-all duration-700 group-hover:scale-105 group-hover:contrast-100 group-hover:brightness-105"
+                className="h-full w-full object-cover object-center grayscale contrast-110 brightness-90 transition-[filter,transform] duration-700 group-hover:scale-[1.025] group-hover:brightness-100"
                 loading="eager"
               />
 
-              {/* Monochromatic Studio Vignette Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
 
-              {/* Floating Architectural Badge */}
-              <div className="absolute bottom-6 left-6 right-6 p-4 rounded-2xl bg-black/70 backdrop-blur-xl border border-white/10 flex items-center justify-between">
+              <div className="absolute inset-x-4 bottom-4 flex items-center justify-between border-t border-white/20 bg-black/75 px-4 py-3 backdrop-blur-md sm:inset-x-5 sm:bottom-5">
                 <div>
-                  <span className="mono text-[9px] uppercase tracking-widest text-zinc-400 block">
+                  <span className="mono block text-[9px] uppercase tracking-[0.16em] text-zinc-400">
                     Identity // Engineer
                   </span>
                   <span className="text-sm font-black tracking-tight text-white">
                     Sabir Ali
                   </span>
                 </div>
-                <div className="mono text-[10px] text-zinc-400 px-2.5 py-1 rounded bg-white/5 border border-white/10">
+                <div className="mono border-l border-[#d71920] pl-2.5 text-[10px] text-zinc-300">
                   MERN / NEXT
                 </div>
               </div>
             </div>
 
-            {/* Corner Decorative Crosshairs */}
-            <div className="absolute -top-2 -left-2 w-4 h-4 border-t-2 border-l-2 border-white/30 pointer-events-none" />
-            <div className="absolute -bottom-2 -right-2 w-4 h-4 border-b-2 border-r-2 border-white/30 pointer-events-none" />
+            <div className="pointer-events-none absolute -left-1 -top-1 h-3 w-3 border-l border-t border-[#d71920]/70" />
+            <div className="pointer-events-none absolute -bottom-1 -right-1 h-3 w-3 border-b border-r border-white/40" />
           </div>
         </div>
       </div>
 
-      {/* Minimal Scroll Indicator */}
       <div
         ref={scrollIndicatorRef}
-        className="w-full max-w-screen-2xl mx-auto pt-12 flex items-center justify-between text-zinc-500 text-xs mono"
+        className="mx-auto flex w-full max-w-screen-xl items-center justify-between pt-10 font-mono text-xs text-zinc-500 sm:pt-12"
       >
         <a
           href="#about"
-          className="flex items-center gap-3 hover:text-white transition-colors duration-200 group"
+          className="group flex items-center gap-3 transition-colors duration-200 hover:text-white"
         >
-          <span className="w-6 h-6 rounded-full border border-white/15 flex items-center justify-center group-hover:border-white/40 transition-colors">
-            <ArrowDown size={12} className="animate-bounce" />
+          <span className="flex h-7 w-7 items-center justify-center border border-white/15 transition-colors group-hover:border-[#d71920]">
+            <ArrowDown size={12} />
           </span>
-          <span className="tracking-[0.25em] text-[10px] uppercase">
+          <span className="text-[9px] uppercase tracking-[0.22em]">
             Scroll to explore
           </span>
         </a>

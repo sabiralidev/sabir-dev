@@ -45,7 +45,7 @@ export const SectionNavigator: React.FC = () => {
             <div
               className={`transition-all duration-300 ${
                 isActive
-                  ? 'w-6 h-[2px] bg-white'
+                  ? 'h-[2px] w-6 bg-[#d71920]'
                   : 'w-2 h-[1px] bg-zinc-700 group-hover:w-4 group-hover:bg-zinc-400'
               }`}
             />

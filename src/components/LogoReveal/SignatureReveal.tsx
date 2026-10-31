@@ -1,21 +1,40 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { Logo3D } from './Logo3D';
+import { MonogramLogo } from '../Common/MonogramLogo';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 export const SignatureReveal: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
   const containerRef = useRef<HTMLDivElement>(null);
   const logoWrapperRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
   const statusRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
       tl.fromTo(
         logoWrapperRef.current,
-        { scale: 0.7, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1.0, delay: 0.1 }
+        {
+          scale: 0.72,
+          opacity: 0,
+          z: -55,
+          rotateY: -28,
+          rotateX: 10,
+          transformPerspective: 750,
+        },
+        {
+          scale: 1,
+          opacity: 1,
+          z: 0,
+          rotateY: 0,
+          rotateX: 0,
+          duration: 1.05,
+          delay: 0.1,
+        }
       )
         .fromTo(
           textRef.current,
@@ -32,43 +51,42 @@ export const SignatureReveal: React.FC = () => {
     }, containerRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <div
       ref={containerRef}
-      className="w-full flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/[0.08]"
+      className="flex w-full flex-col items-center justify-between gap-5 border-b border-white/[0.08] pb-6 sm:flex-row sm:pb-7"
     >
       <div className="flex items-center gap-6">
         <div
           ref={logoWrapperRef}
-          className="relative w-16 h-16 md:w-20 md:h-20 shrink-0 flex items-center justify-center"
+          className="relative flex h-12 w-12 shrink-0 items-center justify-center sm:h-14 sm:w-14"
         >
-          <Logo3D size={80} className="scale-75 md:scale-90" />
+          <MonogramLogo size={46} className="drop-shadow-[0_2px_12px_rgba(255,255,255,0.12)]" />
         </div>
 
         <div ref={textRef} className="flex flex-col">
           <div className="flex items-center gap-3">
-            <span className="mono text-lg md:text-xl font-black tracking-tighter text-white">
+            <span className="mono text-base font-semibold tracking-[-0.06em] text-white sm:text-lg">
               SABIR<span className="text-zinc-500">_ALI</span>
             </span>
             <span className="px-2 py-0.5 text-[8px] font-bold uppercase tracking-widest text-zinc-400 bg-white/[0.04] border border-white/[0.08] rounded-full">
               EST. 2024
             </span>
           </div>
-          <span className="text-[10px] mono uppercase tracking-[0.25em] text-zinc-500 mt-0.5">
+          <span className="mono mt-0.5 text-[9px] uppercase tracking-[0.2em] text-zinc-500">
             Full-Stack Systems & Architecture
           </span>
         </div>
       </div>
 
       <div ref={statusRef} className="flex items-center gap-6">
-        <div className="flex items-center gap-3 px-4 py-2 rounded-full bg-white/[0.03] border border-white/[0.08]">
+        <div className="flex items-center gap-3 border border-white/[0.08] px-3 py-2">
           <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-40"></span>
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-white"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[#d71920]"></span>
           </span>
-          <span className="text-[10px] font-bold uppercase tracking-widest text-zinc-300">
+          <span className="text-[9px] font-medium uppercase tracking-[0.14em] text-zinc-300">
             Open for Worldwide Roles
           </span>
         </div>
