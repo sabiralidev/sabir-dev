@@ -69,13 +69,13 @@ export const SignatureReveal: React.FC = () => {
         <div ref={textRef} className="flex flex-col">
           <div className="flex items-center gap-3">
             <span className="mono text-base font-semibold tracking-[-0.06em] text-white sm:text-lg">
-              SABIR<span className="text-zinc-500">_ALI</span>
+              SABIR<span className="text-zinc-400">_ALI</span>
             </span>
             <span className="px-2 py-0.5 text-[8px] font-bold uppercase tracking-widest text-zinc-400 bg-white/[0.04] border border-white/[0.08] rounded-full">
               EST. 2024
             </span>
           </div>
-          <span className="mono mt-0.5 text-[9px] uppercase tracking-[0.2em] text-zinc-500">
+          <span className="mono mt-0.5 text-[9px] uppercase tracking-[0.2em] text-zinc-400">
             Full-Stack Systems & Architecture
           </span>
         </div>
@@ -91,7 +91,7 @@ export const SignatureReveal: React.FC = () => {
           </span>
         </div>
 
-        <div className="hidden lg:flex items-center gap-2 mono text-[10px] text-zinc-500">
+        <div className="hidden lg:flex items-center gap-2 mono text-[10px] text-zinc-400">
           <span>LAT: 33.72° N</span>
           <span className="text-zinc-700">|</span>
           <span>SYSTEMS READY</span>
