@@ -2,12 +2,14 @@ import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ExternalLink, Github, ArrowUpRight } from 'lucide-react';
-import { SectionHeading } from '../Common/UI';
+import { MagneticLink, SectionHeading, TiltCard } from '../Common/UI';
 import { PROJECTS } from '../../../data';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const ProjectsSection: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const projectListRef = useRef<HTMLDivElement>(null);
@@ -18,6 +20,8 @@ export const ProjectsSection: React.FC = () => {
   ];
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const ctx = gsap.context(() => {
       if (headingRef.current) {
         gsap.fromTo(
@@ -42,11 +46,18 @@ export const ProjectsSection: React.FC = () => {
         Array.from(items).forEach((item) => {
           gsap.fromTo(
             item,
-            { y: 60, opacity: 0 },
+            {
+              y: 52,
+              autoAlpha: 0,
+              rotateX: 4,
+              transformPerspective: 1100,
+              transformOrigin: 'center bottom',
+            },
             {
               y: 0,
-              opacity: 1,
-              duration: 1.1,
+              autoAlpha: 1,
+              rotateX: 0,
+              duration: 0.95,
               ease: 'power3.out',
               scrollTrigger: {
                 trigger: item,
@@ -57,23 +68,42 @@ export const ProjectsSection: React.FC = () => {
           );
         });
       }
+
+      const imageLayers =
+        projectListRef.current?.querySelectorAll('.project-image-depth');
+      imageLayers?.forEach((imageLayer) => {
+        gsap.fromTo(
+          imageLayer,
+          { yPercent: 4 },
+          {
+            yPercent: -4,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: imageLayer,
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.7,
+            },
+          }
+        );
+      });
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <section
       id="projects"
       ref={sectionRef}
-      className="py-28 lg:py-48 px-6 md:px-12 lg:px-24 bg-[#050505] relative overflow-hidden"
+      className="relative overflow-hidden bg-[#050505] px-5 py-24 sm:px-8 sm:py-28 lg:px-16 lg:py-36 xl:px-20"
     >
-      <div className="max-w-screen-2xl mx-auto relative z-10">
-        <div ref={headingRef} className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 lg:mb-24">
+      <div className="relative z-10 mx-auto max-w-screen-xl">
+        <div ref={headingRef} className="mb-12 flex flex-col gap-7 md:flex-row md:items-end md:justify-between lg:mb-16">
           <SectionHeading
             number="04"
-            category="Case Studies"
-            title={<>Selected <br className="hidden sm:inline" /><span className="text-zinc-500 font-light">Works.</span></>}
+            category="Selected Projects"
+            title={<>Selected <span className="font-light text-zinc-500">work.</span></>}
             subtitle="Deep architectural analysis of production systems, solving concurrency, transaction resilience, and data consistency."
             className="mb-0 lg:mb-0"
           />
@@ -82,7 +112,7 @@ export const ProjectsSection: React.FC = () => {
             href="https://github.com/sabiralidev"
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3.5 rounded-full bg-white/[0.04] border border-white/10 hover:border-white/30 text-white font-bold text-xs uppercase tracking-widest flex items-center gap-2 self-start md:self-end transition-all duration-300 hover:bg-white/[0.08]"
+            className="inline-flex min-h-11 items-center gap-2 self-start border-b border-white/20 pb-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-300 transition-colors hover:border-[#d71920] hover:text-white md:self-end"
           >
             <Github size={16} />
             <span>View All on GitHub</span>
@@ -90,109 +120,104 @@ export const ProjectsSection: React.FC = () => {
           </a>
         </div>
 
-        {/* Project Showcase List */}
-        <div ref={projectListRef} className="space-y-24 lg:space-y-36 mt-16">
+        <div ref={projectListRef} className="mt-10 space-y-16 [perspective:1200px] lg:mt-12 lg:space-y-24">
           {PROJECTS.map((project, idx) => (
-            <div
+            <TiltCard
               key={project.id}
-              className="p-8 sm:p-12 lg:p-16 rounded-[2.5rem] bg-[#0c0c0c] border border-white/[0.08] hover:border-white/[0.18] transition-all duration-500 shadow-[0_20px_60px_rgba(0,0,0,0.8)] group"
+              className="group !overflow-visible !rounded-none !border-x-0 !border-y-white/[0.1] !bg-transparent !py-6 !shadow-none sm:!py-8"
+              glow={false}
             >
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-                {/* Visual Column (6 cols) */}
+              <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
                 <div className={`lg:col-span-6 ${idx % 2 === 1 ? 'lg:order-2' : ''}`}>
-                  <div className="relative aspect-[16/10] rounded-[1.75rem] overflow-hidden bg-black border border-white/10 group-hover:border-white/20 transition-all duration-500">
-                    <img
-                      src={projectImages[idx] || projectImages[0]}
-                      alt={project.title}
-                      className="w-full h-full object-cover filter grayscale contrast-105 brightness-90 transition-all duration-700 group-hover:scale-[1.03] group-hover:grayscale-0 group-hover:brightness-100"
-                      loading="lazy"
-                    />
+                  <div className="project-preview relative aspect-[16/10] overflow-hidden border border-white/10 bg-[#101010] transition-colors duration-500 group-hover:border-white/25">
+                    <div className="project-image-depth absolute inset-0">
+                      <img
+                        src={projectImages[idx] || projectImages[0]}
+                        alt={project.title}
+                        className="h-full w-full object-cover grayscale contrast-105 brightness-90 transition-[filter,transform] duration-700 group-hover:scale-[1.025] group-hover:grayscale-0 group-hover:brightness-100"
+                        loading="lazy"
+                      />
+                    </div>
 
-                    {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
 
-                    {/* Quick Action Badges */}
                     <div className="absolute bottom-6 right-6 flex items-center gap-3">
                       {project.links?.github && (
-                        <a
+                        <MagneticLink
                           href={project.links.github}
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`GitHub repo for ${project.title}`}
-                          className="p-3.5 rounded-xl bg-black/80 backdrop-blur-md border border-white/15 text-white hover:bg-white hover:text-black transition-all duration-300 shadow-xl"
+                          className="flex h-11 w-11 items-center justify-center border border-white/25 bg-black/80 text-white transition-colors duration-300 hover:border-white hover:bg-white hover:text-black"
                         >
                           <Github size={18} />
-                        </a>
+                        </MagneticLink>
                       )}
                       {project.links?.live && (
-                        <a
+                        <MagneticLink
                           href={project.links.live}
                           target="_blank"
                           rel="noopener noreferrer"
                           aria-label={`Live site for ${project.title}`}
-                          className="px-5 py-3.5 rounded-xl bg-white text-black font-extrabold text-xs uppercase tracking-widest flex items-center gap-2 hover:bg-zinc-200 transition-all duration-300 shadow-xl"
+                          className="inline-flex min-h-11 items-center gap-2 bg-[#e5e5e5] px-4 py-3 text-[10px] font-bold uppercase tracking-[0.12em] text-black transition-colors duration-300 hover:bg-white"
                         >
                           <span>Live Site</span>
                           <ExternalLink size={14} />
-                        </a>
+                        </MagneticLink>
                       )}
                     </div>
                   </div>
                 </div>
 
-                {/* Details Column (6 cols) */}
-                <div className={`lg:col-span-6 space-y-8 ${idx % 2 === 1 ? 'lg:order-1' : ''}`}>
+                <div className={`space-y-6 lg:col-span-6 lg:space-y-7 ${idx % 2 === 1 ? 'lg:order-1' : ''}`}>
                   <div className="flex items-center gap-3">
-                    <span className="mono text-xs font-bold text-zinc-500">
+                    <span className="mono text-[10px] font-medium text-[#d71920]">
                       CASE_0{idx + 1}
                     </span>
-                    <span className="w-6 h-px bg-white/20" />
-                    <span className="mono text-[10px] uppercase tracking-widest text-zinc-400">
+                    <span className="h-px w-6 bg-white/20" />
+                    <span className="mono text-[9px] uppercase tracking-[0.16em] text-zinc-400">
                       Full-Stack Architecture
                     </span>
                   </div>
 
-                  <h3 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tighter text-white">
+                  <h3 className="text-2xl font-medium leading-tight tracking-[-0.05em] text-[#e5e5e5] sm:text-3xl lg:text-4xl">
                     {project.title}
                   </h3>
 
-                  {/* Architecture & Problem Breakdown */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 border-t border-white/[0.08]">
+                  <div className="grid grid-cols-1 gap-5 border-t border-white/[0.08] pt-5 sm:grid-cols-2 sm:gap-6">
                     <div className="space-y-2">
-                      <span className="mono text-[10px] font-bold uppercase tracking-widest text-zinc-500 block">
+                      <span className="mono block text-[9px] font-medium uppercase tracking-[0.15em] text-zinc-500">
                         Problem Scenario
                       </span>
-                      <p className="text-sm text-zinc-400 font-light leading-relaxed">
+                      <p className="mt-2 text-sm font-light leading-relaxed text-zinc-400">
                         {project.problem}
                       </p>
                     </div>
 
                     <div className="space-y-2">
-                      <span className="mono text-[10px] font-bold uppercase tracking-widest text-zinc-500 block">
+                      <span className="mono block text-[9px] font-medium uppercase tracking-[0.15em] text-zinc-500">
                         Engineering Solution
                       </span>
-                      <p className="text-sm text-zinc-400 font-light leading-relaxed">
+                      <p className="mt-2 text-sm font-light leading-relaxed text-zinc-400">
                         {project.solution}
                       </p>
                     </div>
                   </div>
 
-                  {/* Architectural Blueprint Detail */}
-                  <div className="p-4 rounded-xl bg-white/[0.02] border border-white/[0.06] space-y-1">
-                    <span className="mono text-[9px] uppercase tracking-widest text-zinc-500 block">
-                      SYSTEM ARCHITECTURE & CHALLENGES
+                  <div className="space-y-2 border-l border-white/15 pl-4">
+                    <span className="mono block text-[9px] uppercase tracking-[0.14em] text-zinc-500">
+                      Architecture & challenges
                     </span>
-                    <p className="text-xs text-zinc-300 font-mono leading-relaxed">
+                    <p className="text-xs font-light leading-relaxed text-zinc-300 sm:text-sm">
                       {project.architecture} — {project.challenges}
                     </p>
                   </div>
 
-                  {/* Tech Stack Chips */}
-                  <div className="flex flex-wrap gap-2 pt-2">
+                  <div className="flex flex-wrap gap-x-4 gap-y-2 pt-1">
                     {project.stack.map((tech) => (
                       <span
                         key={tech}
-                        className="px-3.5 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.08] text-xs font-medium mono text-zinc-300"
+                        className="mono border-b border-white/10 pb-1 text-[10px] text-zinc-400"
                       >
                         {tech}
                       </span>
@@ -200,7 +225,7 @@ export const ProjectsSection: React.FC = () => {
                   </div>
                 </div>
               </div>
-            </div>
+            </TiltCard>
           ))}
         </div>
       </div>
