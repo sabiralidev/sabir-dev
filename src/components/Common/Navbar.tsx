@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { MonogramLogo } from './MonogramLogo';
+import { MagneticLink } from './UI';
 
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -13,6 +14,17 @@ export const Navbar: React.FC = () => {
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsOpen(false);
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
 
   const navLinks = [
     { name: 'About', href: '#about', id: '01' },
@@ -27,94 +39,98 @@ export const Navbar: React.FC = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-[#050505]/90 backdrop-blur-2xl border-b border-white/[0.08] py-4'
-          : 'bg-transparent py-6 lg:py-8'
+          ? 'border-b border-white/[0.08] bg-[#050505]/95 py-3 backdrop-blur-xl'
+          : 'bg-transparent py-4 sm:py-5'
       }`}
     >
-      <div className="max-w-screen-2xl mx-auto px-6 md:px-12 lg:px-24 flex justify-between items-center">
-        {/* Brand Logo */}
+      <div className="mx-auto flex max-w-screen-xl items-center justify-between px-5 sm:px-8 lg:px-16 xl:px-20">
         <a
           href="#hero"
-          className="flex items-center gap-3 group transition-transform duration-300 hover:scale-[1.02]"
+          className="group flex items-center gap-2.5 transition-opacity hover:opacity-80"
         >
-          <div className="w-9 h-9 rounded-xl bg-white/[0.05] border border-white/10 flex items-center justify-center overflow-hidden shrink-0 group-hover:border-white/30 transition-colors">
-            <MonogramLogo size={24} />
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden border border-white/10 transition-colors group-hover:border-white/30">
+            <MonogramLogo size={22} />
           </div>
-          <span className="text-lg font-black tracking-tighter mono text-white">
+          <span className="mono text-sm font-semibold tracking-[-0.06em] text-white sm:text-base">
             SABIR<span className="text-zinc-500">_ALI</span>
           </span>
         </a>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-10">
+        <nav aria-label="Main navigation" className="hidden items-center gap-7 lg:flex xl:gap-9">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-[11px] font-semibold uppercase tracking-[0.25em] text-zinc-400 hover:text-white transition-colors duration-200 flex items-center gap-1.5 group"
+              className="group flex items-center gap-1.5 text-[9px] font-medium uppercase tracking-[0.16em] text-zinc-400 transition-colors duration-200 hover:text-white"
             >
-              <span className="mono text-[9px] text-zinc-600 group-hover:text-zinc-400 transition-colors">
+              <span className="mono text-[8px] text-zinc-600 transition-colors group-hover:text-[#d71920]">
                 {link.id}
               </span>
               <span>{link.name}</span>
             </a>
           ))}
 
-          <a
+          <MagneticLink
             href="#contact"
-            className="px-5 py-2.5 rounded-full bg-white text-black text-[11px] font-extrabold uppercase tracking-widest flex items-center gap-2 hover:bg-zinc-200 transition-all duration-200 active:scale-95"
+            className="inline-flex min-h-10 items-center gap-2 bg-[#e5e5e5] px-4 py-2 text-[9px] font-bold uppercase tracking-[0.14em] text-black transition-colors hover:bg-white"
           >
             <span>Let's Talk</span>
             <ArrowUpRight size={14} />
-          </a>
+          </MagneticLink>
         </nav>
 
-        {/* Mobile Hamburger Trigger */}
-        <div className="lg:hidden flex items-center space-x-4">
-          <a
+        <div className="flex items-center gap-3 lg:hidden">
+          <MagneticLink
             href="#contact"
-            className="px-4 py-2 rounded-full bg-white text-black text-[10px] font-bold uppercase tracking-widest"
+            onClick={() => setIsOpen(false)}
+            className="border border-white/15 px-3 py-2 text-[9px] font-semibold uppercase tracking-[0.12em] text-zinc-200"
           >
             Connect
-          </a>
+          </MagneticLink>
           <button
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle navigation menu"
-            className="p-2 text-zinc-400 hover:text-white transition-colors"
+            aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isOpen}
+            aria-controls="mobile-navigation"
+            className="flex h-10 w-10 items-center justify-center text-zinc-300 transition-colors hover:text-white"
           >
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Drawer Menu */}
       {isOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-[73px] bg-[#080808]/98 backdrop-blur-3xl border-b border-white/10 p-8 flex flex-col gap-6 shadow-2xl animate-in fade-in slide-in-from-top-4 duration-300">
-          {navLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              onClick={() => setIsOpen(false)}
-              className="text-2xl font-black tracking-tight uppercase text-white hover:text-zinc-400 transition-colors flex items-center justify-between border-b border-white/5 pb-4"
-            >
-              <span>{link.name}</span>
-              <span className="mono text-xs text-zinc-600">{link.id}</span>
-            </a>
-          ))}
-          <div className="pt-2 flex flex-col gap-4">
+        <div
+          id="mobile-navigation"
+          className="absolute inset-x-0 top-full max-h-[calc(100svh-4rem)] overflow-y-auto border-b border-white/10 bg-[#080808] px-5 py-5 sm:px-8 lg:hidden"
+        >
+          <nav aria-label="Mobile navigation" className="flex flex-col">
+            {navLinks.map((link) => (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className="flex items-center justify-between border-b border-white/[0.08] py-4 text-base font-medium text-zinc-200 transition-colors hover:text-white"
+              >
+                <span>{link.name}</span>
+                <span className="mono text-[9px] text-zinc-600">{link.id}</span>
+              </a>
+            ))}
+          </nav>
+          <div className="flex gap-3 pt-5">
             <a
               href="/Sabir CV.pdf"
               download
-              className="py-4 text-center border border-white/10 rounded-2xl text-xs font-bold uppercase tracking-widest text-zinc-300"
+              className="flex min-h-11 flex-1 items-center justify-center border border-white/15 text-[9px] font-semibold uppercase tracking-[0.12em] text-zinc-300"
             >
-              Download Resume
+              Download resume
             </a>
             <a
               href="#contact"
               onClick={() => setIsOpen(false)}
-              className="py-4 text-center bg-white text-black rounded-2xl text-xs font-black uppercase tracking-widest"
+              className="flex min-h-11 flex-1 items-center justify-center bg-[#e5e5e5] text-[9px] font-bold uppercase tracking-[0.12em] text-black"
             >
-              Initiate Contact
+              Get in touch
             </a>
           </div>
         </div>
