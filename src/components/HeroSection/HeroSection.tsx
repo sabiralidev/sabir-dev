@@ -295,7 +295,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             <div className="relative h-full w-full overflow-hidden bg-zinc-950">
               <img
                 src="/Sabir.png"
-                alt="Sabir Ali — Full-Stack Engineer"
+                alt="Sabir Ali - Full-Stack Engineer"
                 className="h-full w-full object-cover object-center transition-[filter,transform] duration-700 group-hover:scale-[1.025] group-hover:brightness-100"
                 loading="eager"
                 fetchPriority="high"
