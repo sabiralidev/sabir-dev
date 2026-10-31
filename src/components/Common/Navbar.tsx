@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { MonogramLogo } from './MonogramLogo';
 import { MagneticLink } from './UI';
@@ -6,6 +6,8 @@ import { MagneticLink } from './UI';
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('hero');
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,10 +18,34 @@ export const Navbar: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    const sections = ['hero', 'about', 'skills', 'approach', 'projects', 'experience', 'contact']
+      .map((id) => document.getElementById(id))
+      .filter((section): section is HTMLElement => section !== null);
+
+    if (!('IntersectionObserver' in window)) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const current = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        if (current) setActiveSection(current.target.id);
+      },
+      { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     if (!isOpen) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setIsOpen(false);
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+        menuButtonRef.current?.focus();
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -52,7 +78,7 @@ export const Navbar: React.FC = () => {
             <MonogramLogo size={22} />
           </div>
           <span className="mono text-sm font-semibold tracking-[-0.06em] text-white sm:text-base">
-            SABIR<span className="text-zinc-500">_ALI</span>
+          SABIR<span className="text-zinc-400">_ALI</span>
           </span>
         </a>
 
@@ -61,12 +87,20 @@ export const Navbar: React.FC = () => {
             <a
               key={link.name}
               href={link.href}
-              className="group flex items-center gap-1.5 text-[9px] font-medium uppercase tracking-[0.16em] text-zinc-400 transition-colors duration-200 hover:text-white"
+              aria-current={activeSection === link.href.slice(1) ? 'location' : undefined}
+              className={`group relative flex items-center gap-1.5 py-2 text-[9px] font-medium uppercase tracking-[0.16em] transition-colors duration-200 hover:text-white ${
+                activeSection === link.href.slice(1) ? 'text-white' : 'text-zinc-400'
+              }`}
             >
-              <span className="mono text-[8px] text-zinc-600 transition-colors group-hover:text-[#d71920]">
+              <span className="mono text-[8px] text-zinc-400 transition-colors group-hover:text-[#d71920]">
                 {link.id}
               </span>
               <span>{link.name}</span>
+              <span
+                className={`absolute inset-x-0 -bottom-1 h-px origin-left bg-[#d71920] transition-transform duration-300 ${
+                  activeSection === link.href.slice(1) ? 'scale-x-100' : 'scale-x-0'
+                }`}
+              />
             </a>
           ))}
 
@@ -88,6 +122,7 @@ export const Navbar: React.FC = () => {
             Connect
           </MagneticLink>
           <button
+            ref={menuButtonRef}
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
             aria-expanded={isOpen}
@@ -109,11 +144,14 @@ export const Navbar: React.FC = () => {
               <a
                 key={link.name}
                 href={link.href}
+                aria-current={activeSection === link.href.slice(1) ? 'location' : undefined}
                 onClick={() => setIsOpen(false)}
-                className="flex items-center justify-between border-b border-white/[0.08] py-4 text-base font-medium text-zinc-200 transition-colors hover:text-white"
+                className={`flex items-center justify-between border-b border-white/[0.08] py-4 text-base font-medium transition-colors hover:text-white ${
+                  activeSection === link.href.slice(1) ? 'text-white' : 'text-zinc-400'
+                }`}
               >
                 <span>{link.name}</span>
-                <span className="mono text-[9px] text-zinc-600">{link.id}</span>
+                <span className="mono text-[9px] text-zinc-400">{link.id}</span>
               </a>
             ))}
           </nav>
