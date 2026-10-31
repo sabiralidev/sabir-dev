@@ -249,7 +249,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </MagneticLink>
 
             <MagneticLink
-              href="/Sabir CV.pdf"
+              href="/Sabir%20Resume.pdf"
               download
               className="inline-flex min-h-12 items-center px-3 py-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:text-white"
             >
