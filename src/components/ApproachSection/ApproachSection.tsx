@@ -21,51 +21,59 @@ export const ApproachSection: React.FC = () => {
         gsap.fromTo(
           headingRef.current,
           {
-            y: 45,
-            autoAlpha: 0,
-            rotateX: 5,
-            transformPerspective: 1000,
-            transformOrigin: 'left bottom',
+            z: -140,
+            autoAlpha: 0.35,
+            rotateX: 12,
+            rotateY: -5,
+            scale: 0.96,
+            transformPerspective: 1200,
+            transformOrigin: 'left center',
           },
           {
-            y: 0,
+            z: 0,
             autoAlpha: 1,
             rotateX: 0,
-            duration: 0.95,
-            ease: 'power3.out',
+            rotateY: 0,
+            scale: 1,
+            ease: 'none',
             scrollTrigger: {
               trigger: headingRef.current,
               start: 'top 88%',
-              toggleActions: 'play none none none',
+              end: 'top 38%',
+              scrub: 0.7,
             },
           }
         );
       }
 
-      const cards = gridRef.current?.children;
+      const cards = gridRef.current?.querySelectorAll('.approach-card-depth');
       if (cards) {
         gsap.fromTo(
           cards,
           {
-            y: 46,
-            autoAlpha: 0,
+            z: -190,
+            autoAlpha: 0.25,
+            rotateX: 12,
             rotateY: window.matchMedia('(hover: hover) and (pointer: fine)').matches
-              ? 5
-              : 0,
-            transformPerspective: 1000,
+              ? 12
+              : 4,
+            scale: 0.88,
+            transformPerspective: 1300,
             transformOrigin: 'center center',
           },
           {
-            y: 0,
+            z: 0,
             autoAlpha: 1,
+            rotateX: 0,
             rotateY: 0,
-            duration: 0.85,
-            stagger: 0.13,
-            ease: 'power3.out',
+            scale: 1,
+            stagger: 0.16,
+            ease: 'none',
             scrollTrigger: {
               trigger: gridRef.current,
-              start: 'top 85%',
-              toggleActions: 'play none none none',
+              start: 'top 88%',
+              end: 'bottom 52%',
+              scrub: 0.7,
             },
           }
         );
@@ -137,6 +145,7 @@ export const ApproachSection: React.FC = () => {
               className="group flex flex-col justify-between p-6 sm:p-8"
               glow={false}
             >
+              <div className="approach-card-depth relative z-10 flex min-h-full flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] pb-5">
                   <div className="flex items-center gap-2">
@@ -165,6 +174,7 @@ export const ApproachSection: React.FC = () => {
               <div className="mono mt-6 flex items-start justify-between gap-4 border-t border-white/[0.05] pt-5 text-[9px] text-zinc-500">
                 <span>{pillar.metrics}</span>
                 <span className="shrink-0 text-zinc-600">METHOD</span>
+              </div>
               </div>
             </TiltCard>
           ))}
