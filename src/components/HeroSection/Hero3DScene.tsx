@@ -55,9 +55,11 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
     }
 
     // Main Architectural Structure Group
+    const scrollGroup = new THREE.Group();
+    scene.add(scrollGroup);
     const structureGroup = new THREE.Group();
     structureGroup.scale.setScalar(1.25);
-    scene.add(structureGroup);
+    scrollGroup.add(structureGroup);
 
     const disposables: { geometry?: THREE.BufferGeometry; material?: THREE.Material }[] = [];
 
@@ -183,16 +185,33 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
       window.addEventListener('pointermove', handleMouseMove, { passive: true });
     }
 
-    let scrollProgress = 0;
     const heroSection = container.closest<HTMLElement>('#hero') ?? container;
-    const cameraScroll = ScrollTrigger.create({
-      trigger: heroSection,
-      start: 'top top',
-      end: 'bottom top',
-      onUpdate: (self) => {
-        scrollProgress = self.progress;
+    const scrollTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: heroSection,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: 0.7,
+        invalidateOnRefresh: true,
       },
     });
+    scrollTimeline
+      .to(
+        scrollGroup.rotation,
+        { x: Math.PI * 0.18, y: Math.PI * 1.5, z: Math.PI * 0.12, ease: 'none' },
+        0
+      )
+      .to(
+        scrollGroup.position,
+        { x: 0.35, y: 0.2, z: -1.2, ease: 'none' },
+        0
+      )
+      .to(
+        scrollGroup.scale,
+        { x: 1.55, y: 1.55, z: 1.55, ease: 'none' },
+        0
+      )
+      .to(camera.position, { x: 0.25, y: -0.3, z: 7, ease: 'none' }, 0);
 
     // Resize handler
     const handleResize = () => {
@@ -241,9 +260,6 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
 
       structureGroup.rotation.y = currentX + elapsed * 0.08;
       structureGroup.rotation.x = -currentY + Math.sin(elapsed * 0.4) * 0.05;
-
-      camera.position.z = 8.5 + scrollProgress * 2.5;
-      camera.position.y = -scrollProgress * 1.2;
 
       for (let i = 0; i < nodePositions.length; i++) {
         const item = nodePositions[i];
@@ -298,7 +314,8 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
       window.removeEventListener('pointermove', handleMouseMove);
       window.removeEventListener('resize', handleResize);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
-      cameraScroll.kill();
+      scrollTimeline.scrollTrigger?.kill();
+      scrollTimeline.kill();
       observer.disconnect();
       stopAnimation();
 
