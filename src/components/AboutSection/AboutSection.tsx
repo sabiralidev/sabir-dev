@@ -130,7 +130,7 @@ export const AboutSection: React.FC = () => {
         <div className="mt-12 grid grid-cols-1 items-center gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-16">
           <div ref={contentRef} className="space-y-8 lg:col-span-7 lg:space-y-9">
             <p className="text-xl font-light leading-snug text-zinc-300 sm:text-2xl lg:text-3xl">
-              I design systems with a rigorous focus on <span className="text-white font-semibold underline decoration-white/30 underline-offset-8">data integrity</span>, long-term stability, and scalable architecture — ensuring applications stay reliable under high concurrency.
+              I design systems with a rigorous focus on <span className="text-white font-semibold underline decoration-white/30 underline-offset-8">data integrity</span>, long-term stability, and scalable architecture, ensuring applications stay reliable under high concurrency.
             </p>
 
             <p className="max-w-3xl text-sm font-light leading-relaxed text-zinc-400 sm:text-base">
