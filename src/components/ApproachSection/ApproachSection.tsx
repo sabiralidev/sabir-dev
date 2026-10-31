@@ -3,24 +3,35 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Network, Zap, Shield, GitBranch } from 'lucide-react';
 import { SectionHeading, TiltCard } from '../Common/UI';
+import { useReducedMotion } from '../../hooks/useReducedMotion';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const ApproachSection: React.FC = () => {
+  const prefersReducedMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (prefersReducedMotion) return;
+
     const ctx = gsap.context(() => {
       if (headingRef.current) {
         gsap.fromTo(
           headingRef.current,
-          { y: 50, opacity: 0 },
+          {
+            y: 45,
+            autoAlpha: 0,
+            rotateX: 5,
+            transformPerspective: 1000,
+            transformOrigin: 'left bottom',
+          },
           {
             y: 0,
-            opacity: 1,
-            duration: 1.0,
+            autoAlpha: 1,
+            rotateX: 0,
+            duration: 0.95,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: headingRef.current,
@@ -35,12 +46,21 @@ export const ApproachSection: React.FC = () => {
       if (cards) {
         gsap.fromTo(
           cards,
-          { y: 50, opacity: 0 },
+          {
+            y: 46,
+            autoAlpha: 0,
+            rotateY: window.matchMedia('(hover: hover) and (pointer: fine)').matches
+              ? 5
+              : 0,
+            transformPerspective: 1000,
+            transformOrigin: 'center center',
+          },
           {
             y: 0,
-            opacity: 1,
-            duration: 0.9,
-            stagger: 0.15,
+            autoAlpha: 1,
+            rotateY: 0,
+            duration: 0.85,
+            stagger: 0.13,
             ease: 'power3.out',
             scrollTrigger: {
               trigger: gridRef.current,
@@ -53,7 +73,7 @@ export const ApproachSection: React.FC = () => {
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [prefersReducedMotion]);
 
   const pillars = [
     {
@@ -98,53 +118,54 @@ export const ApproachSection: React.FC = () => {
     <section
       id="approach"
       ref={sectionRef}
-      className="py-28 lg:py-48 px-6 md:px-12 lg:px-24 bg-[#080808] border-t border-b border-white/[0.06] relative overflow-hidden"
+      className="relative overflow-hidden border-y border-white/[0.06] bg-[#090909] px-5 py-24 sm:px-8 sm:py-28 lg:px-16 lg:py-36 xl:px-20"
     >
-      <div className="max-w-screen-2xl mx-auto relative z-10">
+      <div className="relative z-10 mx-auto max-w-screen-xl">
         <div ref={headingRef}>
           <SectionHeading
             number="03"
-            category="Engineering Methodology"
-            title={<>Architectural <br className="hidden sm:inline" /><span className="text-zinc-500 font-light">Rigor.</span></>}
+            category="How I Work"
+            title={<>Architecture with <span className="font-light text-zinc-500">intent.</span></>}
             subtitle="Four core engineering pillars applied to every application to ensure durability, security, and effortless scalability."
           />
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-16">
+        <div ref={gridRef} className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-16 lg:gap-5">
           {pillars.map((pillar) => (
             <TiltCard
               key={pillar.number}
-              className="p-8 sm:p-10 flex flex-col justify-between group"
+              className="group flex flex-col justify-between p-6 sm:p-8"
+              glow={false}
             >
               <div>
-                <div className="flex items-center justify-between pb-6 border-b border-white/[0.08]">
+                <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] pb-5">
                   <div className="flex items-center gap-3">
-                    <span className="mono text-xs font-bold text-zinc-500">
-                      PILLAR_{pillar.number}
+                    <span className="mono text-[10px] font-medium text-[#d71920]">
+                      {pillar.number}
                     </span>
-                    <span className="w-4 h-px bg-white/10" />
-                    <span className="mono text-[10px] uppercase tracking-wider text-zinc-400">
+                    <span className="h-px w-5 bg-white/15" />
+                    <span className="mono text-[9px] uppercase tracking-[0.12em] text-zinc-400">
                       {pillar.tagline}
                     </span>
                   </div>
-                  <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-300 group-hover:bg-white group-hover:text-black transition-all duration-300">
+                  <div className="flex h-9 w-9 items-center justify-center border border-white/10 text-zinc-300 transition-colors duration-300 group-hover:border-white/30 group-hover:text-white">
                     {pillar.icon}
                   </div>
                 </div>
 
                 <div className="pt-6">
-                  <h3 className="text-2xl sm:text-3xl font-black tracking-tight text-white mb-4">
+                  <h3 className="mb-3 text-xl font-medium tracking-tight text-white sm:text-2xl">
                     {pillar.title}
                   </h3>
-                  <p className="text-zinc-400 text-sm sm:text-base leading-relaxed font-light">
+                  <p className="text-sm font-light leading-relaxed text-zinc-400">
                     {pillar.description}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-6 mt-8 border-t border-white/[0.05] flex items-center justify-between mono text-[10px] text-zinc-500">
+              <div className="mono mt-6 flex items-start justify-between gap-4 border-t border-white/[0.05] pt-5 text-[9px] text-zinc-500">
                 <span>{pillar.metrics}</span>
-                <span className="text-zinc-600">STANDARD</span>
+                <span className="shrink-0 text-zinc-600">METHOD</span>
               </div>
             </TiltCard>
           ))}
