@@ -1,4 +1,4 @@
-import React, { lazy, Suspense, useEffect, useRef } from 'react';
+import React, { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ArrowDown, Github, Linkedin, Code2, Download } from 'lucide-react';
@@ -14,8 +14,17 @@ const Hero3DScene = lazy(() =>
   }))
 );
 
-export const HeroSection: React.FC = () => {
+interface HeroSectionProps {
+  introComplete?: boolean;
+  animateEntrance?: boolean;
+}
+
+export const HeroSection: React.FC<HeroSectionProps> = ({
+  introComplete = true,
+  animateEntrance = true,
+}) => {
   const prefersReducedMotion = useReducedMotion();
+  const [shouldLoadScene, setShouldLoadScene] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const titleLine1Ref = useRef<HTMLHeadingElement>(null);
@@ -26,52 +35,54 @@ export const HeroSection: React.FC = () => {
   const scrollIndicatorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (prefersReducedMotion) return;
+    if (prefersReducedMotion || !introComplete) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      if (animateEntrance) {
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-      tl.fromTo(
-        badgeRef.current,
-        { x: -30, opacity: 0 },
-        { x: 0, opacity: 1, duration: 0.8, delay: 0.15 }
-      )
-        .fromTo(
-          titleLine1Ref.current,
-          { y: 70, opacity: 0 },
-          { y: 0, opacity: 1, duration: 1.1 },
-          '-=0.6'
+        tl.fromTo(
+          badgeRef.current,
+          { x: -30, opacity: 0 },
+          { x: 0, opacity: 1, duration: 0.8, delay: 0.15 }
         )
-        .fromTo(
-          titleLine2Ref.current,
-          { y: 40, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.9 },
-          '-=0.7'
-        )
-        .fromTo(
-          subtitleRef.current,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.9 },
-          '-=0.7'
-        )
-        .fromTo(
-          ctaGroupRef.current,
-          { y: 30, opacity: 0 },
-          { y: 0, opacity: 1, duration: 0.8 },
-          '-=0.6'
-        )
-        .fromTo(
-          visualRef.current,
-          { scale: 0.88, y: 40, opacity: 0 },
-          { scale: 1, y: 0, opacity: 1, duration: 1.3, ease: 'power2.out' },
-          '-=1.0'
-        )
-        .fromTo(
-          scrollIndicatorRef.current,
-          { opacity: 0, y: 20 },
-          { opacity: 1, y: 0, duration: 0.8 },
-          '-=0.5'
-        );
+          .fromTo(
+            titleLine1Ref.current,
+            { y: 70, opacity: 0 },
+            { y: 0, opacity: 1, duration: 1.1 },
+            '-=0.6'
+          )
+          .fromTo(
+            titleLine2Ref.current,
+            { y: 40, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.9 },
+            '-=0.7'
+          )
+          .fromTo(
+            subtitleRef.current,
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.9 },
+            '-=0.7'
+          )
+          .fromTo(
+            ctaGroupRef.current,
+            { y: 30, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.8 },
+            '-=0.6'
+          )
+          .fromTo(
+            visualRef.current,
+            { scale: 0.88, y: 40, opacity: 0 },
+            { scale: 1, y: 0, opacity: 1, duration: 1.3, ease: 'power2.out' },
+            '-=1.0'
+          )
+          .fromTo(
+            scrollIndicatorRef.current,
+            { opacity: 0, y: 20 },
+            { opacity: 1, y: 0, duration: 0.8 },
+            '-=0.5'
+          );
+      }
 
       gsap
         .timeline({
@@ -99,7 +110,62 @@ export const HeroSection: React.FC = () => {
     }, heroRef);
 
     return () => ctx.revert();
-  }, [prefersReducedMotion]);
+  }, [animateEntrance, introComplete, prefersReducedMotion]);
+
+  useEffect(() => {
+    if (!introComplete || prefersReducedMotion) return;
+
+    let active = true;
+    let idleCallbackId: number | null = null;
+    let fallbackTimeoutId: number | null = null;
+    const requestIdle = Reflect.get(window, 'requestIdleCallback') as
+      | ((callback: () => void, options?: { timeout: number }) => number)
+      | undefined;
+    const cancelIdle = Reflect.get(window, 'cancelIdleCallback') as
+      | ((handle: number) => void)
+      | undefined;
+    const interactionEvents = ['pointerdown', 'scroll', 'touchstart', 'keydown'] as const;
+
+    const removeInteractionListeners = () => {
+      interactionEvents.forEach((event) => {
+        window.removeEventListener(event, handleInteraction);
+      });
+    };
+
+    const startScene = () => {
+      if (active) setShouldLoadScene(true);
+    };
+
+    const scheduleScene = (timeout: number) => {
+      if (idleCallbackId !== null) cancelIdle?.call(window, idleCallbackId);
+      if (fallbackTimeoutId !== null) window.clearTimeout(fallbackTimeoutId);
+
+      if (requestIdle) {
+        idleCallbackId = requestIdle.call(window, startScene, { timeout });
+      } else {
+        fallbackTimeoutId = window.setTimeout(startScene, timeout);
+      }
+    };
+
+    const handleInteraction = () => {
+      removeInteractionListeners();
+      scheduleScene(300);
+    };
+
+    interactionEvents.forEach((event) => {
+      window.addEventListener(event, handleInteraction, { once: true, passive: true });
+    });
+
+    const initialTimeoutId = window.setTimeout(() => scheduleScene(2000), 900);
+
+    return () => {
+      active = false;
+      window.clearTimeout(initialTimeoutId);
+      if (idleCallbackId !== null) cancelIdle?.call(window, idleCallbackId);
+      if (fallbackTimeoutId !== null) window.clearTimeout(fallbackTimeoutId);
+      removeInteractionListeners();
+    };
+  }, [introComplete, prefersReducedMotion]);
 
   return (
     <section
@@ -122,10 +188,12 @@ export const HeroSection: React.FC = () => {
           </div>
 
           <h1
+            id="hero-title"
             ref={titleLine1Ref}
+            tabIndex={-1}
             className="text-[clamp(3.6rem,10vw,8.5rem)] font-semibold leading-[0.84] tracking-[-0.075em] text-[#e5e5e5]"
           >
-            SABIR <span className="font-light text-[#929292]">ALI</span>
+            SABIR <span className="font-light text-[#c0c0c0]">ALI</span>
           </h1>
 
           <div
@@ -207,24 +275,40 @@ export const HeroSection: React.FC = () => {
 
         <div ref={visualRef} className="relative flex w-full items-center justify-center lg:col-span-5">
           <div className="pointer-events-none absolute -inset-6 z-0 opacity-55 sm:-inset-10">
-            <Suspense
-              fallback={
-                <div className="flex min-h-[420px] items-center justify-center" aria-hidden="true">
-                  <div className="h-48 w-48 rounded-full border border-white/10" />
+            {shouldLoadScene ? (
+              <Suspense
+                fallback={
+                  <div className="flex min-h-[420px] items-center justify-center" aria-hidden="true">
+                    <div className="h-48 w-48 rounded-full border border-white/10" />
+                  </div>
+                }
+              >
+                <Hero3DScene />
+              </Suspense>
+            ) : (
+              <div className="flex min-h-[420px] items-center justify-center" aria-hidden="true">
+                <div className="flex h-72 w-72 items-center justify-center rounded-full border border-white/10">
+                  <div className="flex h-48 w-48 items-center justify-center rounded-full border border-white/20">
+                    <div className="h-24 w-24 rounded-full border border-white/10 bg-white/[0.03]" />
+                  </div>
                 </div>
-              }
-            >
-              <Hero3DScene />
-            </Suspense>
+              </div>
+            )}
           </div>
 
           <div className="group relative z-10 aspect-[4/5] w-full max-w-[340px] border border-white/15 bg-[#101010] p-2.5 sm:max-w-[390px] lg:max-w-[420px]">
             <div className="relative h-full w-full overflow-hidden bg-zinc-950">
               <img
-                src="/Sabir.jpg"
+                src="/Sabir.webp"
                 alt="Sabir Ali — Full-Stack Engineer"
                 className="h-full w-full object-cover object-center grayscale contrast-110 brightness-90 transition-[filter,transform] duration-700 group-hover:scale-[1.025] group-hover:brightness-100"
                 loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                width={1116}
+                height={944}
+                sizes="(max-width: 375px) 280px, (max-width: 639px) 340px, (max-width: 1023px) 390px, 420px"
+                srcSet="/Sabir-720.webp 720w, /Sabir.webp 1116w"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
@@ -252,7 +336,7 @@ export const HeroSection: React.FC = () => {
 
       <div
         ref={scrollIndicatorRef}
-        className="mx-auto flex w-full max-w-screen-xl items-center justify-between pt-10 font-mono text-xs text-zinc-500 sm:pt-12"
+        className="mx-auto flex w-full max-w-screen-xl items-center justify-between pt-10 font-mono text-xs text-zinc-400 sm:pt-12"
       >
         <a
           href="#about"
@@ -261,7 +345,7 @@ export const HeroSection: React.FC = () => {
           <span className="flex h-7 w-7 items-center justify-center border border-white/15 transition-colors group-hover:border-[#d71920]">
             <ArrowDown size={12} />
           </span>
-          <span className="text-[9px] uppercase tracking-[0.22em]">
+          <span className="text-[9px] uppercase tracking-[0.22em] text-zinc-400">
             Scroll to explore
           </span>
         </a>
