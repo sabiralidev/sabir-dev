@@ -9,7 +9,6 @@ Personal portfolio for Sabir Ali, a full-stack developer. The site presents expe
 - Tailwind CSS
 - GSAP and ScrollTrigger for section animations
 - Three.js for the hero and signature visuals
-- Framer Motion for scroll progress
 - Lenis for smooth scrolling
 - Lucide React for icons
 - EmailJS for contact form delivery
@@ -64,7 +63,9 @@ src/
 
 Portfolio content for experience, projects, skills, certifications, and education is maintained in [`data.ts`](data.ts). Shared TypeScript models are defined in [`types.ts`](types.ts). The page is composed from independent section components; reusable headings, tilt cards, and tooltips live in `src/components/Common/UI.tsx`.
 
-The interface uses a black-and-silver design system with restrained red accents. GSAP/ScrollTrigger choreograph section reveals, the experience timeline, and the hero's scroll-driven camera; Lenis is synchronized through the GSAP ticker. The hero 3D scene is lazy-loaded, lowers its render cost on mobile, and stops rendering outside the viewport or while the tab is hidden. Decorative motion and pointer interactions defer to reduced-motion and fine-pointer preferences; the 3D scene falls back to a static mark when motion is reduced or WebGL is unavailable.
+The interface uses a black-and-silver design system with restrained red accents. A session-only cinematic intro waits for the hero portrait or a bounded fallback, offers a keyboard-accessible skip, and is bypassed for reduced-motion and direct section-link visits. Anchor navigation and browser history stay synchronized with Lenis, and the fixed navigation indicates the section in view. GSAP/ScrollTrigger choreograph section reveals, the experience timeline, the hero's scroll-driven camera, and the scroll progress indicator; Lenis is synchronized through the GSAP ticker. The hero 3D scene loads during idle time or after the first interaction, lowers its render cost on mobile, and stops rendering outside the viewport or while the tab is hidden. Decorative motion and pointer interactions defer to reduced-motion and fine-pointer preferences; the 3D scene falls back to a static mark when motion is reduced or WebGL is unavailable.
+
+Portfolio photography and project previews are served as optimized WebP assets; the hero portrait is preloaded at high priority, while project previews load lazily.
 
 ## Contact Form
 
