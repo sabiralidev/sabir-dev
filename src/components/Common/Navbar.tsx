@@ -76,8 +76,13 @@ export const Navbar: React.FC = () => {
           <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden border border-white/10 transition-colors group-hover:border-white/30">
             <MonogramLogo size={22} />
           </div>
-          <span className="mono text-sm font-semibold tracking-[-0.06em] text-white sm:text-base">
-          SABIR<span className="text-zinc-400">_ALI</span>
+          <span className="flex flex-col gap-0.5">
+            <span className="mono text-sm font-semibold leading-none tracking-[-0.06em] text-white sm:text-base">
+              SABIR<span className="text-zinc-400">_ALI</span>
+            </span>
+            <span className="mono text-[11px] font-medium uppercase leading-tight tracking-[0.1em] text-zinc-300">
+              Full-Stack Engineer
+            </span>
           </span>
         </a>
 
@@ -87,7 +92,7 @@ export const Navbar: React.FC = () => {
               key={link.name}
               href={link.href}
               aria-current={activeSection === link.href.slice(1) ? 'location' : undefined}
-              className={`group relative flex items-center py-2 text-[9px] font-medium uppercase tracking-[0.16em] transition-colors duration-200 hover:text-white ${
+              className={`group relative flex items-center py-2 text-[11px] font-medium uppercase tracking-[0.16em] transition-colors duration-200 hover:text-white ${
                 activeSection === link.href.slice(1) ? 'text-white' : 'text-zinc-400'
               }`}
             >
