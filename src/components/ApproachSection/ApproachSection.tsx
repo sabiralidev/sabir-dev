@@ -139,11 +139,10 @@ export const ApproachSection: React.FC = () => {
             >
               <div>
                 <div className="flex items-center justify-between gap-3 border-b border-white/[0.08] pb-5">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2">
                     <span className="mono text-[10px] font-medium text-[#d71920]">
                       {pillar.number}
                     </span>
-                    <span className="h-px w-5 bg-white/15" />
                     <span className="mono text-[9px] uppercase tracking-[0.12em] text-zinc-400">
                       {pillar.tagline}
                     </span>
