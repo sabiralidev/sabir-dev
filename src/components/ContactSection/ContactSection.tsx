@@ -33,22 +33,26 @@ export const ContactSection: React.FC = () => {
         gsap.fromTo(
           headingRef.current,
           {
-            y: 48,
-            autoAlpha: 0,
-            rotateX: 7,
-            transformPerspective: 1100,
-            transformOrigin: 'left bottom',
+            z: -150,
+            autoAlpha: 0.3,
+            rotateX: 12,
+            rotateY: -5,
+            scale: 0.96,
+            transformPerspective: 1300,
+            transformOrigin: 'left center',
           },
           {
-            y: 0,
+            z: 0,
             autoAlpha: 1,
             rotateX: 0,
-            duration: 1.05,
-            ease: 'power3.out',
+            rotateY: 0,
+            scale: 1,
+            ease: 'none',
             scrollTrigger: {
               trigger: headingRef.current,
               start: 'top 88%',
-              toggleActions: 'play none none none',
+              end: 'top 38%',
+              scrub: 0.7,
             },
           }
         );
@@ -57,16 +61,25 @@ export const ContactSection: React.FC = () => {
       if (leftColRef.current) {
         gsap.fromTo(
           leftColRef.current,
-          { y: 32, autoAlpha: 0 },
           {
-            y: 0,
+            z: -130,
+            autoAlpha: 0.3,
+            rotateY: -12,
+            rotateX: 6,
+            transformPerspective: 1200,
+            transformOrigin: 'right center',
+          },
+          {
+            z: 0,
             autoAlpha: 1,
-            duration: 0.85,
-            ease: 'power3.out',
+            rotateY: 0,
+            rotateX: 0,
+            ease: 'none',
             scrollTrigger: {
               trigger: leftColRef.current,
-              start: 'top 85%',
-              toggleActions: 'play none none none',
+              start: 'top 90%',
+              end: 'top 45%',
+              scrub: 0.7,
             },
           }
         );
@@ -76,24 +89,28 @@ export const ContactSection: React.FC = () => {
         gsap.fromTo(
           formColRef.current,
           {
-            y: 42,
-            autoAlpha: 0,
+            z: -220,
+            autoAlpha: 0.25,
             rotateY: window.matchMedia('(hover: hover) and (pointer: fine)').matches
-              ? 4
-              : 0,
-            transformPerspective: 1200,
+              ? 16
+              : 5,
+            rotateX: 8,
+            scale: 0.92,
+            transformPerspective: 1400,
             transformOrigin: 'left center',
           },
           {
-            y: 0,
+            z: 0,
             autoAlpha: 1,
             rotateY: 0,
-            duration: 1,
-            ease: 'power3.out',
+            rotateX: 0,
+            scale: 1,
+            ease: 'none',
             scrollTrigger: {
               trigger: formColRef.current,
-              start: 'top 85%',
-              toggleActions: 'play none none none',
+              start: 'top 90%',
+              end: 'top 45%',
+              scrub: 0.7,
             },
           }
         );
