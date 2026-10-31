@@ -299,16 +299,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           <div className="group relative z-10 aspect-[4/5] w-full max-w-[340px] border border-white/15 bg-[#101010] p-2.5 sm:max-w-[390px] lg:max-w-[420px]">
             <div className="relative h-full w-full overflow-hidden bg-zinc-950">
               <img
-                src="/Sabir.webp"
+                src="/Sabir.png"
                 alt="Sabir Ali — Full-Stack Engineer"
-                className="h-full w-full object-cover object-center grayscale contrast-110 brightness-90 transition-[filter,transform] duration-700 group-hover:scale-[1.025] group-hover:brightness-100"
+                className="h-full w-full object-cover object-center transition-[filter,transform] duration-700 group-hover:scale-[1.025] group-hover:brightness-100"
                 loading="eager"
                 fetchPriority="high"
                 decoding="async"
-                width={1116}
-                height={944}
+                width={992}
+                height={1030}
                 sizes="(max-width: 375px) 280px, (max-width: 639px) 340px, (max-width: 1023px) 390px, 420px"
-                srcSet="/Sabir-720.webp 720w, /Sabir.webp 1116w"
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
