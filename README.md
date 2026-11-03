@@ -1,6 +1,6 @@
 <div align="center">
 
-# Sabir Ali
+# Sabir Ali | Full Stack Engineer
 
 ### Full-Stack Engineer building scalable web architectures.
 
