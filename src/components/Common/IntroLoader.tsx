@@ -16,12 +16,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
   const sheenRef = useRef<HTMLSpanElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
   const percentageRef = useRef<HTMLSpanElement>(null);
-  const skipButtonRef = useRef<HTMLButtonElement>(null);
   const completedRef = useRef(false);
-
-  useEffect(() => {
-    skipButtonRef.current?.focus();
-  }, []);
 
   useEffect(() => {
     const overlay = overlayRef.current;
@@ -65,7 +60,6 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
       if (!active || completedRef.current) return;
       completedRef.current = true;
       setIsExiting(true);
-      skipButtonRef.current?.blur();
       gsap.to(overlay, {
         autoAlpha: 0,
         duration: prefersReducedMotion ? 0 : 0.55,
@@ -175,25 +169,9 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
       aria-label={isExiting ? undefined : 'Portfolio introduction'}
       aria-hidden={isExiting || undefined}
       onKeyDown={(event) => {
-        if (event.key === 'Tab') {
-          event.preventDefault();
-          skipButtonRef.current?.focus();
-        } else if (event.key === 'Escape') {
-          skipIntro();
-        }
+        if (event.key === 'Escape') skipIntro();
       }}
     >
-      {!isExiting && (
-        <button
-          ref={skipButtonRef}
-          type="button"
-          onClick={skipIntro}
-          className="absolute right-6 top-6 z-10 border border-white/15 px-4 py-2.5 text-[9px] font-medium uppercase tracking-[0.16em] text-zinc-400 transition-colors hover:border-white/35 hover:text-white sm:right-10 sm:top-10"
-        >
-          Skip intro
-        </button>
-      )}
-
       <div className="flex w-full max-w-sm flex-col items-center text-center">
         <div
           ref={markRef}
