@@ -10,25 +10,6 @@ gsap.registerPlugin(ScrollTrigger);
 export const Footer: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
   const footerRef = useRef<HTMLElement>(null);
-  const clockRef = useRef<HTMLParagraphElement>(null);
-
-  useEffect(() => {
-    const updateTime = () => {
-      if (clockRef.current) {
-        clockRef.current.textContent = new Date().toLocaleTimeString('en-US', {
-          hour12: false,
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          timeZone: 'Asia/Karachi',
-        });
-      }
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     if (prefersReducedMotion || !footerRef.current) return;
@@ -75,7 +56,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer ref={footerRef} className="relative overflow-hidden border-t border-white/[0.08] bg-[#050505] px-5 pb-8 pt-16 text-white sm:px-8 sm:pt-20 lg:px-16 xl:px-20">
-      <div className="mx-auto max-w-screen-xl">
+      <div className="mx-auto w-full max-w-screen-xl lg:w-3/4">
         <div className="grid grid-cols-1 gap-10 border-b border-white/[0.08] pb-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-12 lg:pb-12">
           <div data-footer-reveal className="space-y-5 sm:col-span-2 lg:col-span-5">
             <a href="#hero" className="flex items-center gap-3 group w-fit">
@@ -130,9 +111,6 @@ export const Footer: React.FC = () => {
           </div>
 
           <div data-footer-reveal className="space-y-4 lg:col-span-3">
-            <span className="mono block text-[9px] font-medium uppercase tracking-[0.16em] text-zinc-500">
-              Navigation
-            </span>
             <ul className="grid grid-cols-2 gap-x-4 gap-y-3">
               {navLinks.map((link) => (
                 <li key={link.name}>
@@ -147,22 +125,7 @@ export const Footer: React.FC = () => {
             </ul>
           </div>
 
-          <div data-footer-reveal className="space-y-4 lg:col-span-2">
-            <span className="mono block text-[9px] font-medium uppercase tracking-[0.16em] text-zinc-500">
-              Location
-            </span>
-            <div>
-              <p className="text-sm font-medium tracking-tight text-white">
-                Pakistan (PKT)
-              </p>
-              <p ref={clockRef} className="mono mt-2 text-xl font-medium tracking-tight text-zinc-300">
-                --:--:--
-              </p>
-              <p className="mono mt-1 text-[9px] text-zinc-500">UTC +05:00</p>
-            </div>
-          </div>
-
-          <div data-footer-reveal className="flex flex-col items-start justify-between gap-6 sm:col-span-2 sm:flex-row lg:col-span-2 lg:flex-col lg:items-end">
+          <div data-footer-reveal className="flex flex-col items-start justify-between gap-6 sm:col-span-2 sm:flex-row lg:col-start-12 lg:col-span-1 lg:flex-col lg:items-end">
             <button
               onClick={scrollToTop}
               aria-label="Scroll back to top"
@@ -171,26 +134,15 @@ export const Footer: React.FC = () => {
               <ChevronUp size={20} className="group-hover:-translate-y-1 transition-transform" />
             </button>
 
-            <div className="text-left lg:text-right">
-              <span className="mono mb-1 block text-[9px] font-medium uppercase tracking-[0.14em] text-zinc-500">
-                SYSTEM AVAILABILITY
-              </span>
-              <div className="flex items-center gap-2 justify-start lg:justify-end">
-                <span className="h-1.5 w-1.5 bg-[#d71920]" />
-                <span className="text-[10px] font-medium uppercase tracking-[0.1em] text-zinc-200">
-                  Available Q2/Q3
-                </span>
-              </div>
-            </div>
           </div>
         </div>
 
-        <div data-footer-reveal className="mono flex flex-col items-start justify-between gap-3 pt-6 text-[8px] uppercase tracking-[0.12em] text-zinc-600 sm:flex-row sm:items-center sm:text-[9px]">
+        <div
+          data-footer-reveal
+          className="mono pt-6 text-center text-[10px] font-medium uppercase tracking-[0.12em] text-zinc-400 sm:text-xs"
+        >
           <div>
-            &copy; {new Date().getFullYear()} SABIR ALI. ALL ARCHITECTURAL NODES SECURED.
-          </div>
-          <div>
-            LAT 33.72° N · LONG 73.04° E · 60 FPS
+            &copy; {new Date().getFullYear()} SABIR ALI.
           </div>
         </div>
       </div>
