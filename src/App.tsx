@@ -20,18 +20,9 @@ import { IntroLoader } from './components/Common/IntroLoader';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const INTRO_SESSION_KEY = 'sabir-portfolio-intro-seen';
-
 const shouldShowIntro = () => {
   if (typeof window === 'undefined') return false;
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false;
-  if (window.location.hash && window.location.hash !== '#hero') return false;
-
-  try {
-    return window.sessionStorage.getItem(INTRO_SESSION_KEY) !== 'true';
-  } catch {
-    return false;
-  }
+  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 };
 
 const App: React.FC = () => {
@@ -45,12 +36,6 @@ const App: React.FC = () => {
   const completeIntro = useCallback(() => setShowIntro(false), []);
 
   useEffect(() => {
-    try {
-      window.sessionStorage.setItem(INTRO_SESSION_KEY, 'true');
-    } catch {
-      // Session storage is optional; the intro remains available for this visit.
-    }
-
     let isActive = true;
     let lenis: Lenis | null = null;
     const handleLenisScroll = () => ScrollTrigger.update();
