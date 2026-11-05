@@ -79,8 +79,8 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 gap-10 border-b border-white/[0.08] pb-10 sm:grid-cols-2 lg:grid-cols-12 lg:gap-12 lg:pb-12">
           <div data-footer-reveal className="space-y-5 sm:col-span-2 lg:col-span-5">
             <a href="#hero" className="flex items-center gap-3 group w-fit">
-              <div className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden border border-white/10 transition-colors group-hover:border-white/30">
-                <MonogramLogo size={24} />
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden border border-white/10 transition-colors group-hover:border-white/30">
+                <MonogramLogo size={40} />
               </div>
               <span className="mono text-lg font-semibold tracking-[-0.06em] text-white">
                 SABIR<span className="text-zinc-500">_ALI</span>
@@ -190,7 +190,7 @@ export const Footer: React.FC = () => {
             &copy; {new Date().getFullYear()} SABIR ALI. ALL ARCHITECTURAL NODES SECURED.
           </div>
           <div>
-            LAT 33.72° N // LONG 73.04° E // 60 FPS
+            LAT 33.72° N · LONG 73.04° E · 60 FPS
           </div>
         </div>
       </div>
