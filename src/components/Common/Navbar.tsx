@@ -71,19 +71,9 @@ export const Navbar: React.FC = () => {
       <div className="mx-auto flex max-w-screen-xl items-center justify-between px-5 sm:px-8 lg:px-16 xl:px-20">
         <a
           href="#hero"
-          className="group flex items-center gap-2.5 transition-opacity hover:opacity-80"
+          className="group flex items-center transition-opacity hover:opacity-80"
         >
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden border border-white/10 transition-colors group-hover:border-white/30">
-            <MonogramLogo size={22} />
-          </div>
-          <span className="flex flex-col gap-0.5">
-            <span className="mono text-sm font-semibold leading-none tracking-[-0.06em] text-white sm:text-base">
-              SABIR<span className="text-zinc-400">_ALI</span>
-            </span>
-            <span className="mono text-[11px] font-medium uppercase leading-tight tracking-[0.1em] text-zinc-300">
-              Full-Stack Engineer
-            </span>
-          </span>
+          <MonogramLogo size={40} className="shrink-0 transition-transform duration-300 group-hover:scale-105" />
         </a>
 
         <nav aria-label="Main navigation" className="hidden items-center gap-7 lg:flex xl:gap-9">
