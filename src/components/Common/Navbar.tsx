@@ -71,6 +71,7 @@ export const Navbar: React.FC = () => {
       <div className="mx-auto flex max-w-screen-xl items-center justify-between px-5 sm:px-8 lg:px-16 xl:px-20">
         <a
           href="#hero"
+          aria-label="Sabir Ali home"
           className="group flex items-center transition-opacity hover:opacity-80"
         >
           <MonogramLogo size={40} className="shrink-0 transition-transform duration-300 group-hover:scale-105" />
@@ -88,7 +89,7 @@ export const Navbar: React.FC = () => {
             >
               <span>{link.name}</span>
               <span
-                className={`absolute inset-x-0 -bottom-1 h-px origin-left bg-[#d71920] transition-transform duration-300 ${
+                className={`absolute inset-x-0 -bottom-1 h-px origin-left bg-[#E8EAEC] transition-transform duration-300 ${
                   activeSection === link.href.slice(1) ? 'scale-x-100' : 'scale-x-0'
                 }`}
               />
