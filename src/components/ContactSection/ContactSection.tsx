@@ -369,7 +369,7 @@ export const ContactSection: React.FC = () => {
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
                         <label htmlFor="contact-name" className="mono text-[9px] font-medium uppercase tracking-[0.14em] text-zinc-400">
-                          Identity (Name)
+                          Name
                         </label>
                         {touched.name && !errors.name && formData.name && (
                           <Check size={12} className="text-white" />
@@ -404,7 +404,7 @@ export const ContactSection: React.FC = () => {
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
                         <label htmlFor="contact-email" className="mono text-[9px] font-medium uppercase tracking-[0.14em] text-zinc-400">
-                          Dispatch Protocol (Email)
+                          Email
                         </label>
                         {touched.email && !errors.email && formData.email && (
                           <Check size={12} className="text-white" />
@@ -440,7 +440,7 @@ export const ContactSection: React.FC = () => {
                   <div className="space-y-2">
                     <div className="flex justify-between items-center">
                       <label htmlFor="contact-message" className="mono text-[9px] font-medium uppercase tracking-[0.14em] text-zinc-400">
-                        Payload (Requirements & Scope)
+                        Message
                       </label>
                       {touched.message && !errors.message && formData.message && (
                         <Check size={12} className="text-white" />
@@ -476,7 +476,7 @@ export const ContactSection: React.FC = () => {
                     disabled={isSubmitting}
                     className="flex min-h-12 w-full items-center justify-center gap-3 bg-[#e5e5e5] px-5 py-4 text-[10px] font-bold uppercase tracking-[0.16em] text-black transition-colors duration-200 hover:bg-white disabled:cursor-not-allowed disabled:opacity-50"
                   >
-                    <span>{isSubmitting ? 'Transmitting...' : 'Initiate Transmission'}</span>
+                    <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
                     {!isSubmitting && <ArrowRight size={16} />}
                   </button>
                 </form>
