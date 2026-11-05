@@ -42,6 +42,28 @@
             margin: 0;
             padding: 0;
         }
+        .boot-preloader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: grid;
+            place-items: center;
+            overflow: hidden;
+            background: #0A0A0B;
+        }
+        .boot-preloader-glow {
+            position: absolute;
+            width: min(70vw, 34rem);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(210,216,224,.12), rgba(158,163,168,.05) 36%, transparent 72%);
+            filter: blur(24px);
+        }
+        .boot-preloader-mark {
+            position: relative;
+            width: clamp(5rem, 16vw, 8rem);
+            z-index: 1;
+        }
         .mono {
             font-family: 'Geist Mono', monospace;
         }
@@ -80,7 +102,38 @@
 </head>
 <body class="bg-[#050505] text-white antialiased">
     <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="preloader-shell" class="boot-preloader" aria-hidden="true">
+        <div class="boot-preloader-glow"></div>
+        <svg class="boot-preloader-mark" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+            <defs>
+                <linearGradient id="boot-silver" x1="20%" y1="0%" x2="80%" y2="100%">
+                    <stop offset="0%" stop-color="#F5F6F8"/>
+                    <stop offset="52%" stop-color="#9EA3A8"/>
+                    <stop offset="100%" stop-color="#E8EAEC"/>
+                </linearGradient>
+            </defs>
+            <path d="M67 20H43C33 20 27 26 27 36C27 44 32 48 42 51L58 55C68 58 73 63 73 72C73 82 66 88 55 88H31V75H55C59 75 61 74 61 71C61 68 59 67 54 65L38 61C22 57 15 49 15 36C15 19 26 8 43 8H67V20Z" fill="url(#boot-silver)"/>
+        </svg>
+    </div>
     <div id="root" class="min-h-screen bg-[#050505]"></div>
+    <script>
+        (() => {
+            const shell = document.getElementById('preloader-shell');
+            const key = 'sabir-portfolio-preloader-page';
+            const token = String(performance.timeOrigin);
+            let shouldShow = true;
+            try {
+                if (sessionStorage.getItem(key) === token) shouldShow = false;
+                else if (shouldShow) sessionStorage.setItem(key, token);
+            } catch {
+                // Continue with the preloader when session storage is unavailable.
+            }
+            if (shell) {
+                shell.dataset.showIntro = String(shouldShow);
+                if (!shouldShow) shell.remove();
+            }
+        })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
