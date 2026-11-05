@@ -175,29 +175,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent" />
       <div className="pointer-events-none absolute inset-0 z-0 opacity-45">
         {shouldLoadScene ? (
-          <Suspense
-            fallback={
-              <div className="flex h-full items-center justify-center" aria-hidden="true">
-                <div className="h-48 w-48 rounded-full border border-white/10" />
-              </div>
-            }
-          >
+          <Suspense fallback={<div className="h-full" aria-hidden="true" />}>
             <Hero3DScene />
           </Suspense>
         ) : (
-          <div className="flex h-full items-center justify-center" aria-hidden="true">
-            <div className="flex h-72 w-72 items-center justify-center rounded-full border border-white/10">
-              <div className="flex h-48 w-48 items-center justify-center rounded-full border border-white/20">
-                <div className="h-24 w-24 rounded-full border border-white/10 bg-white/[0.03]" />
-              </div>
-            </div>
-          </div>
+          <div className="h-full" aria-hidden="true" />
         )}
       </div>
       <div className="mx-auto my-auto grid w-full max-w-screen-xl flex-1 grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-8">
         <div className="z-10 flex flex-col justify-center lg:col-span-7">
           <div ref={badgeRef} className="mb-6 flex items-center gap-3">
-            <span className="h-px w-8 bg-[#d71920]" />
             <span className="mono text-[10px] font-semibold uppercase tracking-[0.28em] text-zinc-300 sm:text-xs">
               Full-Stack Engineer
             </span>
@@ -309,14 +296,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <div className="absolute inset-x-4 bottom-4 flex items-center justify-between border-t border-white/20 bg-black/75 px-4 py-3 backdrop-blur-md sm:inset-x-5 sm:bottom-5">
                 <div>
                   <span className="mono block text-[9px] uppercase tracking-[0.16em] text-zinc-400">
-                    Identity // Engineer
+                    Identity · Engineer
                   </span>
                   <span className="text-sm font-black tracking-tight text-white">
                     Sabir Ali
                   </span>
                 </div>
                 <div className="mono border-l border-[#d71920] pl-2.5 text-[10px] text-zinc-300">
-                  MERN / NEXT
+                  MERN and Next.js
                 </div>
               </div>
             </div>
@@ -344,9 +331,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         </a>
 
         <div className="hidden sm:flex items-center gap-6 text-[10px] uppercase tracking-widest">
-          <span>01 // PROVEN ARCHITECTURE</span>
-          <span className="text-zinc-700">/</span>
-          <span>02 // HIGH PERFORMANCE</span>
+          <span>01 · PROVEN ARCHITECTURE</span>
+          <span className="text-zinc-700">·</span>
+          <span>02 · HIGH PERFORMANCE</span>
         </div>
       </div>
     </section>
