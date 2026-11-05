@@ -384,10 +384,6 @@ export const Preloader: React.FC<IntroLoaderProps> = ({
         aria-hidden="true"
       />
 
-      <div data-preloader-chrome className="absolute left-5 right-5 top-5 z-30 flex items-center justify-end font-tech text-[8px] uppercase tracking-[0.15em] text-white/40 sm:left-8 sm:right-8 sm:top-8 sm:text-[10px]">
-        <span>FULL-STACK ENGINEER</span>
-      </div>
-
       <div
         data-preloader-content
         className="absolute left-1/2 top-1/2 z-30 w-[min(78vw,22rem)] -translate-x-1/2 -translate-y-1/2"
