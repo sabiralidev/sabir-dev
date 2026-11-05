@@ -16,6 +16,9 @@
 @layer base {
   :root {
     color-scheme: dark;
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-variation-settings: "wdth" 100;
     --color-background: #050505;
     --color-surface: #101010;
     --color-silver: #c0c0c0;
@@ -46,6 +49,9 @@
     overflow-x: hidden;
     background-color: var(--color-background);
     color: #ffffff;
+    font-family: "Roboto", sans-serif;
+    font-optical-sizing: auto;
+    font-variation-settings: "wdth" 100;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
