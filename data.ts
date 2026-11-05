@@ -10,7 +10,7 @@ export const EXPERIENCES: Experience[] = [
   {
     id: "exp1",
     role: "Full Stack Engineer",
-    company: "NACTA/NIFTAC | Full-Time / Intern | On-Site",
+    company: "NACTA and NIFTAC | Full-Time, Internship | On-Site",
     period: "Jan 2026 to Present",
     description: [
       "Contributing to secure and scalable digital systems for mission-critical operations in a federal government organization.",
@@ -51,7 +51,7 @@ export const EXPERIENCES: Experience[] = [
       "Developed an Affiliate & P2P System with real-time wallet synchronization and secure transactions.",
       "Designed and integrated RESTful APIs for efficient frontend-backend communication.",
       "Optimized application performance through debugging, refactoring, and best coding practices.",
-      "Managed version control and team collaboration using Git/GitHub and supported CI/CD workflows.",
+      "Managed version control and team collaboration using Git and GitHub and supported continuous integration and delivery workflows.",
     ],
   },
 ];
@@ -126,9 +126,9 @@ export const SKILLS: SkillCategory[] = [
       "MongoDB",
       "PostgreSQL",
       "Caching Strategies",
-      "Vercel / Netlify Deployment",
-      "Git / GitHub Workflows",
-      "CI/CD Pipelines",
+      "Vercel and Netlify Deployment",
+      "Git and GitHub Workflows",
+      "Continuous Integration and Delivery Pipelines",
       "VPS Hosting & Nginx",
     ],
   },
@@ -136,12 +136,12 @@ export const SKILLS: SkillCategory[] = [
     title: "Engineering Tools",
     skills: [
       "Google Gemini (AI Studio)",
-      "Postman / Insomnia",
+      "Postman and Insomnia",
       "VS Code",
       "React Query",
-      "Cloudinary / Media Management",
+      "Cloudinary and Media Management",
       "Bcrypt",
-      "Axios / Fetch API",
+      "Axios and Fetch API",
       "GoHighLevel",
     ],
   },
@@ -150,12 +150,12 @@ export const SKILLS: SkillCategory[] = [
 export const EDUCATION: Education[] = [
   {
     institution: "The Superior College",
-    degree: "Intermediate/ Computer Science",
+    degree: "Intermediate in Computer Science",
     period: "2021 - Dropout",
   },
   {
     institution: "Jinnah Public High School",
-    degree: "Matriculation/ Computer Science",
+    degree: "Matriculation in Computer Science",
     period: "2019 to 2021",
   },
 ];
