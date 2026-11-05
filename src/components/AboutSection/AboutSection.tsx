@@ -137,7 +137,7 @@ export const AboutSection: React.FC = () => {
         <div ref={headingRef}>
           <SectionHeading
             number="01"
-            category="About / Engineering"
+            category="About · Engineering"
             title={<>Systems-first <span className="font-light text-zinc-500">engineering.</span></>}
             subtitle="Architecting resilient software systems with sub-millisecond efficiency and structural integrity for full-stack web applications."
           />
@@ -232,11 +232,11 @@ export const AboutSection: React.FC = () => {
                 <div className="grid grid-cols-2 gap-4 border-t border-white/10 pt-5">
                   <div>
                     <p className="mono text-[9px] uppercase tracking-[0.14em] text-zinc-500">Core stack</p>
-                    <p className="mt-2 text-sm text-zinc-200">MERN / Next.js</p>
+                    <p className="mt-2 text-sm text-zinc-200">MERN and Next.js</p>
                   </div>
                   <div>
                     <p className="mono text-[9px] uppercase tracking-[0.14em] text-zinc-500">Focus</p>
-                    <p className="mt-2 text-sm text-zinc-200">Security / performance</p>
+                    <p className="mt-2 text-sm text-zinc-200">Security and performance</p>
                   </div>
                 </div>
               </div>
