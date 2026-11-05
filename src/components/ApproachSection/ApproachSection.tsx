@@ -91,7 +91,7 @@ export const ApproachSection: React.FC = () => {
       description:
         'Enforcing clean separation between UI layers, API endpoints, and persistence services. Designing decoupled microservices and serverless functions that allow independent scaling without monolithic bottlenecks.',
       icon: <Network size={22} />,
-      metrics: 'Zero tight-coupling // Domain boundaries',
+      metrics: 'Zero tight-coupling · Domain boundaries',
     },
     {
       number: '02',
@@ -100,7 +100,7 @@ export const ApproachSection: React.FC = () => {
       description:
         'Achieving sub-second initial loads through server rendering, smart asset delivery, atomic state management with Redux Toolkit and TanStack Query, and database query optimization with MongoDB & PostgreSQL.',
       icon: <Zap size={22} />,
-      metrics: '<100ms API response // 60 FPS UX',
+      metrics: '<100ms API response · 60 FPS UX',
     },
     {
       number: '03',
@@ -109,7 +109,7 @@ export const ApproachSection: React.FC = () => {
       description:
         'Implementing strict cryptographic authentication with JWT/OAuth, role-based access control, parameterized queries to prevent injections, and secure payment pipelines with Stripe for enterprise workflows.',
       icon: <Shield size={22} />,
-      metrics: 'Encrypted payloads // Audit logging',
+      metrics: 'Encrypted payloads · Audit logging',
     },
     {
       number: '04',
@@ -118,7 +118,7 @@ export const ApproachSection: React.FC = () => {
       description:
         'Writing strictly typed, self-documenting TypeScript with comprehensive error boundaries, reproducible builds, and GitOps workflows that guarantee reliable continuous delivery to production.',
       icon: <GitBranch size={22} />,
-      metrics: 'Type-safe contracts // Zero regression',
+      metrics: 'Type-safe contracts · Zero regression',
     },
   ];
 
