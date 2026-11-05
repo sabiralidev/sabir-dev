@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -16,24 +16,44 @@ import { ExperienceSection } from './components/ExperienceSection/ExperienceSect
 import { ContactSection } from './components/ContactSection/ContactSection';
 import { Footer } from './components/Footer/Footer';
 import { useReducedMotion } from './hooks/useReducedMotion';
-import { IntroLoader } from './components/Common/IntroLoader';
+import { Preloader } from './components/Common/IntroLoader';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const INTRO_SESSION_KEY = 'sabir-portfolio-preloader-page';
+
 const shouldShowIntro = () => {
   if (typeof window === 'undefined') return false;
-  return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const shell = document.getElementById('preloader-shell');
+  if (shell?.dataset.showIntro === 'true') return true;
+
+  try {
+    const pageToken = String(window.performance.timeOrigin);
+    if (window.sessionStorage.getItem(INTRO_SESSION_KEY) === pageToken) return false;
+    window.sessionStorage.setItem(INTRO_SESSION_KEY, pageToken);
+  } catch {
+    return true;
+  }
+
+  return true;
 };
 
 const App: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
   const [showIntro, setShowIntro] = useState(shouldShowIntro);
-  const [shouldAnimateHeroEntrance] = useState(
-    () => !showIntro && (!window.location.hash || window.location.hash === '#hero')
-  );
   const lenisRef = useRef<Lenis | null>(null);
 
-  const completeIntro = useCallback(() => setShowIntro(false), []);
+  const completeIntro = useCallback(() => {
+    setShowIntro(false);
+    window.requestAnimationFrame(() => {
+      document.getElementById('hero-title')?.focus({ preventScroll: true });
+    });
+  }, []);
+
+  useLayoutEffect(() => {
+    document.getElementById('preloader-shell')?.remove();
+  }, []);
 
   useEffect(() => {
     let isActive = true;
@@ -108,6 +128,11 @@ const App: React.FC = () => {
     };
   }, [prefersReducedMotion]);
 
+  useEffect(() => {
+    if (showIntro) lenisRef.current?.stop();
+    else lenisRef.current?.start();
+  }, [showIntro]);
+
   const handleAnchorClick = (event: React.MouseEvent<HTMLDivElement>) => {
     if (
       event.defaultPrevented ||
@@ -166,7 +191,7 @@ const App: React.FC = () => {
         <main>
           <HeroSection
             introComplete={!showIntro}
-            animateEntrance={shouldAnimateHeroEntrance}
+            animateEntrance
           />
           <AboutSection />
           <SkillsSection />
@@ -178,7 +203,7 @@ const App: React.FC = () => {
 
         <Footer />
       </div>
-      {showIntro && <IntroLoader onComplete={completeIntro} />}
+      {showIntro && <Preloader onComplete={completeIntro} variant="split" />}
     </div>
   );
 };
