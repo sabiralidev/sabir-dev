@@ -175,7 +175,7 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
       <div className="flex w-full max-w-sm flex-col items-center text-center">
         <div
           ref={markRef}
-          className="relative mb-8 flex h-28 w-28 items-center justify-center border border-white/15 bg-[#101010] [transform-style:preserve-3d]"
+          className="relative mb-8 flex h-28 w-28 items-center justify-center [transform-style:preserve-3d]"
           aria-hidden="true"
         >
           <div
@@ -188,7 +188,6 @@ export const IntroLoader: React.FC<IntroLoaderProps> = ({ onComplete }) => {
             ref={sheenRef}
             className="intro-logo-sheen pointer-events-none absolute -inset-y-4 z-20 w-10 -skew-x-12"
           />
-          <span className="absolute bottom-2 right-2 h-1.5 w-1.5 bg-[#d71920]" />
         </div>
 
         {!isExiting && (
