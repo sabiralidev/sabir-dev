@@ -199,7 +199,7 @@ export const SkillsSection: React.FC = () => {
               </div>
 
               <div className="mono mt-7 flex items-center justify-between border-t border-white/[0.05] pt-5 text-[9px] text-zinc-600">
-                <span>SKILLS / 0{idx + 1}</span>
+                <span>SKILLS · 0{idx + 1}</span>
                 <span>{cat.skills.length} TECHNOLOGIES</span>
               </div>
               </div>
