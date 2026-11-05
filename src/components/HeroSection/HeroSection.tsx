@@ -156,7 +156,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
     <section
       id="hero"
       ref={heroRef}
-      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#0A0A0B] px-5 pb-8 pt-24 sm:px-8 sm:pb-10 sm:pt-28 lg:justify-center lg:px-16 lg:pt-28 xl:px-20"
+      className="relative flex min-h-[100svh] flex-col overflow-hidden bg-[#0A0A0B] px-5 pb-8 pt-24 sm:px-8 sm:pb-10 sm:pt-28 lg:justify-center lg:px-16 lg:pt-36 xl:px-20"
     >
       <div
         className="pointer-events-none absolute inset-0"
@@ -175,22 +175,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
       />
 
       <div className="relative z-10 mx-auto grid w-full max-w-screen-xl flex-1 grid-cols-1 items-center gap-5 sm:gap-8 lg:flex-none lg:grid-cols-12 lg:gap-8 xl:gap-12">
-        <div className="order-2 flex flex-col items-center text-center lg:order-1 lg:col-span-7 lg:items-start lg:text-left">
-          <div
-            data-hero-reveal
-            className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.035] px-3.5 py-2"
-          >
-            <span className="relative flex h-2 w-2" aria-hidden="true">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400/60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
-            </span>
-            <span className="font-tech text-[9px] font-medium uppercase tracking-[0.12em] text-zinc-200 sm:text-[10px]">
-              Available for work
-            </span>
-          </div>
-
+        <div className="order-2 flex flex-col items-center text-center lg:order-1 lg:col-span-8 lg:items-start lg:text-left">
           <p
-            data-hero-reveal
             className="mb-2 font-tech text-[10px] font-medium uppercase tracking-[0.2em] text-zinc-400 sm:text-xs"
           >
             Full-Stack Engineer
@@ -219,7 +205,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           <p
             data-hero-reveal
-            className="mt-4 max-w-xl text-sm font-light leading-relaxed text-zinc-300 sm:text-base lg:mt-5"
+            className="mt-4 max-w-xl text-sm font-light leading-relaxed text-zinc-300 sm:text-base lg:mt-5 lg:max-w-2xl"
           >
             Building scalable web applications, sophisticated digital experiences, and reliable
             software systems with precision and performance.
@@ -284,7 +270,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           <div
             data-hero-reveal
-            className="mt-8 grid w-full max-w-xl grid-cols-3 border-y border-white/[0.11] py-4 sm:mt-9 sm:py-5"
+            className="mt-8 grid w-full max-w-xl grid-cols-3 border-y border-white/[0.11] py-4 sm:mt-9 sm:py-5 lg:max-w-none"
             role="group"
             aria-label="Professional highlights"
           >
@@ -312,23 +298,28 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           <div
             data-hero-reveal
-            className="mt-5 flex w-full max-w-xl flex-wrap items-center justify-center gap-x-4 gap-y-3 lg:justify-start"
+            className="mt-5 flex w-full max-w-xl flex-wrap items-center justify-center gap-x-4 gap-y-3 lg:max-w-none lg:justify-start"
             role="group"
             aria-label="Technologies: React, Next.js, Node.js, MongoDB, Express, Tailwind CSS, TypeScript"
           >
             {technologies.map(({ name, Icon }) => (
               <span
                 key={name}
-                className="inline-flex items-center gap-1.5 text-[9px] font-medium text-zinc-400 transition-colors hover:text-[#F5F6F8] sm:text-[10px]"
+                className="inline-flex items-center gap-1.5 text-[11px] font-medium text-zinc-400 transition-colors hover:text-[#F5F6F8] sm:text-xs lg:text-[13px]"
               >
-                <Icon size={13} strokeWidth={1.7} aria-hidden="true" />
+                <Icon
+                  size={16}
+                  className="sm:h-[18px] sm:w-[18px] lg:h-5 lg:w-5"
+                  strokeWidth={1.7}
+                  aria-hidden="true"
+                />
                 {name}
               </span>
             ))}
           </div>
         </div>
 
-        <div className="order-1 flex w-full justify-center py-1 lg:order-2 lg:col-span-5 lg:py-0">
+        <div className="order-1 flex w-full justify-center py-1 lg:order-2 lg:col-span-4 lg:py-0">
           <div
             ref={photoRef}
             onPointerMove={handlePhotoPointerMove}
