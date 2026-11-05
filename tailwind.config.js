@@ -6,6 +6,13 @@ export const content = [
 ];
 export const theme = {
   extend: {
+    fontFamily: {
+      display: ['Space Grotesk', 'Inter', 'sans-serif'],
+      tech: ['JetBrains Mono', 'monospace'],
+    },
+    maxWidth: {
+      'screen-xl': 'min(85vw, 1280px)',
+    },
     colors: {
       brand: {
         black: '#050505',
@@ -38,8 +45,15 @@ export const theme = {
     },
     animation: {
       'pulse-subtle': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      'hero-float-slow': 'hero-float 6s ease-in-out infinite',
+      'hero-float-delayed': 'hero-float 7s ease-in-out -2.5s infinite',
+    },
+    keyframes: {
+      'hero-float': {
+        '0%, 100%': { transform: 'translateY(0)' },
+        '50%': { transform: 'translateY(-8px)' },
+      },
     },
   },
 };
 export const plugins = [];
-
