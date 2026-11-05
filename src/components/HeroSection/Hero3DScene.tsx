@@ -63,69 +63,9 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
 
     const disposables: { geometry?: THREE.BufferGeometry; material?: THREE.Material }[] = [];
 
-    // 1. Central Precision Monolith
-    const centralGeo = new THREE.IcosahedronGeometry(1.5, 0);
-    disposables.push({ geometry: centralGeo });
-
-    const platinumMat = new THREE.MeshStandardMaterial({
-      color: 0xdedede,
-      metalness: 0.92,
-      roughness: 0.16,
-    });
-    disposables.push({ material: platinumMat });
-
-    const centralMesh = new THREE.Mesh(centralGeo, platinumMat);
-    structureGroup.add(centralMesh);
-
-    // 2. Wireframe architectural halo
-    const wireframeGeo = new THREE.IcosahedronGeometry(1.54, 1);
-    disposables.push({ geometry: wireframeGeo });
-
-    const wireframeMat = new THREE.MeshBasicMaterial({
-      color: 0xffffff,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.12,
-    });
-    disposables.push({ material: wireframeMat });
-
-    const wireMesh = new THREE.Mesh(wireframeGeo, wireframeMat);
-    structureGroup.add(wireMesh);
-
-    // 3. Orbital architectural rings
-    const ringSegments = window.innerWidth < 768 ? 48 : 72;
-    const ringGeo1 = new THREE.TorusGeometry(2.3, 0.035, 10, ringSegments);
-    disposables.push({ geometry: ringGeo1 });
-    const ringMat1 = new THREE.MeshStandardMaterial({
-      color: 0x888888,
-      metalness: 0.85,
-      roughness: 0.3,
-    });
-    disposables.push({ material: ringMat1 });
-
-    const ringMesh1 = new THREE.Mesh(ringGeo1, ringMat1);
-    ringMesh1.rotation.x = Math.PI / 3;
-    ringMesh1.rotation.y = Math.PI / 6;
-    structureGroup.add(ringMesh1);
-
-    const ringGeo2 = new THREE.TorusGeometry(2.7, 0.02, 10, ringSegments);
-    disposables.push({ geometry: ringGeo2 });
-    const ringMat2 = new THREE.MeshStandardMaterial({
-      color: 0x444444,
-      metalness: 0.9,
-      roughness: 0.2,
-      transparent: true,
-      opacity: 0.6,
-    });
-    disposables.push({ material: ringMat2 });
-
-    const ringMesh2 = new THREE.Mesh(ringGeo2, ringMat2);
-    ringMesh2.rotation.x = -Math.PI / 4;
-    ringMesh2.rotation.z = Math.PI / 4;
-    structureGroup.add(ringMesh2);
-
-    // 4. Ambient architectural floating nodes
-    const particleCount = window.innerWidth < 768 ? 12 : 22;
+    // Ambient architectural floating nodes
+    const centerParticleCount = window.innerWidth < 768 ? 5 : 9;
+    const particleCount = (window.innerWidth < 768 ? 18 : 34) + centerParticleCount;
     const particleGroup = new THREE.Group();
     structureGroup.add(particleGroup);
 
@@ -143,7 +83,11 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
     const nodePositions: { mesh: THREE.Mesh; speed: number; orbitRadius: number; phase: number }[] = [];
     for (let i = 0; i < particleCount; i++) {
       const mesh = new THREE.Mesh(nodeGeo, nodeMat);
-      const orbitRadius = 2.2 + Math.random() * 2.2;
+      const isCenterParticle = i < centerParticleCount;
+      const orbitRadius = isCenterParticle
+        ? 0.45 + Math.random() * 1.15
+        : 2.2 + Math.random() * 2.2;
+      if (isCenterParticle) mesh.scale.setScalar(0.75);
       const phase = Math.random() * Math.PI * 2;
       const speed = 0.2 + Math.random() * 0.3;
       particleGroup.add(mesh);
@@ -248,16 +192,6 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
       currentX += (targetX - currentX) * 0.04;
       currentY += (targetY - currentY) * 0.04;
 
-      centralMesh.rotation.y += delta * 0.25;
-      centralMesh.rotation.x += delta * 0.15;
-      wireMesh.rotation.y -= delta * 0.18;
-      wireMesh.rotation.z += delta * 0.12;
-
-      ringMesh1.rotation.z += delta * 0.3;
-      ringMesh1.rotation.y += delta * 0.15;
-      ringMesh2.rotation.z -= delta * 0.22;
-      ringMesh2.rotation.x -= delta * 0.18;
-
       structureGroup.rotation.y = currentX + elapsed * 0.08;
       structureGroup.rotation.x = -currentY + Math.sin(elapsed * 0.4) * 0.05;
 
@@ -335,15 +269,7 @@ export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }
   }, [hasError, prefersReducedMotion]);
 
   if (hasError || prefersReducedMotion) {
-    return (
-      <div className={`relative flex items-center justify-center select-none ${className}`} aria-hidden="true">
-        <div className="flex h-72 w-72 items-center justify-center rounded-full border border-white/10">
-          <div className="flex h-48 w-48 items-center justify-center rounded-full border border-white/20">
-            <div className="h-24 w-24 rounded-full border border-white/10 bg-white/[0.03]" />
-          </div>
-        </div>
-      </div>
-    );
+    return <div className={className} aria-hidden="true" />;
   }
 
   return (
