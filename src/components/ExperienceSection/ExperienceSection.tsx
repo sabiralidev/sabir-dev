@@ -113,6 +113,7 @@ export const ExperienceSection: React.FC = () => {
             category="Experience"
             title={<>Professional <span className="font-light text-zinc-500">experience.</span></>}
             subtitle="Engineering trajectory defined by mission-critical government systems, startup AI platforms, and high-performance applications."
+            className="text-center [&>div:first-child]:justify-center [&_h2]:mx-auto [&_h2]:max-w-none [&_p]:mx-auto [&_p]:max-w-none"
           />
         </div>
 
