@@ -100,7 +100,7 @@ export const ProjectsSection: React.FC = () => {
       className="relative overflow-hidden bg-[#050505] px-5 py-24 sm:px-8 sm:py-28 lg:px-16 lg:py-36 xl:px-20"
     >
       <div className="relative z-10 mx-auto max-w-screen-xl">
-        <div ref={headingRef} className="mb-12 flex flex-col gap-7 md:flex-row md:items-end md:justify-between lg:mb-16">
+        <div ref={headingRef} className="mb-12 flex w-full flex-col items-center gap-8 text-center lg:mb-16">
           <SectionHeading
             number="04"
             category="Selected Projects"
@@ -113,7 +113,7 @@ export const ProjectsSection: React.FC = () => {
             href="https://github.com/sabiralidev"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex min-h-11 items-center gap-2 self-start border-b border-white/20 pb-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-300 transition-colors hover:border-[#d71920] hover:text-white md:self-end"
+            className="mt-1 inline-flex min-h-11 items-center gap-2 self-center border-b border-white/20 pb-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-300 transition-colors hover:border-[#d71920] hover:text-white"
           >
             <Github size={16} />
             <span>View All on GitHub</span>
