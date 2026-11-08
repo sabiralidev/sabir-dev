@@ -135,6 +135,7 @@ export const ApproachSection: React.FC = () => {
             category="How I Work"
             title={<>Architecture with <span className="font-light text-zinc-500">intent.</span></>}
             subtitle="Four core engineering pillars applied to every application to ensure durability, security, and effortless scalability."
+            className="text-center [&>div:first-child]:justify-center [&_h2]:mx-auto [&_h2]:max-w-none [&_p]:mx-auto [&_p]:max-w-none"
           />
         </div>
 
