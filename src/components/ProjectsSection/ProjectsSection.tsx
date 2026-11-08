@@ -106,7 +106,7 @@ export const ProjectsSection: React.FC = () => {
             category="Selected Projects"
             title={<>Selected <span className="font-light text-zinc-500">work.</span></>}
             subtitle="Deep architectural analysis of production systems, solving concurrency, transaction resilience, and data consistency."
-            className="mb-0 lg:mb-0"
+            className="mb-0 text-center lg:mb-0 [&>div:first-child]:justify-center [&_h2]:mx-auto [&_h2]:max-w-none [&_p]:mx-auto [&_p]:max-w-none"
           />
 
           <a
