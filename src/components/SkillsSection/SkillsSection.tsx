@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { Layers, Binary, Globe, Cpu, Award, GraduationCap } from 'lucide-react';
+import { Code2, Server, Cloud, Wrench, Award, GraduationCap } from 'lucide-react';
 import { SectionHeading, TiltCard } from '../Common/UI';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { SKILLS, CERTIFICATIONS, EDUCATION } from '../../../data';
@@ -132,14 +132,14 @@ export const SkillsSection: React.FC = () => {
   const getCategoryIcon = (idx: number) => {
     switch (idx) {
       case 0:
-        return <Layers size={20} />;
+        return <Code2 size={20} />;
       case 1:
-        return <Binary size={20} />;
+        return <Server size={20} />;
       case 2:
-        return <Globe size={20} />;
+        return <Cloud size={20} />;
       case 3:
       default:
-        return <Cpu size={20} />;
+        return <Wrench size={20} />;
     }
   };
 
