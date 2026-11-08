@@ -245,6 +245,7 @@ export const ContactSection: React.FC = () => {
             category="Contact"
             title={<>Let’s <span className="font-light text-zinc-500">build.</span></>}
             subtitle="Accepting inquiries for full-stack engineering roles, technical architecture consulting, and high-impact digital experiences."
+            className="text-center [&>div:first-child]:justify-center [&_h2]:mx-auto [&_h2]:max-w-none [&_p]:mx-auto [&_p]:max-w-none"
           />
         </div>
 
