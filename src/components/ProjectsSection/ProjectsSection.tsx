@@ -88,24 +88,6 @@ export const ProjectsSection: React.FC = () => {
         });
       }
 
-      const imageLayers =
-        projectListRef.current?.querySelectorAll('.project-image-depth');
-      imageLayers?.forEach((imageLayer) => {
-        gsap.fromTo(
-          imageLayer,
-          { yPercent: 4 },
-          {
-            yPercent: -4,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: imageLayer,
-              start: 'top bottom',
-              end: 'bottom top',
-              scrub: 0.7,
-            },
-          }
-        );
-      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -153,15 +135,13 @@ export const ProjectsSection: React.FC = () => {
                       <img
                         src={projectImages[idx] || projectImages[0]}
                         alt={project.title}
-                        className="h-full w-full object-cover grayscale contrast-105 brightness-90 transition-[filter,transform] duration-700 group-hover:scale-[1.025] group-hover:grayscale-0 group-hover:brightness-100"
+                        className="h-full w-full object-contain"
                         loading="lazy"
                         decoding="async"
                         width={idx === 0 ? 1500 : 1892}
                         height={idx === 0 ? 733 : 867}
                       />
                     </div>
-
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
 
                     <div className="absolute bottom-6 right-6 flex items-center gap-3">
                       {project.links?.github && (
