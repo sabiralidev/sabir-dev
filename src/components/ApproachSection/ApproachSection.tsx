@@ -47,16 +47,15 @@ export const ApproachSection: React.FC = () => {
       }
 
       const cards = gridRef.current?.querySelectorAll('.approach-card-depth');
-      if (cards) {
+      const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      cards?.forEach((card) => {
         gsap.fromTo(
-          cards,
+          card,
           {
             z: -190,
             autoAlpha: 0.25,
             rotateX: 12,
-            rotateY: window.matchMedia('(hover: hover) and (pointer: fine)').matches
-              ? 12
-              : 4,
+            rotateY: isFinePointer ? 12 : 4,
             scale: 0.88,
             transformPerspective: 1300,
             transformOrigin: 'center center',
@@ -67,17 +66,16 @@ export const ApproachSection: React.FC = () => {
             rotateX: 0,
             rotateY: 0,
             scale: 1,
-            stagger: 0.16,
             ease: 'none',
             scrollTrigger: {
-              trigger: gridRef.current,
-              start: 'top 88%',
-              end: 'bottom 52%',
-              scrub: 0.7,
+              trigger: card,
+              start: 'top 92%',
+              end: 'top 58%',
+              scrub: 0.5,
             },
           }
         );
-      }
+      });
     }, sectionRef);
 
     return () => ctx.revert();
