@@ -156,6 +156,7 @@ export const SkillsSection: React.FC = () => {
             category="Technical Expertise"
             title={<>The production <span className="font-light text-zinc-500">ecosystem.</span></>}
             subtitle="Curated full-stack technologies standardized for high-concurrency systems, low latency, and robust deployment pipelines."
+            className="text-center [&>div:first-child]:justify-center [&_h2]:mx-auto [&_h2]:max-w-none [&_p]:mx-auto [&_p]:max-w-none"
           />
         </div>
 
