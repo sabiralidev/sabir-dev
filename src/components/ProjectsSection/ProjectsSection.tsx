@@ -109,16 +109,6 @@ export const ProjectsSection: React.FC = () => {
             className="mb-0 text-center lg:mb-0 [&>div:first-child]:justify-center [&_h2]:mx-auto [&_h2]:max-w-none [&_p]:mx-auto [&_p]:max-w-none"
           />
 
-          <a
-            href="https://github.com/sabiralidev"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-1 inline-flex min-h-11 items-center gap-2 self-center border-b border-white/20 pb-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-300 transition-colors hover:border-[#d71920] hover:text-white"
-          >
-            <Github size={16} />
-            <span>View All on GitHub</span>
-            <ArrowUpRight size={14} />
-          </a>
         </div>
 
         <div ref={projectListRef} className="mt-10 space-y-16 [perspective:1200px] lg:mt-12 lg:space-y-24">
@@ -228,6 +218,18 @@ export const ProjectsSection: React.FC = () => {
               </div>
             </TiltCard>
           ))}
+        </div>
+        <div className="mt-10 flex justify-center lg:mt-12">
+          <a
+            href="https://github.com/sabiralidev"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex min-h-11 items-center gap-2 border-b border-white/20 pb-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-300 transition-colors hover:border-[#d71920] hover:text-white"
+          >
+            <Github size={16} />
+            <span>View All on GitHub</span>
+            <ArrowUpRight size={14} />
+          </a>
         </div>
       </div>
     </section>
