@@ -41,18 +41,15 @@ export const SkillsSection: React.FC = () => {
       }
 
       const cards = cardsRef.current?.querySelectorAll('.skills-card-depth');
-      if (cards) {
+      const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      cards?.forEach((card) => {
         gsap.fromTo(
-          cards,
+          card,
           {
             z: -190,
             autoAlpha: 0.25,
-            rotateX: window.matchMedia('(hover: hover) and (pointer: fine)').matches
-              ? 14
-              : 7,
-            rotateY: window.matchMedia('(hover: hover) and (pointer: fine)').matches
-              ? -7
-              : 0,
+            rotateX: isFinePointer ? 14 : 7,
+            rotateY: isFinePointer ? -7 : 0,
             scale: 0.88,
             transformPerspective: 1200,
             transformOrigin: 'center center',
@@ -63,17 +60,16 @@ export const SkillsSection: React.FC = () => {
             rotateX: 0,
             rotateY: 0,
             scale: 1,
-            stagger: 0.14,
             ease: 'none',
             scrollTrigger: {
-              trigger: cardsRef.current,
-              start: 'top 88%',
-              end: 'bottom 52%',
-              scrub: 0.7,
+              trigger: card,
+              start: 'top 92%',
+              end: 'top 58%',
+              scrub: 0.5,
             },
           }
         );
-      }
+      });
 
       const skillIcons = cardsRef.current?.querySelectorAll('.skills-card-depth svg');
       skillIcons?.forEach((icon, index) => {
