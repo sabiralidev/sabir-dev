@@ -140,6 +140,7 @@ export const AboutSection: React.FC = () => {
             category="About · Engineering"
             title={<>Systems-first <span className="font-light text-zinc-500">engineering.</span></>}
             subtitle="Architecting resilient software systems with sub-millisecond efficiency and structural integrity for full-stack web applications."
+            className="text-center [&>div:first-child]:justify-center [&_h2]:mx-auto [&_h2]:max-w-none [&_p]:mx-auto [&_p]:max-w-none"
           />
         </div>
 
