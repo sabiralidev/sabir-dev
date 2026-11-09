@@ -7,8 +7,8 @@ export const content = [
 export const theme = {
   extend: {
     fontFamily: {
-      display: ['Space Grotesk', 'Inter', 'sans-serif'],
-      tech: ['JetBrains Mono', 'monospace'],
+      display: ['Arimo', 'sans-serif'],
+      tech: ['Arimo', 'sans-serif'],
     },
     maxWidth: {
       'screen-xl': 'min(85vw, 1280px)',
