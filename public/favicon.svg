@@ -5,6 +5,6 @@
       <stop offset="1" stop-color="#b8b8b8"/>
     </linearGradient>
   </defs>
-  <path d="M69 27H45C35 27 29 33 29 42c0 8 5 12 14 14l14 3c8 2 12 6 12 14 0 9-6 15-16 15H31" stroke="url(#silver)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M73 78h6" stroke="#d71920" stroke-width="3" stroke-linecap="round"/>
+  <path d="M69 27H45C35 27 29 33 29 42c0 8 5 12 14 14l14 3c8 2 12 6 12 14 0 9-6 15-16 15H31" stroke="url(#silver)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round" transform="translate(-5 -5) scale(1.1)"/>
+  <path d="M73 78h6" stroke="#d71920" stroke-width="3" stroke-linecap="round" transform="translate(-5 -5) scale(1.1)"/>
 </svg>
