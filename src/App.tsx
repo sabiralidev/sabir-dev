@@ -178,6 +178,7 @@ const App: React.FC = () => {
   return (
     <div className="relative min-h-screen overflow-clip bg-[#050505] text-white">
       <div
+        className={showIntro ? 'invisible' : 'visible'}
         aria-hidden={showIntro || undefined}
         inert={showIntro}
         onClick={handleAnchorClick}
