@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 
@@ -13,6 +13,7 @@ const PRELOADER_CONFIG = {
   minimumDuration: 1800,
   maximumDuration: 3500,
   labelDuration: 0.22,
+  entryDuration: 0.32,
   labelTransitionDelays: [450, 900],
   progressDuration: 0.35,
   initialProgressDuration: 0.2,
@@ -71,7 +72,7 @@ export const Preloader: React.FC<IntroLoaderProps> = ({
     };
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const root = rootRef.current;
     const mark = markRef.current;
     const fill = fillRef.current;
@@ -257,7 +258,14 @@ export const Preloader: React.FC<IntroLoaderProps> = ({
       gsap.set(phaseLabels, { autoAlpha: 0, y: 4 });
       gsap.set(backdrop, { '--reveal-radius': '0vmax' });
       if (topPanel && bottomPanel) gsap.set([topPanel, bottomPanel], { yPercent: 0 });
-      gsap.set(root, { autoAlpha: 1 });
+      gsap.set(root, { autoAlpha: prefersReducedMotion ? 1 : 0 });
+      if (!prefersReducedMotion) {
+        gsap.to(root, {
+          autoAlpha: 1,
+          duration: PRELOADER_CONFIG.entryDuration,
+          ease: 'power2.out',
+        });
+      }
       setLabel(0);
       setProgress(8, PRELOADER_CONFIG.initialProgressDuration);
 
