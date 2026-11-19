@@ -8,7 +8,6 @@ export const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 30);
