@@ -6,7 +6,6 @@ import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { supportsWebGL } from '../Common/webgl';
 
 gsap.registerPlugin(ScrollTrigger);
-
 export const Hero3DScene: React.FC<{ className?: string }> = ({ className = '' }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [hasError, setHasError] = useState(false);
