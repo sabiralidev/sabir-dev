@@ -97,12 +97,8 @@ export const CustomCursor: React.FC = () => {
       {/* Outer Ring */}
       <div
         ref={ringRef}
-        className="fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 rounded-full border transition-all duration-200"
         className="fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 rounded-full border transition-all duration-200 flex items-center justify-center"
         style={{
-          width: isHoveringLink ? (isHoveringCTA ? 48 : 42) : 28,
-          height: isHoveringLink ? (isHoveringCTA ? 48 : 42) : 28,
-          borderColor: isHoveringCTA
           width: isViewMode ? 72 : isHoveringLink ? (isHoveringCTA ? 48 : 42) : 28,
           height: isViewMode ? 72 : isHoveringLink ? (isHoveringCTA ? 48 : 42) : 28,
           borderColor: isViewMode
@@ -112,7 +108,6 @@ export const CustomCursor: React.FC = () => {
             : isHoveringLink
             ? 'rgba(242, 243, 245, 0.45)'
             : 'rgba(141, 145, 153, 0.28)',
-          backgroundColor: isHoveringCTA
           backgroundColor: isViewMode
             ? 'rgba(5, 5, 5, 0.85)'
             : isHoveringCTA
@@ -120,10 +115,8 @@ export const CustomCursor: React.FC = () => {
             : isHoveringLink
             ? 'rgba(255, 255, 255, 0.04)'
             : 'transparent',
-          backdropFilter: isHoveringLink ? 'blur(1px)' : 'none',
           backdropFilter: isHoveringLink || isViewMode ? 'blur(2px)' : 'none',
         }}
-      />
       >
         {isViewMode && (
           <span
@@ -137,18 +130,6 @@ export const CustomCursor: React.FC = () => {
       </div>
 
       {/* Inner Dot */}
-      <div
-        ref={dotRef}
-        className="fixed top-0 left-0 -translate-x-1/2 -translate-y-1/2 rounded-full transition-transform duration-150"
-        style={{
-          width: isHoveringCTA ? 8 : isHoveringLink ? 6 : 4,
-          height: isHoveringCTA ? 8 : isHoveringLink ? 6 : 4,
-          backgroundColor: isHoveringCTA ? '#e5192b' : '#f2f3f5',
-          boxShadow: isHoveringCTA
-            ? '0 0 10px #e5192b, 0 0 20px rgba(229, 25, 43, 0.6)'
-            : '0 0 6px rgba(255, 255, 255, 0.4)',
-        }}
-      />
       {!isViewMode && (
         <div
           ref={dotRef}
