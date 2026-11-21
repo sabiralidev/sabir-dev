@@ -70,7 +70,7 @@ export const Footer: React.FC = () => {
             </a>
 
             <p className="max-w-sm text-sm font-light leading-relaxed text-zinc-400">
-              Full-Stack Engineer architecting scalable web applications, resilient systems, and high-concurrency architectures for global enterprise delivery.
+              Full-Stack Engineer in Pakistan building scalable web applications, backend APIs and MERN-based software products.
             </p>
 
             <div className="flex items-center gap-3 pt-2">
