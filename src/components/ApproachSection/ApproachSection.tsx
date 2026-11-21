@@ -22,7 +22,7 @@ export const ApproachSection: React.FC = () => {
           headingRef.current,
           {
             z: -140,
-            autoAlpha: 0.35,
+            autoAlpha: 1,
             rotateX: 12,
             rotateY: -5,
             scale: 0.96,
@@ -53,7 +53,7 @@ export const ApproachSection: React.FC = () => {
           card,
           {
             z: -190,
-            autoAlpha: 0.25,
+            autoAlpha: 1,
             rotateX: 12,
             rotateY: isFinePointer ? 12 : 4,
             scale: 0.88,
@@ -87,36 +87,36 @@ export const ApproachSection: React.FC = () => {
       title: 'Architectural Decoupling',
       tagline: 'MERN & Next.js Modular Systems',
       description:
-        'Enforcing clean separation between UI layers, API endpoints, and persistence services. Designing decoupled microservices and serverless functions that allow independent scaling without monolithic bottlenecks.',
+        'Separating interface, API and persistence concerns so applications remain easier to understand and maintain.',
       icon: <Network size={22} />,
-      metrics: 'Zero tight-coupling · Domain boundaries',
+      metrics: 'Clear boundaries · Modular structure',
     },
     {
       number: '02',
       title: 'Performance By Default',
       tagline: 'Sub-second Latency & Atomic State',
       description:
-        'Achieving sub-second initial loads through server rendering, smart asset delivery, atomic state management with Redux Toolkit and TanStack Query, and database query optimization with MongoDB & PostgreSQL.',
+        'Reducing unnecessary work in the interface and API through focused state management, efficient data access and appropriate asset delivery.',
       icon: <Zap size={22} />,
-      metrics: '<100ms API response · 60 FPS UX',
+      metrics: 'Lean assets · Efficient state',
     },
     {
       number: '03',
       title: 'Zero-Trust Security',
       tagline: 'Hardened Authentication & RBAC',
       description:
-        'Implementing strict cryptographic authentication with JWT/OAuth, role-based access control, parameterized queries to prevent injections, and secure payment pipelines with Stripe for enterprise workflows.',
+        'Applying authentication, authorization, input validation and secure payment integrations where a project requires them.',
       icon: <Shield size={22} />,
-      metrics: 'Encrypted payloads · Audit logging',
+      metrics: 'Authentication · Input validation',
     },
     {
       number: '04',
       title: 'Maintainable Codecraft',
       tagline: 'Strict TypeScript & CI/CD Pipelines',
       description:
-        'Writing strictly typed, self-documenting TypeScript with comprehensive error boundaries, reproducible builds, and GitOps workflows that guarantee reliable continuous delivery to production.',
+        'Using typed TypeScript, clear error handling and repeatable build processes to keep projects understandable and maintainable.',
       icon: <GitBranch size={22} />,
-      metrics: 'Type-safe contracts · Zero regression',
+      metrics: 'Typed code · Repeatable builds',
     },
   ];
 
