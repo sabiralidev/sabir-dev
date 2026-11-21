@@ -66,7 +66,7 @@ export const PROJECTS: Project[] = [
       "Engineered a real-time commerce engine utilizing Redux Toolkit for atomic state management.",
     architecture:
       "Full-stack MERN and Stripe for global transaction processing.",
-    stack: ["React", "Redux Toolkit", "Node.js", "Stripe", "& more"],
+    stack: ["React", "Redux Toolkit", "Node.js", "MongoDB", "Express.js", "Stripe"],
     challenges:
       "Solving race conditions in stock updates and implementing secure, resilient checkout pipelines.",
     links: {
