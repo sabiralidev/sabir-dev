@@ -26,7 +26,7 @@ export const AboutSection: React.FC = () => {
             rotateX: 12,
             rotateY: -5,
             scale: 0.96,
-            autoAlpha: 0.35,
+            autoAlpha: 1,
             transformPerspective: 1200,
             transformOrigin: 'left center',
           },
@@ -64,7 +64,7 @@ export const AboutSection: React.FC = () => {
           {
             z: -150,
             y: 24,
-            autoAlpha: 0.25,
+            autoAlpha: 1,
             rotateX: 10,
             rotateY: -4,
             transformPerspective: 1100,
@@ -81,7 +81,7 @@ export const AboutSection: React.FC = () => {
         );
         contentTimeline.fromTo(
           content.querySelectorAll('.about-stat'),
-          { z: -100, y: 16, autoAlpha: 0.3, rotateX: 8 },
+          { z: -100, y: 16, autoAlpha: 1, rotateX: 8 },
           {
             z: 0,
             y: 0,
@@ -102,7 +102,7 @@ export const AboutSection: React.FC = () => {
             rotateY: -18,
             rotateX: 9,
             scale: 0.88,
-            autoAlpha: 0.25,
+            autoAlpha: 1,
             transformPerspective: 1400,
             transformOrigin: 'center center',
           },
@@ -139,7 +139,7 @@ export const AboutSection: React.FC = () => {
             number="01"
             category="About · Engineering"
             title={<>Systems-first <span className="font-light text-zinc-500">engineering.</span></>}
-            subtitle="Architecting resilient software systems with sub-millisecond efficiency and structural integrity for full-stack web applications."
+            subtitle="Building maintainable full-stack applications with attention to data integrity, performance and software structure."
             className="text-center [&>div:first-child]:justify-center [&_h2]:mx-auto [&_h2]:max-w-none [&_p]:mx-auto [&_p]:max-w-none"
           />
         </div>
