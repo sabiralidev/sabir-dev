@@ -18,6 +18,7 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
 import { MagneticLink, Tooltip } from '../Common/UI';
+import { PROFILE } from '../../config/profile';
 
 interface HeroSectionProps {
   introComplete?: boolean;
@@ -52,13 +53,13 @@ const technologies: { name: string; Icon: LucideIcon }[] = [
 ];
 
 const socialLinks: { name: string; href: string; Icon: LucideIcon }[] = [
-  { name: 'GitHub', href: 'https://github.com/sabiralidev', Icon: Github },
+  { name: 'GitHub', href: PROFILE.github, Icon: Github },
   {
     name: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/sabiralidev/',
+    href: PROFILE.linkedin,
     Icon: Linkedin,
   },
-  { name: 'DEV Community', href: 'https://dev.to/sabirsheikh', Icon: Code2 },
+  { name: 'DEV Community', href: PROFILE.devto, Icon: Code2 },
 ];
 
 export const HeroSection: React.FC<HeroSectionProps> = ({
