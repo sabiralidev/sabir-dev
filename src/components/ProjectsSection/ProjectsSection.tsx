@@ -32,7 +32,7 @@ export const ProjectsSection: React.FC = () => {
             rotateX: 12,
             rotateY: -5,
             scale: 0.96,
-            autoAlpha: 0.3,
+            autoAlpha: 1,
             transformPerspective: 1300,
           },
           {
@@ -63,7 +63,7 @@ export const ProjectsSection: React.FC = () => {
             {
               xPercent: index % 2 === 0 ? -6 : 6,
               z: -320,
-              autoAlpha: 0.2,
+              autoAlpha: 1,
               rotateX: 9,
               rotateY: index % 2 === 0 ? rotation : -rotation,
               scale: 0.82,
