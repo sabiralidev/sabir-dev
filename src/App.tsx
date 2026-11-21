@@ -20,6 +20,8 @@ import { Preloader } from './components/Common/IntroLoader';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { SEO } from './components/Common/SEO';
 import { ProjectPage } from './components/ProjectsSection/ProjectPage';
+import { PROFILE, VERIFIED_SAME_AS } from './config/profile';
+import { Analytics } from './components/Common/Analytics';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -189,22 +191,18 @@ const PortfolioPage: React.FC = () => {
           {
             '@context': 'https://schema.org',
             '@type': 'Person',
-            '@id': 'https://sabir-dev.vercel.app/#person',
-            name: 'Sabir Ali',
-            alternateName: 'SabirAliDev',
-            jobTitle: 'Full-Stack Engineer',
-            url: 'https://sabir-dev.vercel.app/',
-            image: 'https://sabir-dev.vercel.app/Sabir.png',
+            '@id': `${PROFILE.website}/#person`,
+            name: PROFILE.name,
+            alternateName: PROFILE.alternateName,
+            jobTitle: PROFILE.jobTitle,
+            url: `${PROFILE.website}/`,
+            image: PROFILE.image,
             description: 'Sabir Ali is a Full-Stack Engineer working with MERN technologies, Next.js, backend APIs, databases and AI integrations.',
             address: {
               '@type': 'PostalAddress',
               addressCountry: 'PK',
             },
-            sameAs: [
-              'https://github.com/sabiralidev',
-              'https://www.linkedin.com/in/sabiralidev/',
-              'https://dev.to/sabirsheikh',
-            ],
+            sameAs: [...VERIFIED_SAME_AS],
           },
           {
             '@context': 'https://schema.org',
@@ -260,6 +258,7 @@ const PortfolioPage: React.FC = () => {
 
 const App: React.FC = () => (
   <BrowserRouter>
+    <Analytics />
     <Routes>
       <Route path="/" element={<PortfolioPage />} />
       <Route path="/projects/:slug" element={<ProjectPage />} />
