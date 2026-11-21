@@ -50,7 +50,7 @@ This personal portfolio presents my engineering profile, skills, approach, exper
 - 🎞️ Scroll-based animations and smooth scrolling.
 - 🌌 A 3D hero scene with an ambient animated background.
 - 🧩 Hero, About, Skills, Approach, Projects, Experience, and Contact sections.
-- 📩 A contact form with browser-side validation and EmailJS delivery.
+- 📩 A contact form with browser-side validation and server-side Gmail SMTP delivery.
 - ♿ Reduced-motion support and a visual fallback when WebGL is unavailable.
 - 📄 A downloadable résumé and links to selected projects.
 
@@ -60,8 +60,22 @@ This personal portfolio presents my engineering profile, skills, approach, exper
 2. **Set up the application.** Vite builds and serves the React application. `src/main.tsx` mounts it, while `src/App.tsx` brings together the shared navigation and page sections. Portfolio content and its TypeScript types are kept in `data.ts` and `types.ts`.
 3. **Created the page sections.** Each section is a focused React component, with reusable interface elements and navigation grouped in `src/components/Common/`.
 4. **Styled the site for different screens.** Tailwind CSS utilities and global styles define the typography, spacing, colors, and responsive layouts, adapting the page for phones, tablets, and desktop screens.
-5. **Added motion and interaction.** GSAP and ScrollTrigger animate content as visitors scroll, and Lenis provides smooth scrolling. A lazy-loaded Three.js scene and Canvas background add visual depth. The contact form validates fields in the browser and submits messages through EmailJS. Reduced-motion preferences are respected.
-6. **Built and deployed the site.** Run `npm run build` to type-check the project and create the static production site in `dist/`. Deploy the contents of `dist/` to Vercel. The portfolio is available at [https://sabir-dev.vercel.app](https://sabir-dev.vercel.app).
+5. **Added motion and interaction.** GSAP and ScrollTrigger animate content as visitors scroll, and Lenis provides smooth scrolling. A lazy-loaded Three.js scene and Canvas background add visual depth. The contact form validates fields in the browser and sends messages through a Vercel API function using Nodemailer. Gmail SMTP credentials stay on the server. Reduced-motion preferences are respected.
+6. **Built and deployed the site.** Run `npm run build` to type-check the project and create the frontend in `dist/`. Deploy to Vercel with the environment variables below configured in the project settings; the `/api/contact` serverless function handles contact-form submissions.
+
+### Contact form email setup
+
+Configure these environment variables for the Vercel deployment and in `.env.local` for local development. The Vite development server exposes the same `/api/contact` handler locally.
+
+```text
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=465
+SMTP_USER=your-gmail-address
+SMTP_PASS=your-google-app-password
+CONTACT_EMAIL_TO=recipient-address
+```
+
+Use a Google App Password for `SMTP_PASS` with 2-Step Verification enabled. Do not expose these values in `VITE_` variables or commit them to the repository. `.env.example` lists the variable names.
 
 ```text
 .
