@@ -235,7 +235,7 @@ export const ProjectsSection: React.FC = () => {
             className="inline-flex min-h-11 items-center gap-2 border-b border-white/20 pb-2 text-[10px] font-semibold uppercase tracking-[0.14em] text-zinc-300 transition-colors hover:border-[#d71920] hover:text-white"
           >
             <Github size={16} />
-            <span>View All on GitHub</span>
+            <span>View More Projects on GitHub</span>
             <ArrowUpRight size={14} />
           </a>
         </div>
