@@ -17,6 +17,9 @@ import { ContactSection } from './components/ContactSection/ContactSection';
 import { Footer } from './components/Footer/Footer';
 import { useReducedMotion } from './hooks/useReducedMotion';
 import { Preloader } from './components/Common/IntroLoader';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { SEO } from './components/Common/SEO';
+import { ProjectPage } from './components/ProjectsSection/ProjectPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,7 +42,7 @@ const shouldShowIntro = () => {
   return true;
 };
 
-const App: React.FC = () => {
+const PortfolioPage: React.FC = () => {
   const prefersReducedMotion = useReducedMotion();
   const [showIntro, setShowIntro] = useState(shouldShowIntro);
   const lenisRef = useRef<Lenis | null>(null);
@@ -177,6 +180,52 @@ const App: React.FC = () => {
 
   return (
     <div className="relative min-h-screen overflow-clip bg-[#050505] text-white">
+      <SEO
+        title="Sabir Ali | Full-Stack Engineer | SabirAliDev"
+        description="Sabir Ali is a Full-Stack Engineer building scalable web applications, modern MERN systems, and AI-integrated solutions."
+        canonical="https://sabir-dev.vercel.app/"
+        type="profile"
+        jsonLd={[
+          {
+            '@context': 'https://schema.org',
+            '@type': 'Person',
+            '@id': 'https://sabir-dev.vercel.app/#person',
+            name: 'Sabir Ali',
+            alternateName: 'SabirAliDev',
+            jobTitle: 'Full-Stack Engineer',
+            url: 'https://sabir-dev.vercel.app/',
+            image: 'https://sabir-dev.vercel.app/Sabir.png',
+            description: 'Sabir Ali is a Full-Stack Engineer working with MERN technologies, Next.js, backend APIs, databases and AI integrations.',
+            address: {
+              '@type': 'PostalAddress',
+              addressCountry: 'PK',
+            },
+            sameAs: [
+              'https://github.com/sabiralidev',
+              'https://www.linkedin.com/in/sabiralidev/',
+              'https://dev.to/sabirsheikh',
+            ],
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'ProfilePage',
+            '@id': 'https://sabir-dev.vercel.app/#profile',
+            url: 'https://sabir-dev.vercel.app/',
+            name: 'Sabir Ali | Full-Stack Engineer',
+            description: 'Professional portfolio of Sabir Ali, a Full-Stack Engineer.',
+            mainEntity: { '@id': 'https://sabir-dev.vercel.app/#person' },
+          },
+          {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            '@id': 'https://sabir-dev.vercel.app/#website',
+            url: 'https://sabir-dev.vercel.app/',
+            name: 'SabirAliDev',
+            inLanguage: 'en',
+            publisher: { '@id': 'https://sabir-dev.vercel.app/#person' },
+          },
+        ]}
+      />
       <div
         className={showIntro ? 'invisible' : 'visible'}
         aria-hidden={showIntro || undefined}
@@ -208,5 +257,34 @@ const App: React.FC = () => {
     </div>
   );
 };
+
+const App: React.FC = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<PortfolioPage />} />
+      <Route path="/projects/:slug" element={<ProjectPage />} />
+      <Route path="*" element={<NotFoundPage />} />
+    </Routes>
+  </BrowserRouter>
+);
+
+const NotFoundPage: React.FC = () => (
+  <main className="flex min-h-screen items-center justify-center px-5 text-center">
+    <SEO
+      title="404 | Sabir Ali"
+      description="The requested page could not be found."
+      canonical="https://sabir-dev.vercel.app/404"
+      noindex
+    />
+    <div className="max-w-lg">
+      <p className="mono mb-4 text-xs uppercase tracking-[0.18em] text-zinc-500">404 · Page not found</p>
+      <h1 className="text-4xl font-semibold tracking-tight text-white">This page is not available.</h1>
+      <p className="mt-4 text-zinc-400">Return to the portfolio to continue exploring Sabir Ali's work.</p>
+      <a href="/" className="mt-8 inline-flex border border-white/20 px-5 py-3 text-xs font-semibold uppercase tracking-[0.14em] text-white">
+        Back to portfolio
+      </a>
+    </div>
+  </main>
+);
 
 export default App;
