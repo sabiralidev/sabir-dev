@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MonogramLogo } from '../Common/MonogramLogo';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { PROFILE } from '../../config/profile';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -74,7 +75,7 @@ export const Footer: React.FC = () => {
 
             <div className="flex items-center gap-3 pt-2">
               <a
-                href="https://github.com/sabiralidev"
+                href={PROFILE.github}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="GitHub Profile"
@@ -83,7 +84,7 @@ export const Footer: React.FC = () => {
                 <Github size={16} />
               </a>
               <a
-                href="https://www.linkedin.com/in/sabiralidev/"
+                href={PROFILE.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn Profile"
@@ -92,7 +93,7 @@ export const Footer: React.FC = () => {
                 <Linkedin size={16} />
               </a>
               <a
-                href="https://dev.to/sabirsheikh"
+                href={PROFILE.devto}
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="DEV.to Articles"
@@ -101,7 +102,7 @@ export const Footer: React.FC = () => {
                 <Code2 size={16} />
               </a>
               <a
-                href="mailto:sabirsheik12787@gmail.com"
+                href={`mailto:${PROFILE.email}`}
                 aria-label="Email Sabir"
                 className="flex h-10 w-10 items-center justify-center border border-white/10 text-zinc-400 transition-colors hover:border-white/30 hover:text-white"
               >
