@@ -39,7 +39,7 @@ const nameLetters = (word: string) =>
 const stats = [
   { value: 2, suffix: '+', label: 'Years active' },
   { value: 3, suffix: '', label: 'Documented roles' },
-  { value: 2, suffix: '', label: 'Selected projects' },
+  { value: 20, suffix: '+', label: 'Projects' },
 ];
 
 const technologies: { name: string; Icon: LucideIcon }[] = [
