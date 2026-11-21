@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Check, Copy, AlertCircle, CheckCircle2, ArrowRight, ArrowUpRight, Github, Linkedin, Code2 } from 'lucide-react';
 import { SectionHeading } from '../Common/UI';
 import { useReducedMotion } from '../../hooks/useReducedMotion';
+import { PROFILE } from '../../config/profile';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -328,7 +329,7 @@ export const ContactSection: React.FC = () => {
                 </a>
 
                 <a
-                  href="https://dev.to/sabirsheikh"
+                  href={PROFILE.devto}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-between border border-white/[0.08] px-3 py-3 text-zinc-300 transition-colors hover:border-white/25 hover:text-white group"
