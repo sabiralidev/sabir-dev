@@ -35,7 +35,7 @@ export const ContactSection: React.FC = () => {
           headingRef.current,
           {
             z: -150,
-            autoAlpha: 0.3,
+            autoAlpha: 1,
             rotateX: 12,
             rotateY: -5,
             scale: 0.96,
@@ -64,7 +64,7 @@ export const ContactSection: React.FC = () => {
           leftColRef.current,
           {
             z: -130,
-            autoAlpha: 0.3,
+            autoAlpha: 1,
             rotateY: -12,
             rotateX: 6,
             transformPerspective: 1200,
@@ -91,7 +91,7 @@ export const ContactSection: React.FC = () => {
           formColRef.current,
           {
             z: -220,
-            autoAlpha: 0.25,
+            autoAlpha: 1,
             rotateY: window.matchMedia('(hover: hover) and (pointer: fine)').matches
               ? 16
               : 5,
@@ -246,7 +246,7 @@ export const ContactSection: React.FC = () => {
             number="06"
             category="Contact"
             title={<>Let’s <span className="font-light text-zinc-500">build.</span></>}
-            subtitle="Accepting inquiries for full-stack engineering roles, technical architecture consulting, and high-impact digital experiences."
+            subtitle="Open to full-stack engineering roles and project collaborations involving modern web applications and backend systems."
             className="text-center [&>div:first-child]:justify-center [&_h2]:mx-auto [&_h2]:max-w-none [&_p]:mx-auto [&_p]:max-w-none"
           />
         </div>
@@ -258,7 +258,7 @@ export const ContactSection: React.FC = () => {
                 COMMUNICATION CHANNEL
               </span>
               <p className="text-lg font-light leading-relaxed text-zinc-300 sm:text-xl">
-                Looking to build robust software systems, scale existing infrastructure, or collaborate on innovative projects? Send a dispatch.
+                Have a web application, backend system or AI integration in mind? Share a brief overview and available requirements.
               </p>
             </div>
 
