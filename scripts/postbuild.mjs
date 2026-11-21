@@ -139,7 +139,7 @@ const homepageJsonLd = [
 await writeFile(
   baseHtmlPath,
   replaceMetadata(baseHtml, {
-    title: 'Sabir Ali | Full-Stack Engineer | SabirAliDev',
+    title: 'Sabir Ali | Full Stack Engineer | SabirAliDev',
     description: 'Sabir Ali is a Full-Stack Engineer building scalable web applications, modern MERN systems, and AI-integrated solutions.',
     canonical: 'https://sabir-dev.vercel.app/',
     type: 'profile',
