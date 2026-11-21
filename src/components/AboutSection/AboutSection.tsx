@@ -189,7 +189,7 @@ export const AboutSection: React.FC = () => {
             <div className="grid grid-cols-3 gap-3 pt-4 sm:gap-6">
               <div className="about-stat space-y-1">
                 <span className="mono text-3xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">
-                  02<span className="text-zinc-600">+</span>
+                      02
                 </span>
                 <p className="mono text-[8px] font-medium uppercase tracking-[0.12em] text-zinc-500 sm:text-[9px] sm:tracking-[0.18em]">
                   Years_Active
