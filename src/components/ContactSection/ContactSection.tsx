@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-import emailjs from '@emailjs/browser';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Check, Copy, AlertCircle, CheckCircle2, ArrowRight, ArrowUpRight, Github, Linkedin, Code2 } from 'lucide-react';
@@ -23,6 +22,7 @@ export const ContactSection: React.FC = () => {
   const [touched, setTouched] = useState({ name: false, email: false, message: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [sendError, setSendError] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [copyError, setCopyError] = useState('');
 
@@ -199,21 +199,18 @@ export const ContactSection: React.FC = () => {
 
     if (!newErrors.name && !newErrors.email && !newErrors.message) {
       setIsSubmitting(true);
+      setSendError(false);
 
-      const templateParams = {
-        from_name: formData.name,
-        from_email: formData.email,
-        reply_to: formData.email,
-        message: formData.message,
-      };
-
-      const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_j0j25eq';
-      const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'G3O5uK74c4TDZEODQ';
-      const NOTIFICATION_TEMPLATE =
-        import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_sz8p0tl';
-
-      emailjs
-        .send(SERVICE_ID, NOTIFICATION_TEMPLATE, templateParams, PUBLIC_KEY)
+      fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error(`Contact request failed with status ${response.status}`);
+          }
+        })
         .then(() => {
           setIsSubmitting(false);
           setIsSuccess(true);
@@ -225,11 +222,9 @@ export const ContactSection: React.FC = () => {
           }, 6000);
         })
         .catch((err) => {
-          const logMsg =
-            err?.text || err?.message || (typeof err === 'string' ? err : JSON.stringify(err));
-          console.error('TRANSMISSION FAILED:', logMsg);
+          console.error('Unable to send contact message:', err);
           setIsSubmitting(false);
-          alert(`Transmission notice: ${logMsg}.`);
+          setSendError(true);
         });
     }
   };
@@ -364,7 +359,7 @@ export const ContactSection: React.FC = () => {
                     <span className="mono text-[9px] font-medium uppercase tracking-[0.15em] text-zinc-400">
                         Contact form
                     </span>
-                    <span className="mono text-[9px] text-zinc-600">EMAILJS</span>
+                    <span className="mono text-[9px] text-zinc-600">SMTP</span>
                   </div>
 
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
@@ -474,6 +469,25 @@ export const ContactSection: React.FC = () => {
                   </div>
 
                   {/* Submit Button */}
+                  {sendError && (
+                    <div
+                      role="alert"
+                      className="flex items-start gap-3 border border-white/15 bg-white/[0.03] p-4 text-sm text-zinc-300"
+                    >
+                      <AlertCircle size={16} className="mt-0.5 shrink-0 text-zinc-400" />
+                      <p>
+                        We couldn’t send your message right now. Please try again later or email me
+                        directly at{' '}
+                        <a
+                          href="mailto:sabirsheik12787@gmail.com"
+                          className="text-white underline underline-offset-4 hover:text-zinc-300"
+                        >
+                          sabirsheik12787@gmail.com
+                        </a>
+                        .
+                      </p>
+                    </div>
+                  )}
                   <button
                     type="submit"
                     disabled={isSubmitting}
