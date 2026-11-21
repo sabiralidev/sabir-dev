@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ExternalLink, Github, ArrowUpRight } from 'lucide-react';
@@ -15,8 +16,8 @@ export const ProjectsSection: React.FC = () => {
   const projectListRef = useRef<HTMLDivElement>(null);
 
   const projectImages = [
-    '/ecom.png',
-    '/AIworldTech.png',
+    '/ecom.webp',
+    '/AIworldTech.webp',
   ];
 
   useEffect(() => {
@@ -174,6 +175,13 @@ export const ProjectsSection: React.FC = () => {
                   <h3 className="text-2xl font-medium leading-tight tracking-[-0.05em] text-[#e5e5e5] sm:text-3xl lg:text-4xl">
                     {project.title}
                   </h3>
+                  <Link
+                    to={`/projects/${project.id === 'proj1' ? 'enterprise-e-commerce-hub' : 'ai-world-tech-platform'}`}
+                    className="inline-flex items-center gap-2 border-b border-white/20 pb-2 text-[10px] font-bold uppercase tracking-[0.14em] text-zinc-300 transition-colors hover:border-white hover:text-white"
+                  >
+                    Read project case study
+                    <ArrowUpRight size={14} />
+                  </Link>
 
                   <div className="grid grid-cols-1 gap-5 border-t border-white/[0.08] pt-5 sm:grid-cols-2 sm:gap-6">
                     <div className="space-y-2">
