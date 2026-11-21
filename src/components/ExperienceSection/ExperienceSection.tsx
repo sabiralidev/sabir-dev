@@ -27,7 +27,7 @@ export const ExperienceSection: React.FC = () => {
             rotateX: 12,
             rotateY: -5,
             scale: 0.96,
-            autoAlpha: 0.35,
+            autoAlpha: 1,
             transformPerspective: 1200,
           },
           {
@@ -54,7 +54,7 @@ export const ExperienceSection: React.FC = () => {
             entry,
             {
               z: -220,
-              autoAlpha: 0.25,
+              autoAlpha: 1,
               rotateX: 10,
               rotateY: index % 2 === 0 ? 14 : -14,
               scale: 0.9,
