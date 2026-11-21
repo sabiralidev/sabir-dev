@@ -8,7 +8,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Vite](https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
-![Live demo](https://img.shields.io/badge/Live_Demo-%5BLIVE_URL%5D-lightgrey)
+![Live demo](https://img.shields.io/badge/Live_Demo-sabir--dev.vercel.app-111)
 
 </div>
 
@@ -16,11 +16,11 @@
 
 ## 👋 About Me
 
-I design systems that prioritize **data integrity, long-term stability, and scalable architecture** to stay reliable under high concurrency.
+I design systems that prioritize **data integrity, maintainability, and scalable architecture**.
 
-As a dedicated Full-Stack Engineer, I have standardized zero-trust security and high-uptime architectures across mission-critical systems. My work spans decoupled MERN stack platforms, intelligent AI workflows, and high-throughput transaction pipelines that balance velocity with architectural rigor.
+As a Full-Stack Engineer, I work across MERN stack platforms, backend APIs, databases, responsive interfaces and AI-integrated workflows.
 
-**Location:** [CITY, COUNTRY]
+**Location:** Pakistan
 
 | Area | Skills |
 | --- | --- |
@@ -34,6 +34,8 @@ As a dedicated Full-Stack Engineer, I have standardized zero-trust security and 
 - ✉️ **Email:** [sabirsheik12787@gmail.com](mailto:sabirsheik12787@gmail.com)
 - 💼 **LinkedIn:** [linkedin.com/in/sabiralidev](https://www.linkedin.com/in/sabiralidev/)
 - 💻 **GitHub:** [github.com/sabiralidev](https://github.com/sabiralidev)
+- ✍️ **DEV:** [dev.to/sabiralidev](https://dev.to/sabiralidev)
+- 🌐 **Portfolio:** [sabir-dev.vercel.app](https://sabir-dev.vercel.app)
 
 ---
 
@@ -59,7 +61,7 @@ This personal portfolio presents my engineering profile, skills, approach, exper
 3. **Created the page sections.** Each section is a focused React component, with reusable interface elements and navigation grouped in `src/components/Common/`.
 4. **Styled the site for different screens.** Tailwind CSS utilities and global styles define the typography, spacing, colors, and responsive layouts, adapting the page for phones, tablets, and desktop screens.
 5. **Added motion and interaction.** GSAP and ScrollTrigger animate content as visitors scroll, and Lenis provides smooth scrolling. A lazy-loaded Three.js scene and Canvas background add visual depth. The contact form validates fields in the browser and submits messages through EmailJS. Reduced-motion preferences are respected.
-6. **Built and deployed the site.** Run `npm run build` to type-check the project and create the static production site in `dist/`. Deploy the contents of `dist/` to **[DEPLOYMENT PLATFORM]**. Visit the portfolio at **[LIVE URL]**.
+6. **Built and deployed the site.** Run `npm run build` to type-check the project and create the static production site in `dist/`. Deploy the contents of `dist/` to Vercel. The portfolio is available at [https://sabir-dev.vercel.app](https://sabir-dev.vercel.app).
 
 ```text
 .
