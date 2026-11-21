@@ -147,11 +147,11 @@ export const AboutSection: React.FC = () => {
         <div className="mt-12 grid grid-cols-1 items-center gap-12 lg:mt-16 lg:grid-cols-12 lg:gap-16">
           <div ref={contentRef} className="space-y-8 lg:col-span-7 lg:space-y-9">
             <p className="text-xl font-light leading-snug text-zinc-300 sm:text-2xl lg:text-3xl">
-              I design systems that prioritize <span className="text-white font-semibold underline decoration-white/30 underline-offset-8">data integrity</span>, long-term stability, and scalable architecture to stay reliable under high concurrency.
+              I design systems that prioritize <span className="text-white font-semibold underline decoration-white/30 underline-offset-8">data integrity</span>, maintainability, and scalable architecture.
             </p>
 
             <p className="max-w-3xl text-sm font-light leading-relaxed text-zinc-400 sm:text-base">
-              As a dedicated Full-Stack Engineer, I have standardized zero-trust security and high-uptime architectures across mission-critical systems. My work spans decoupled MERN stack platforms, intelligent AI workflows, and high-throughput transaction pipelines that balance velocity with architectural rigor.
+              As a Full-Stack Engineer, I work across MERN stack platforms, backend APIs, databases, responsive interfaces and AI-integrated workflows. My experience includes secure transaction flows, authentication, real-time data updates and administrative dashboards.
             </p>
 
             <div className="grid grid-cols-1 gap-3 border-y border-white/[0.08] py-5 sm:grid-cols-3 sm:gap-4">
@@ -160,7 +160,7 @@ export const AboutSection: React.FC = () => {
                   <Server size={18} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white">Full-Stack MERN</h4>
+                  <h3 className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white">Full-Stack MERN</h3>
                   <p className="mono mt-1 text-[9px] text-zinc-500">End-to-End Delivery</p>
                 </div>
               </div>
@@ -170,7 +170,7 @@ export const AboutSection: React.FC = () => {
                   <Database size={18} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white">Data Consistency</h4>
+                  <h3 className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white">Data Consistency</h3>
                   <p className="mono mt-1 text-[9px] text-zinc-500">MongoDB & Postgres</p>
                 </div>
               </div>
@@ -180,7 +180,7 @@ export const AboutSection: React.FC = () => {
                   <Cpu size={18} />
                 </div>
                 <div>
-                  <h4 className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white">AI Workflows</h4>
+                  <h3 className="text-[10px] font-semibold uppercase tracking-[0.12em] text-white">AI Workflows</h3>
                   <p className="mono mt-1 text-[9px] text-zinc-500">Google Gemini Studio</p>
                 </div>
               </div>
@@ -198,19 +198,19 @@ export const AboutSection: React.FC = () => {
 
               <div className="about-stat space-y-1">
                 <span className="mono text-3xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">
-                  20<span className="text-zinc-600">+</span>
+                  02
                 </span>
                 <p className="mono text-[8px] font-medium uppercase tracking-[0.12em] text-zinc-500 sm:text-[9px] sm:tracking-[0.18em]">
-                  Deployments
+                  Selected projects
                 </p>
               </div>
 
               <div className="about-stat space-y-1">
                 <span className="mono text-3xl font-semibold tracking-[-0.06em] text-white sm:text-5xl">
-                  99<span className="text-zinc-600">%</span>
+                  03
                 </span>
                 <p className="mono text-[8px] font-medium uppercase tracking-[0.12em] text-zinc-500 sm:text-[9px] sm:tracking-[0.18em]">
-                  Stability%
+                  Documented roles
                 </p>
               </div>
             </div>
