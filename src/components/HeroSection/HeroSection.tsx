@@ -208,8 +208,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             data-hero-reveal
             className="mt-4 max-w-xl text-sm font-light leading-relaxed text-zinc-300 sm:text-base lg:mt-5 lg:max-w-2xl"
           >
-            Building scalable web applications, sophisticated digital experiences, and reliable
-            software systems with precision and performance.
+            Building modern web applications and backend systems with React, Next.js, Node.js and practical data architecture.
           </p>
 
           <div
