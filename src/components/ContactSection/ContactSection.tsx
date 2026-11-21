@@ -206,9 +206,10 @@ export const ContactSection: React.FC = () => {
         message: formData.message,
       };
 
-      const SERVICE_ID = 'service_j0j25eq';
-      const PUBLIC_KEY = 'G3O5uK74c4TDZEODQ';
-      const NOTIFICATION_TEMPLATE = 'template_sz8p0tl';
+      const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_j0j25eq';
+      const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'G3O5uK74c4TDZEODQ';
+      const NOTIFICATION_TEMPLATE =
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_sz8p0tl';
 
       emailjs
         .send(SERVICE_ID, NOTIFICATION_TEMPLATE, templateParams, PUBLIC_KEY)
