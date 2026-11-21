@@ -13,13 +13,13 @@ export const EXPERIENCES: Experience[] = [
     company: "NACTA and NIFTAC | Full-Time, Internship | On-Site",
     period: "Jan 2026 to Present",
     description: [
-      "Contributing to secure and scalable digital systems for mission-critical operations in a federal government organization.",
+      "Contributing to secure digital systems within a federal government organization.",
       "Responsible for end-to-end web application development, backend services, and frontend interface implementation.",
       "Developing and maintaining full-stack web applications using the MERN stack with a focus on scalable and secure architecture.",
       "Building and optimizing backend APIs and services for high-performance data processing and system reliability.",
       "Designing interactive dashboards for real-time data monitoring, reporting, and administrative control systems.",
       "Working on database design and optimization to ensure data integrity, efficiency, and scalability.",
-      "Ensuring adherence to security standards and best practices for sensitive and mission-critical systems.",
+      "Following security standards and development practices for sensitive systems.",
     ],
   },
   {
@@ -83,7 +83,7 @@ export const PROJECTS: Project[] = [
       "Built a full-featured investment application enabling users to invest funds, earn daily ROI, track MLM referral rewards, and manage balances through an internal wallet system with admin-controlled approvals.",
     architecture:
       "Complete MERN stack architecture with role-based access control, RESTful APIs, secure transaction flows, and optimized frontend state management for real-time updates.",
-    stack: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT", "Corn Job"],
+    stack: ["React.js", "Node.js", "Express.js", "MongoDB", "JWT", "Cron Jobs"],
     challenges:
       "Implementing accurate ROI calculations, secure wallet transactions, MLM referral logic, and maintaining data consistency while preventing duplicate payouts and unauthorized actions.",
     links: {
