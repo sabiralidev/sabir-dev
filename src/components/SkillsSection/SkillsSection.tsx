@@ -22,7 +22,7 @@ export const SkillsSection: React.FC = () => {
       if (headingRef.current) {
         gsap.fromTo(
           headingRef.current,
-          { z: -130, rotateX: 10, rotateY: -4, scale: 0.96, opacity: 0.35, transformPerspective: 1100 },
+          { z: -130, rotateX: 10, rotateY: -4, scale: 0.96, opacity: 1, transformPerspective: 1100 },
           {
             z: 0,
             opacity: 1,
@@ -47,7 +47,7 @@ export const SkillsSection: React.FC = () => {
           card,
           {
             z: -190,
-            autoAlpha: 0.25,
+            autoAlpha: 1,
             rotateX: isFinePointer ? 14 : 7,
             rotateY: isFinePointer ? -7 : 0,
             scale: 0.88,
@@ -106,7 +106,7 @@ export const SkillsSection: React.FC = () => {
       if (certsRef.current) {
         gsap.fromTo(
           certsRef.current.children,
-          { z: -140, rotateY: 8, rotateX: 5, scale: 0.94, autoAlpha: 0.25, transformPerspective: 1100 },
+          { z: -140, rotateY: 8, rotateX: 5, scale: 0.94, autoAlpha: 1, transformPerspective: 1100 },
           {
             z: 0,
             rotateY: 0,
@@ -155,7 +155,7 @@ export const SkillsSection: React.FC = () => {
             number="02"
             category="Technical Expertise"
             title={<>The production <span className="font-light text-zinc-500">ecosystem.</span></>}
-            subtitle="Curated full-stack technologies standardized for high-concurrency systems, low latency, and robust deployment pipelines."
+            subtitle="A practical full-stack technology set for building web applications, APIs, databases and deployment workflows."
             className="text-center [&>div:first-child]:justify-center [&_h2]:mx-auto [&_h2]:max-w-none [&_p]:mx-auto [&_p]:max-w-none"
           />
         </div>
