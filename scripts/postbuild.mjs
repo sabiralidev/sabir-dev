@@ -169,6 +169,40 @@ for (const page of pages) {
       author: { '@id': 'https://sabir-dev.vercel.app/#person' },
       inLanguage: 'en',
     },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      '@id': `${canonical}#webpage`,
+      url: canonical,
+      name: page.title,
+      description: page.description,
+      isPartOf: { '@id': 'https://sabir-dev.vercel.app/#website' },
+    },
+    {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      '@id': `${canonical}#breadcrumb`,
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://sabir-dev.vercel.app/',
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: 'Projects',
+          item: 'https://sabir-dev.vercel.app/#projects',
+        },
+        {
+          '@type': 'ListItem',
+          position: 3,
+          name: page.title.replace(' | Sabir Ali Project', ''),
+          item: canonical,
+        },
+      ],
+    },
   ];
   const directory = path.join(dist, 'projects', page.slug);
   await mkdir(directory, { recursive: true });
