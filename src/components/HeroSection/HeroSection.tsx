@@ -36,9 +36,9 @@ const nameLetters = (word: string) =>
   ));
 
 const stats = [
-  { value: 2, suffix: '+', label: 'Years experience' },
-  { value: 15, suffix: '+', label: 'Projects delivered' },
-  { value: 100, suffix: '%', label: 'Client satisfaction' },
+  { value: 2, suffix: '+', label: 'Years active' },
+  { value: 3, suffix: '', label: 'Documented roles' },
+  { value: 2, suffix: '', label: 'Selected projects' },
 ];
 
 const technologies: { name: string; Icon: LucideIcon }[] = [
@@ -328,7 +328,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           >
             <div className="absolute inset-0 overflow-hidden">
               <img
-                src="/Sabir.png"
+                src="/Sabir.webp"
                 alt="Sabir Ali, Full-Stack Engineer"
                 className="h-full w-full object-cover object-[center_30%] grayscale-[0.3] contrast-[1.04] brightness-[0.9]"
                 style={{
