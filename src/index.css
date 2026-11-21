@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+[class~="text-[#d71920]"] {
+  color: #ff5a61;
+}
+
 ::selection {
   color: #ffffff;
   background-color: #d71920;
